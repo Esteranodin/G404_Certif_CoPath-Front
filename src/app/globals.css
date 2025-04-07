@@ -1,7 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: #F9F4F5;
+  --dark: #00120B;
+  --grey: #6B818C;
+  --dark-green: #35605A;
+  --green: #31E981;
+  --lavender: #D8E4FF;
 }
 
+body {
+  background-color: var(--white);
+  color: var(--dark);
+  font-family: var(--font-roboto), sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: var(--font-playfair), serif;
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
