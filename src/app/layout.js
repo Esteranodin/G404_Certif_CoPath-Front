@@ -1,5 +1,6 @@
-import { Playfair_Display, Roboto} from "next/font/google";
+import { Playfair_Display, Roboto } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -14,6 +15,9 @@ const roboto = Roboto({
 export const metadata = {
   title: "CoPath",
   subtitle: "Partagez vos scénarios",
+  icons: {
+    icon: "/icons/favicon.png",
+  },
   description: "Application de partage de scénarios de jeux de rôle",
   keywords: "jeux de rôle, partage, scénarios",
 };
@@ -21,10 +25,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body
-        className={`${playfair.variable} ${roboto.variable} antialiased`}
-      >
+      <body className={`${playfair.variable} ${roboto.variable} antialiased`}>
+        <Header>
         {children}
+        </Header>
       </body>
     </html>
   );

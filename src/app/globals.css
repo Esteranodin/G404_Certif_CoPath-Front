@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --white: #F9F4F5;
@@ -7,6 +7,22 @@
   --dark-green: #35605A;
   --green: #31E981;
   --lavender: #D8E4FF;
+}
+
+.bg-header {
+  background-color: #ffffff;
+}
+
+.button-register {
+  background-color: var(--dark);
+  color: var(--white);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.button-register:hover {
+  background-color: var(--green);
+  color: var(--dark);
 }
 
 body {
@@ -23,8 +39,14 @@ h1 {
   font-weight: 700;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   h1 {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
   }
 }
