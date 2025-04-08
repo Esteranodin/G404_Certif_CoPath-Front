@@ -7,10 +7,41 @@
   --dark-green: #35605A;
   --green: #31E981;
   --lavender: #D8E4FF;
+
+  --card-shadow: rgba(53, 96, 90, 0.55) -4px 5px 5.5px 0px;
+  --card-border-color: rgb(209, 213, 219);
 }
 
+@layer base {
+  body {
+    background-color: var(--white);
+    color: var(--dark);
+    font-family: var(--font-roboto), sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  h1 {
+    font-family: var(--font-playfair), serif;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  
+  input, input::placeholder {
+    color: var(--dark-green);
+    font-weight: 500;
+  }
+  
+  a:not(.button-home a):hover {
+    color: var(--dark-green);
+    font-weight: 500;
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+  }
+  }
+
 @layer components {
-  .bg-header {
+  .bg-logo {
     background-color: #ffffff;
   }
   
@@ -21,36 +52,23 @@
   .focus-green {
     @apply focus:outline-none focus:ring-2 focus:ring-[color:var(--green)];
   }
-  
-  .button-register {
-    @apply bg-[color:var(--dark)] text-[color:var(--white)] font-semibold tracking-wider;
+
+  .card {
+    @apply border border-[color:var(--card-border-color)] shadow-[var(--card-shadow)];
   }
-  
-  .button-register:hover {
-    @apply bg-[color:var(--green)] text-[color:var(--dark)];
+
+  .card-tag {
+    @apply text-xs bg-[var(--lavender)] px-2 py-1 rounded-full text-[color:var(--dark-green)];
   }
+  .carousel-container {
+    @apply relative md:h-[85vh] md:mx-auto md:w-[80%];
+  }
+
+  .carousel-animation {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
 }
-
-
-body {
-  background-color: var(--white);
-  color: var(--dark);
-  font-family: var(--font-roboto), sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-h1 {
-  font-family: var(--font-playfair), serif;
-  font-size: 3rem;
-  font-weight: 700;
-}
-
-input, input::placeholder {
-  color: var(--dark-green);
-  font-weight: 500;
-}
-
 
 
 @media (max-width: 480px) {

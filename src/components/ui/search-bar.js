@@ -1,23 +1,43 @@
+"use client"
+
 import Image from "next/image";
+import { cn } from "@/lib/utils/utils";
 
-export default function SearchBar() {
-
+export default function SearchBar({ 
+  className, 
+  placeholder = "Entrez un nom de JdR, un thème",
+  onSearch = () => {},
+  buttonPosition = "right",
+}) {
+  
     return (
-
-        <form className="flex gap-2 w-[80%] items-center justify-center mx-auto my-6">
+        <form 
+            onSubmit={(e) => {
+                e.preventDefault();
+                const searchValue = e.target.search.value;
+                onSearch(searchValue);
+            }}
+            className={cn("flex gap-2 items-center justify-center mx-auto my-6", 
+                className ?? "w-[80%]"
+            )}
+        >
             <input
+                name="search"
                 type="text"
-                placeholder="Entrez un nom de JdR, un thème"
-                className="flex-1 ps-4 py-2 bg-lavender rounded-full focus-green "
+                placeholder={placeholder}
+                className="flex-1 ps-4 py-2 bg-lavender rounded-full focus-green text-black font-normal"
             />
-            <Image 
-            src="/icons/search.svg"
-            alt="Icone de loupe"
-            width={20}
-            height={20}
-            className="ml-2 cursor-pointer"
-            />
+            {buttonPosition === "right" && (
+                <button type="submit" aria-label="Rechercher">
+                    <Image 
+                        src="/icons/search.svg"
+                        alt="Icone de loupe"
+                        width={20}
+                        height={20}
+                        className="ml-2 cursor-pointer hover:scale-110 transition-transform"
+                    />
+                </button>
+            )}
         </form>
-
     );
 }

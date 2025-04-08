@@ -9,12 +9,12 @@ import SearchBar from '../ui/search-bar';
 const Header = () => {
     return (
         <section>
-            <nav className='bg-header flex justify-between p-4 items-start'>
+            <nav className='bg-logo flex justify-between p-4 items-start'>
                 <Link href="/" className='self-center'>
-                    <Image src={logo} alt="Logo" width={150} />
+                    <Image src={logo} alt="Logo de Copath" width={150} />
                 </Link>
                 <div className='flex gap-6 items-center self-center'>
-                    <Button variant={"default"} size={"default"} className='button-register'>
+                    <Button variant={"home"} size={"default"} className='button-home'>
                         <Link href="/register">S'inscrire</Link>
                     </Button>
 
