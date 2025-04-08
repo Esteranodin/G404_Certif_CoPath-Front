@@ -9,21 +9,28 @@
   --lavender: #D8E4FF;
 }
 
-.bg-header {
-  background-color: #ffffff;
+@layer components {
+  .bg-header {
+    background-color: #ffffff;
+  }
+  
+  .bg-lavender {
+    background-color: var(--lavender);
+  }
+  
+  .focus-green {
+    @apply focus:outline-none focus:ring-2 focus:ring-[color:var(--green)];
+  }
+  
+  .button-register {
+    @apply bg-[color:var(--dark)] text-[color:var(--white)] font-semibold tracking-wider;
+  }
+  
+  .button-register:hover {
+    @apply bg-[color:var(--green)] text-[color:var(--dark)];
+  }
 }
 
-.button-register {
-  background-color: var(--dark);
-  color: var(--white);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-}
-
-.button-register:hover {
-  background-color: var(--green);
-  color: var(--dark);
-}
 
 body {
   background-color: var(--white);
@@ -38,6 +45,13 @@ h1 {
   font-size: 3rem;
   font-weight: 700;
 }
+
+input, input::placeholder {
+  color: var(--dark-green);
+  font-weight: 500;
+}
+
+
 
 @media (max-width: 480px) {
   h1 {
