@@ -99,8 +99,7 @@ function Carousel({
         ref={carouselRef}
         onKeyDownCapture={handleKeyDown}
         className={cn(
-          "relative",
-          "md:h-[85vh] md:mx-auto md:w-[80%]", 
+          "relative", 
           className
         )}
         role="region"
@@ -144,7 +143,7 @@ function CarouselItem({
       aria-roledescription="slide"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        orientation === "horizontal" ? "px-4" : "pt-4", 
         "h-full", 
         className
       )}
@@ -165,7 +164,7 @@ function CarouselPrevious({
         "absolute size-12 rounded-full bg-white shadow-md flex items-center justify-center",
      
         orientation === "horizontal"
-          ? "top-1/2 -translate-y-1/2 -left-6 md:-left-8" 
+          ? "top-1/2 -translate-y-1/2 left-2 md:left-4" 
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         !canScrollPrev && "opacity-50 cursor-not-allowed",
         "z-10", 
@@ -199,7 +198,7 @@ function CarouselNext({
         "absolute size-12 rounded-full bg-white shadow-md flex items-center justify-center",
     
         orientation === "horizontal"
-          ? "top-1/2 -translate-y-1/2 -right-6 md:-right-8" 
+          ? "top-1/2 -translate-y-1/2 right-2 md:right-4" 
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         !canScrollNext && "opacity-50 cursor-not-allowed",
         "z-10", 

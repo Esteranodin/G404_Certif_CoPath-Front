@@ -13,18 +13,16 @@ function Card({
       data-slot="card"
       className={cn(
         // Styles pour tous les formats
-        "bg-card text-card-foreground rounded-xl border border-gray-300",
-        "shadow-[rgba(53,96,90,0.55)_-4px_5px_5.5px_0px]",
+        "bg-white text-card-foreground rounded-xl border border-gray-300",
+        "shadow-[rgba(53,96,90,0.55)_-4px_5px_5.5px_0px]", 
         
         // Format mobile (default)
         "mx-auto w-[80%]",
         
-        // Format tablette - ajustons pour le nouveau carrousel
-        "md:w-[95%] md:mx-auto",
-        layout === "tablet" && "md:flex md:flex-col md:h-auto md:max-h-[75vh]",
+        // Format tablette - ajusté pour le carousel pleine page
+        layout === "tablet" && "md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col md:h-[80vh] md:max-h-[80vh]",
         
         // Format desktop
-        "lg:w-full",
         layout === "horizontal" && "lg:flex lg:flex-row lg:h-64",
         
         // Autres styles
@@ -88,7 +86,7 @@ function CardTabletContent({
   );
 }
 
-// Mise à jour du CardContent pour gérer le contenu plus long
+
 function CardContent({
   className,
   layout = "default",

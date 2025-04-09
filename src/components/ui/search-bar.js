@@ -18,7 +18,7 @@ export default function SearchBar({
                 onSearch(searchValue);
             }}
             className={cn("flex gap-2 items-center justify-center mx-auto my-6", 
-                className ?? "w-[80%]"
+                className ?? "w-[80%] lg:w-[50%]"
             )}
         >
             <input

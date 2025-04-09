@@ -21,6 +21,7 @@ export const metadata = {
   },
   description: "Application de partage de scénarios de jeux de rôle",
   keywords: "jeux de rôle, partage, scénarios",
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 export default function RootLayout({ children }) {
