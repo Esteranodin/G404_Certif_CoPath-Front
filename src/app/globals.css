@@ -10,7 +10,6 @@
   --gold: #FFD700;
 
   --card-shadow: rgba(53, 96, 90, 0.55) -4px 5px 5.5px 0px;
-  --card-border-color: rgb(209, 213, 219);
 }
 
 @layer base {
@@ -48,6 +47,7 @@
 
   .bg-lavender {
     background-color: var(--lavender);
+    opacity: 0.8;
   }
 
   .focus-green {
@@ -55,11 +55,16 @@
   }
 
   .card {
-    @apply border border-[color:var(--card-border-color)] shadow-[var(--card-shadow)];
+    @apply bg-white border border-[color:var(--grey)] shadow-[var(--card-shadow)] rounded-xl mx-auto w-[80%];
+  }
+
+  .card-image {
+    @apply relative w-full h-48 overflow-hidden rounded-t-xl mb-4
   }
 
   .card-tag {
-    @apply text-xs bg-[var(--lavender)] px-2 py-1 rounded-full text-[color:var(--dark-green)];
+    @apply text-sm font-black py-2 px-1 text-[color:var(--dark-green)]
+    md:text-sm md:bg-[var(--lavender)] md:px-2 md:py-1 md:rounded-full md:text-[color:var(--dark)] md:mx-1 md:my-2;
   }
 
   .carousel-container {
@@ -71,4 +76,3 @@
   }
 
 }
-
