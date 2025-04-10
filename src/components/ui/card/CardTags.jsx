@@ -1,6 +1,5 @@
 import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
 import { cardTagsVariants } from "@/lib/utils/layoutVariants";
-import { cn } from "@/lib/utils/utils";
 
 export function CardTags({
   tags = [],

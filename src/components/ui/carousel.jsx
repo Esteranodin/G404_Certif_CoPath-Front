@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils/utils";
 import arrow from "@/../public/icons/angle-circle-down.svg";

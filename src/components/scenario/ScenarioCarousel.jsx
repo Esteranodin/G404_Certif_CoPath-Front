@@ -1,5 +1,3 @@
-"use client";
-
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import ScenarioCard from "./ScenarioCard";
 

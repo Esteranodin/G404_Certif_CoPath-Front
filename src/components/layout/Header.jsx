@@ -1,4 +1,3 @@
-
 import SearchBar from '../ui/searchBar';
 import { NavBar } from './NavBar';
 

@@ -1,5 +1,4 @@
-import { cn } from "@/lib/utils/utils";
-import {combineLayoutStyles} from "@/lib/utils/layoutUtils";
+import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
 import { cardVariants, cardTitleVariants, cardDescriptionVariants } from "@/lib/utils/layoutVariants";
 
 export function Card({
