@@ -17,7 +17,7 @@ export default function SearchBar({
                 const searchValue = e.target.search.value;
                 onSearch(searchValue);
             }}
-            className={cn("flex gap-2 items-center justify-center mx-auto my-6", 
+            className={cn("flex gap-2 items-center justify-center mx-auto mt-9", 
                 className ?? "w-[80%] lg:w-[50%]"
             )}
         >

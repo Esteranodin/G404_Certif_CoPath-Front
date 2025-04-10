@@ -1,6 +1,7 @@
-import * as React from "react";
-import { cn } from "@/lib/utils/utils";
 import Image from "next/image";
+import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
+import { cardImageVariants } from "@/lib/utils/layoutVariants";
+
 
 export function CardImage({
   src,
@@ -12,16 +13,7 @@ export function CardImage({
   return (
     <div
       data-slot="card-image"
-      className={cn(
-        "card-image",
-        // Format tablette
-        layout === "tablet" && "md:w-[45%] md:h-[300px] md:float-left md:mr-4 md:rounded-t-sm",
-
-        // Format desktop
-        layout === "horizontal" && "lg:w-1/3 lg:h-full lg:rounded-l-xl lg:rounded-tr-none",
-
-        className
-      )}
+      className={combineLayoutStyles(cardImageVariants, { layout, className })}
       {...props}
     >
       <Image

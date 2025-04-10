@@ -1,4 +1,3 @@
-"use client";
 import ScenarioCard from "./ScenarioCard";
 
 export default function ScenarioList({ scenarios }) {
