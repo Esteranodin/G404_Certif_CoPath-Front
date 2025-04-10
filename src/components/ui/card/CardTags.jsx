@@ -1,4 +1,5 @@
-import * as React from "react";
+import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
+import { cardTagsVariants } from "@/lib/utils/layoutVariants";
 import { cn } from "@/lib/utils/utils";
 
 export function CardTags({
@@ -10,11 +11,7 @@ export function CardTags({
   return (
     <div
       data-slot="card-tags"
-      className={cn(
-        "flex flex-wrap gap-2",
-        layout === "tablet" && "md:mt-auto",
-        className
-      )}
+      className={combineLayoutStyles(cardTagsVariants, { layout, className })}
       {...props}
     >
       {tags.map((tag, index) => (

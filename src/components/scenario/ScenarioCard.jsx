@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardImage, CardHeader, CardTitle, CardContent, CardTags, CardRating, CardFooter, CardTabletContent } from "@/components/ui/card";
+import { Card, CardImage, CardHeader, CardTitle, CardDescription, CardTags, CardRating, CardFooter, CardTabletContent } from "@/components/ui/card";
 import { useState } from "react";
 
 export default function ScenarioCard({ scenario, layout = "default" }) {
@@ -13,7 +13,7 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
   if (layout === "tablet") {
     return (
       <Card layout="tablet" className="p-4">
-        <div className="relative flex md:mb-4">
+        <div className="relative flex ">
           <CardImage
             src={scenario.image}
             alt={`Couverture du scénario ${scenario.title}`}
@@ -36,9 +36,9 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
             />
           </CardTabletContent>
         </div>
-        <CardContent layout="tablet">
+        <CardDescription layout="tablet">
           <p>{scenario.content}</p>
-        </CardContent>
+        </CardDescription>
       </Card>
     );
   }
@@ -59,9 +59,9 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
         tags={scenario.tags}
         className="px-6 my-2"
       />
-      <CardContent className="px-6 py-2">
+      <CardDescription className="px-6 py-2">
         <p>{scenario.content}</p>
-      </CardContent>
+      </CardDescription>
       <CardFooter className="justify-end">
         <CardRating className="my-4" rating={scenario.rating} />
       </CardFooter>

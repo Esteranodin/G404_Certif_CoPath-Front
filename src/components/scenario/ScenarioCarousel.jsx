@@ -1,11 +1,6 @@
 "use client";
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselPrevious, 
-  CarouselNext 
-} from "@/components/ui/carousel";
+
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import ScenarioCard from "./ScenarioCard";
 
 export default function ScenarioCarousel({ scenarios }) {

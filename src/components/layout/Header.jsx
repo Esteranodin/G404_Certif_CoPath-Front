@@ -1,5 +1,5 @@
 
-import SearchBar from '../ui/search-bar';
+import SearchBar from '../ui/searchBar';
 import { NavBar } from './NavBar';
 
 

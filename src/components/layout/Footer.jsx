@@ -8,13 +8,13 @@ export default function Footer() {
     <footer className="border-t bg-logo">
       <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-evenly space-x-10 md:space-x-4 lg:space-x-8 md:order-2">
-          <Link href="/about" className="text-xs md:text-sm text-center md:px-1">
+          <Link href="/about" className="link-footer">
             À propos
           </Link>
-          <Link href="/privacy" className="text-xs md:text-sm text-center md:px-1">
+          <Link href="/privacy" className="link-footer">
             Politique de confidentialité
           </Link>
-          <Link href="/terms" className="text-xs md:text-sm text-center md:px-1">
+          <Link href="/terms" className="link-footer">
             Conditions d&apos;utilisation
           </Link>
         </div>

@@ -1,5 +1,5 @@
-import * as React from "react";
-import { cn } from "@/lib/utils/utils";
+import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
+import { cardRatingVariants } from "@/lib/utils/layoutVariants";
 import Image from "next/image";
 
 export function CardRating({
@@ -12,11 +12,7 @@ export function CardRating({
   return (
     <div
       data-slot="card-rating"
-      className={cn(
-        "flex items-center space-x-1",
-        layout === "tablet" && "md:mt-2",
-        className
-      )}
+      className={combineLayoutStyles(cardRatingVariants, { layout, className })}
       {...props}
     >
       {Array.from({ length: maxRating }).map((_, i) => (

@@ -1,5 +1,6 @@
-import * as React from "react";
 import { cn } from "@/lib/utils/utils";
+import {combineLayoutStyles} from "@/lib/utils/layoutUtils";
+import { cardVariants, cardTitleVariants, cardDescriptionVariants } from "@/lib/utils/layoutVariants";
 
 export function Card({
   className,
@@ -10,16 +11,7 @@ export function Card({
   return (
     <div
       data-slot="card"
-      className={cn(
-        "card",
-        // Format tablette 
-        layout === "tablet" && "md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col md:h-[80vh] md:max-h-[80vh]",
-        // Format desktop
-        layout === "horizontal" && "lg:flex lg:flex-row lg:h-64",
-        // Autres styles
-        hover && "hover:shadow-lg transition-shadow duration-300",
-        className
-      )}
+      className={combineLayoutStyles(cardVariants, { hover, layout, className })}
       {...props} 
     />
   );
@@ -33,11 +25,7 @@ export function CardTitle({
   return (
     <div
       data-slot="card-title"
-      className={cn(
-        "font-playfair text-xl font-semibold",
-        layout === "tablet" && "md:text-2xl",
-        className
-      )}
+      className={combineLayoutStyles(cardTitleVariants, { layout, className })}
       {...props} 
     />
   );
@@ -45,30 +33,16 @@ export function CardTitle({
 
 export function CardDescription({
   className,
+  layout = "default",
   ...props
 }) {
   return (
-    <div
-      data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
-      {...props} 
-    />
+      <div
+          data-slot="card-content"
+          className={combineLayoutStyles(cardDescriptionVariants, { layout, className })}
+          {...props}
+      />
   );
 }
 
-export function CardAction({
-  className,
-  ...props
-}) {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className
-      )}
-      {...props} 
-    />
-  );
-}
 

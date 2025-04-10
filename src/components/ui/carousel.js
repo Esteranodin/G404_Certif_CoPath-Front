@@ -1,9 +1,9 @@
 "use client";
-import * as React from "react"
-import useEmblaCarousel from "embla-carousel-react";
-import { cn } from "@/lib/utils/utils";
+import * as React from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils/utils";
 import arrow from "@/../public/icons/angle-circle-down.svg";
+import { useEmblaCarousel } from "@/hooks/useEmblaCarousel";
 
 const CarouselContext = React.createContext(null);
 
@@ -22,72 +22,27 @@ function Carousel({
   plugins,
   className,
   children,
+  onSelect,
   ...props
 }) {
-  const [carouselRef, api] = useEmblaCarousel({
-    ...opts,
-    axis: orientation === "horizontal" ? "x" : "y",
-  }, plugins);
-  
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
-  
-  const onSelect = React.useCallback((api) => {
-    if (!api) {
-      return;
-    }
-    
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
-  }, []);
-  
-  const scrollPrev = React.useCallback(() => {
-    api?.scrollPrev();
-  }, [api]);
-  
-  const scrollNext = React.useCallback(() => {
-    api?.scrollNext();
-  }, [api]);
-  
-  const handleKeyDown = React.useCallback((event) => {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      scrollPrev();
-    } else if (event.key === "ArrowRight") {
-      event.preventDefault();
-      scrollNext();
-    }
-  }, [scrollPrev, scrollNext]);
-  
-  React.useEffect(() => {
-    if (!api || !setApi) {
-      return;
-    }
-    
-    setApi(api);
-  }, [api, setApi]);
-  
-  React.useEffect(() => {
-    if (!api) {
-      return;
-    }
-    
-    onSelect(api);
-    api.on("select", onSelect);
-    api.on("reInit", onSelect);
-    
-    return () => {
-      api?.off("select", onSelect);
-      api?.off("reInit", onSelect);
-    };
-  }, [api, onSelect]);
+  const {
+    emblaRef,
+    canScrollPrev,
+    canScrollNext,
+    scrollPrev,
+    scrollNext,
+    handleKeyDown,
+  } = useEmblaCarousel({
+    opts,
+    orientation,
+    setApi,
+    onSelect,
+  });
   
   return (
     <CarouselContext.Provider
       value={{
-        carouselRef,
-        api,
-        opts,
+        carouselRef: emblaRef,
         orientation,
         scrollPrev,
         scrollNext,
@@ -96,26 +51,21 @@ function Carousel({
       }}
     >
       <div
-        ref={carouselRef}
+        ref={emblaRef}
         onKeyDownCapture={handleKeyDown}
-        className={cn(
-          "relative", 
-          className
-        )}
+        className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
-        {...props}>
+        {...props}
+      >
         {children}
       </div>
     </CarouselContext.Provider>
   );
 }
 
-function CarouselContent({
-  className,
-  ...props
-}) {
+function CarouselContent({ className, ...props }) {
   const { orientation } = useCarousel();
   
   return (
@@ -126,14 +76,12 @@ function CarouselContent({
         orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
         className
       )}
-      {...props} />
+      {...props} 
+    />
   );
 }
 
-function CarouselItem({
-  className,
-  ...props
-}) {
+function CarouselItem({ className, ...props }) {
   const { orientation } = useCarousel();
   
   return (
@@ -147,14 +95,12 @@ function CarouselItem({
         "h-full", 
         className
       )}
-      {...props} />
+      {...props} 
+    />
   );
 }
 
-function CarouselPrevious({
-  className,
-  ...props
-}) {
+function CarouselPrevious({ className, ...props }) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
   
   return (
@@ -162,7 +108,6 @@ function CarouselPrevious({
       data-slot="carousel-previous"
       className={cn(
         "absolute size-12 rounded-full bg-white shadow-md flex items-center justify-center",
-     
         orientation === "horizontal"
           ? "top-1/2 -translate-y-1/2 left-2 md:left-4" 
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -172,7 +117,8 @@ function CarouselPrevious({
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
-      {...props}>
+      {...props}
+    >
       <Image
         src={arrow}
         alt="Previous"
@@ -185,10 +131,7 @@ function CarouselPrevious({
   );
 }
 
-function CarouselNext({
-  className,
-  ...props
-}) {
+function CarouselNext({ className, ...props }) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
   
   return (
@@ -196,7 +139,6 @@ function CarouselNext({
       data-slot="carousel-next"
       className={cn(
         "absolute size-12 rounded-full bg-white shadow-md flex items-center justify-center",
-    
         orientation === "horizontal"
           ? "top-1/2 -translate-y-1/2 right-2 md:right-4" 
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -206,7 +148,8 @@ function CarouselNext({
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
-      {...props}>
+      {...props}
+    >
       <Image
         src={arrow}
         alt="Next"
