@@ -8,6 +8,7 @@ export function CardImage({
   alt = "Card image",
   className,
   layout = "default",
+  priority = false,
   ...props
 }) {
   return (
@@ -20,6 +21,8 @@ export function CardImage({
         src={src}
         alt={alt}
         fill
+        priority={priority}
+        sizes="(max-width: 768px) 100vw, (min-width: 769px) 50vw"
         className="object-cover"
       />
     </div>

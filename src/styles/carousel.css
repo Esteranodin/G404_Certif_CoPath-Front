@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+@layer components {
+
+    .carousel-container {
+        @apply relative w-full px-12 mx-auto;
+        @apply md:px-14 lg:px-16 xl:px-20;
+    }
+
+    .carousel-animation {
+        @apply transition-all duration-300 ease-in-out;
+    }
+
+    .carousel-item {
+        @apply flex items-center justify-center w-full;
+        @apply md:basis-full;
+        @apply xl:basis-1/3;
+    }
+
+    .carousel-content {
+        @apply h-full py-8;
+    }
+
+    .carousel-arrow {
+        @apply bg-white/80 hover:bg-white border border-gray-200;
+        @apply shadow-md rounded-full;
+        @apply xl:-mx-4 xl:scale-110;
+    }
+}

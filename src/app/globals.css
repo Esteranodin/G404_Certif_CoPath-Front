@@ -51,24 +51,4 @@
     @apply text-xs md:text-sm text-center md:px-1
     hover:text-[color:var(--dark-green)] hover:underline hover:font-[weight:500] hover:transition-all;
     }
-  
-  .card {
-    @apply bg-white border border-[color:var(--grey)] shadow-[var(--card-shadow)] rounded-xl mx-auto w-[80%];
-  }
-
-  .card-image {
-    @apply relative w-full h-48 overflow-hidden rounded-t-xl mb-4
-  }
-
-  .card-tag {
-    @apply text-sm font-black py-2 px-1 text-[color:var(--dark-green)] md:text-sm md:bg-[var(--lavender)] md:px-2 md:py-1 md:rounded-full md:text-[color:var(--dark)] md:mx-1 md:my-2;
-  }
-
-  .carousel-container {
-    @apply relative w-full h-[calc(100vh-64px)] px-12 mx-auto;
-  }
-
-  .carousel-animation {
-    @apply transition-all duration-300 ease-in-out;
-  }
 }

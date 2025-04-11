@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/card.css";
 import { Card, CardImage, CardHeader, CardTitle, CardDescription, CardTags, CardRating, CardFooter, CardTabletContent } from "@/components/ui/card";
 import { useState } from "react";
 

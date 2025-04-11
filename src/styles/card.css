@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+
+@layer components {
+  .card {
+    @apply bg-white border border-[color:var(--grey)] shadow-[var(--card-shadow)] rounded-xl mx-auto w-[80%];
+  }
+
+  .card-header {
+    @apply px-1;
+  }
+
+  .card-footer {
+    @apply justify-end py-1;
+  }
+
+  .card-image {
+    @apply relative w-full h-48 overflow-hidden rounded-t-xl mb-4
+  }
+
+  .card-tags {
+    @apply text-sm font-black py-2 px-1 text-[color:var(--dark-green)] md:text-sm md:bg-[var(--lavender)] md:px-2 md:py-1 md:rounded-full md:text-[color:var(--dark)] md:mx-1 md:my-2 lg:px-4 mb-1;
+  }
+}

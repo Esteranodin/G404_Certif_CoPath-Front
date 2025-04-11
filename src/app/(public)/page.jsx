@@ -6,16 +6,16 @@ import { scenarios } from "@/lib/utils/data";
 
 export default function PublicHome() {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container px-4 py-8">
       {/* Version mobile uniquement */}
-      <div className="md:hidden">
+      <section className="md:hidden">
         <ScenarioList scenarios={scenarios} />
-      </div>
+      </section>
       
       {/* Version tablette et desktop */}
-      <div className="hidden md:block">
+      <section className="hidden md:block">
         <ScenarioCarousel scenarios={scenarios} />
-      </div>
+      </section>
     </main>
   );
 }
