@@ -88,7 +88,7 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          variant="pink"
+          variant="form"
           className="w-full"
         >
           {isSubmitting ? "Connexion en cours..." : "Se connecter"}

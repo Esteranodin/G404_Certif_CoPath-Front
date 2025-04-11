@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 /**
  * Gère les erreurs d'API et affiche un toast approprié

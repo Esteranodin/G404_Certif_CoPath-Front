@@ -2,6 +2,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import AuthService from '@/lib/services/authService';
+import { useRouter } from 'next/navigation';
 
 export const AuthContext = createContext(null);
 
@@ -9,6 +10,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   // Vérification initiale de l'authentification
   useEffect(() => {
@@ -34,6 +36,10 @@ export function AuthProvider({ children }) {
     setError(null);
     try {
       const response = await AuthService.login(email, password);
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+      }
+      // Récupération des données de l'utilisateur après connexion
       const userData = await AuthService.getCurrentUser();
       setUser(userData);
       return userData;
@@ -69,6 +75,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
+    setUser,
     loading,
     error,
     login,

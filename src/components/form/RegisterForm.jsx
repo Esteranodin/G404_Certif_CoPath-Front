@@ -14,8 +14,7 @@ import { handleApiError, showSuccess } from "@/lib/utils/errorHandling";
 
 // Définition du schéma de validation avec Zod
 const registerSchema = z.object({
-  firstName: z.string().min(1, "Le prénom est requis"),
-  lastName: z.string().min(1, "Le nom est requis"),
+  pseudo: z.string().min(1, "Un pseudo est requis"),
   email: z.string().email("Format d'email invalide"),
   password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
   confirmPassword: z.string().min(1, "Veuillez confirmer votre mot de passe")
@@ -28,16 +27,15 @@ export default function RegisterForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { register: registerUser } = useAuth();
-  
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors } 
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
   } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      pseudo: "",
       email: "",
       password: "",
       confirmPassword: ""
@@ -46,7 +44,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
-    
+
     try {
       const { confirmPassword, ...registrationData } = data;
       await registerUser(registrationData);
@@ -72,21 +70,15 @@ export default function RegisterForm() {
     <FormContainer title="Créer un compte" footer={footer}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <FormField
-            label="Prénom"
-            id="firstName" 
-            {...register("firstName")}
-            error={errors.firstName?.message}
-          />
           
           <FormField
-            label="Nom"
-            id="lastName"
-            {...register("lastName")}
-            error={errors.lastName?.message}
+            label="Pseudo"
+            id="pseudo"
+            {...register("pseudo")}
+            error={errors.pseudo?.message}
           />
         </div>
-        
+
         <FormField
           label="Email"
           id="email"
@@ -94,7 +86,7 @@ export default function RegisterForm() {
           {...register("email")}
           error={errors.email?.message}
         />
-        
+
         <FormField
           label="Mot de passe"
           id="password"
@@ -102,7 +94,7 @@ export default function RegisterForm() {
           {...register("password")}
           error={errors.password?.message}
         />
-        
+
         <FormField
           label="Confirmer le mot de passe"
           id="confirmPassword"
@@ -110,11 +102,11 @@ export default function RegisterForm() {
           {...register("confirmPassword")}
           error={errors.confirmPassword?.message}
         />
-        
+
         <Button
           type="submit"
           disabled={isSubmitting}
-          variant="pink"
+          variant="form"
           className="w-full"
         >
           {isSubmitting ? "Inscription en cours..." : "S'inscrire"}

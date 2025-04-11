@@ -17,7 +17,7 @@ export default function FormField({
       <input
         id={id}
         type={type}
-        className="w-full p-2 border rounded focus:ring focus:ring-primary-green"
+        className="w-full p-2 border rounded focus-green"
         {...props}
       />
       {error && (
