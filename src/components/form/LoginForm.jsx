@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import * as z from "zod";
 import FormContainer from "./FormContainer";
-import FormField from "@/components/ui/formField";
+import FormField from "@/components/ui/form/formField";
 import { Button } from "@/components/ui/button";
 import { handleApiError, showSuccess } from "@/lib/utils/errorHandling";
 

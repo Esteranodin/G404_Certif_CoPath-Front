@@ -9,7 +9,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import FormContainer from "./FormContainer";
-import FormField from "@/components/ui/formField";
+import FormField from "@/components/ui/form/formField";
 import { handleApiError, showSuccess } from "@/lib/utils/errorHandling";
 
 // Définition du schéma de validation avec Zod

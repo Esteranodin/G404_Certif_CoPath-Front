@@ -62,7 +62,7 @@ export const AuthService = {
    */
   getCurrentUser: async () => {
     try {
-      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME);
+      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME); 
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: "Erreur d'obtention des données utilisateur" };
