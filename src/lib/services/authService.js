@@ -26,12 +26,12 @@ export const AuthService = {
         username: email,
         password,
       });
-      
+
       // Stocke le token JWT dans le localStorage
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }
-      
+
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: "Erreur de connexion" };
@@ -51,10 +51,22 @@ export const AuthService = {
    * Vérifier si l'utilisateur est connecté
    */
   isAuthenticated: () => {
-    if (typeof window !== 'undefined') {
-      return !!localStorage.getItem('token');
+    if (typeof window === 'undefined') {
+      return false;
     }
-    return false;
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      return true;
+    } catch (error) {
+      console.error("Erreur de validation du token:", error);
+      localStorage.removeItem('token');
+      return false;
+    }
   },
 
   /**
@@ -62,10 +74,21 @@ export const AuthService = {
    */
   getCurrentUser: async () => {
     try {
-      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME); 
+      // Vérifier si le token existe vraiment avant d'envoyer la requête
+      if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
+        throw new Error('Token non trouvé');
+      }
+
+      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME);
       return response.data;
+
     } catch (error) {
-      throw error.response?.data || { message: "Erreur d'obtention des données utilisateur" };
+      console.error("Erreur lors de la récupération des données utilisateur:", error);
+      // Si erreur 401, nettoyer le localStorage
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+      }
+      throw error;
     }
   },
 };

@@ -15,6 +15,9 @@ const createApiClient = () => {
   // Intercepteur pour les requêtes
   client.interceptors.request.use(
     (config) => {
+      // Vérifier qu'on est bien côté client
+      if (typeof window === 'undefined') return config;
+      
       // Gestion du token d'authentification
       const token = localStorage.getItem('token');
       if (token) {
@@ -29,9 +32,16 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response?.status === 401) {
+      // Vérifier qu'on est bien côté client et gérer l'erreur 401
+      if (typeof window !== 'undefined' && error.response?.status === 401) {
         localStorage.removeItem('token');
-        // En production, vous pourriez rediriger vers la page de connexion
+        
+        // Éviter les boucles de redirection
+        const currentPath = window.location.pathname;
+        if (!currentPath.includes('/login')) {
+          // Redirection programmée vers la page de connexion
+          window.location.href = '/login';
+        }
       }
       return Promise.reject(error);
     }

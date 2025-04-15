@@ -13,7 +13,7 @@ const initialState = {
   authChecked: false
 };
 
-// Définir le reducer qui gère les transitions d'état
+// Reducer qui gère les transitions d'état
 function authReducer(state, action) {
   switch (action.type) {
     case 'AUTH_START':
@@ -28,6 +28,8 @@ function authReducer(state, action) {
       return { ...state, loading: action.payload };
     case 'SET_AUTH_CHECKED':
       return { ...state, authChecked: true, loading: false };
+    case 'CLEAR_ERROR':
+      return { ...state, error: null };
     default:
       return state;
   }
@@ -42,30 +44,52 @@ export function AuthProvider({ children }) {
 
   // Vérification initiale de l'authentification
   useEffect(() => {
-    // Cette fonction ne s'exécutera que côté client
+    let isMounted = true; // Variable pour suivre le montage du composant
+
     const checkAuth = async () => {
-      try {
-        if (typeof window !== 'undefined' && AuthService.isAuthenticated()) {
-          try {
-            const userData = await AuthService.getCurrentUser();
-            dispatch({ type: 'AUTH_SUCCESS', payload: userData });
-          } catch (error) {
-            console.error("Erreur lors de la récupération des données utilisateur:", error);
-            AuthService.logout();
-            dispatch({ type: 'AUTH_ERROR', payload: "Erreur lors de la récupération des données utilisateur" });
-          }
+        //verification qu'on est bien côté client
+        if (typeof window === 'undefined') {
+          dispatch({ type: 'SET_AUTH_CHECKED' });
+          return;
         }
-      } catch (error) {
-        console.error("Erreur lors de la vérification d'authentification:", error);
-        dispatch({ type: 'AUTH_ERROR', payload: "Erreur lors de la vérification d'authentification" });
-      } finally {
-        dispatch({ type: 'SET_AUTH_CHECKED' });
-      }
-    };
 
-    checkAuth();
-  }, []);
+        try {
+          if (AuthService.isAuthenticated()) {
+            try {
+              const userData = await AuthService.getCurrentUser();
+              if (isMounted) {
+                dispatch({ type: 'AUTH_SUCCESS', payload: userData });
+              }
+            } catch (error) {
+              console.error("Erreur lors de la récupération des données utilisateur:", error);
+              // Si l'API renvoie une erreur 401, on nettoie
+              if (error.status === 401) {
+                AuthService.logout();
+              }
+              if (isMounted) {
+                dispatch({ type: 'AUTH_ERROR', payload: "Session expirée. Veuillez vous reconnecter." });
+              }
+            }
+          }
+         } catch (error) {
+            console.error("Erreur lors de la vérification d'authentification:", error);
+            if (isMounted) {
+              dispatch({ type: 'AUTH_ERROR', payload: "Erreur lors de la vérification d'authentification" });
+            }
+          } finally {
+            if (isMounted) {
+              dispatch({ type: 'SET_AUTH_CHECKED' });
+            }
+          }
+        };
 
+      checkAuth();
+
+      return () => {
+        isMounted = false;
+      }; // Nettoyage de l'effet pour éviter les fuites de mémoire
+    }, []);
+  
 
   const login = async (email, password) => {
     dispatch({ type: 'AUTH_START' });
@@ -84,13 +108,11 @@ export function AuthProvider({ children }) {
     }
   };
 
-
   const logout = () => {
     AuthService.logout();
     dispatch({ type: 'AUTH_LOGOUT' });
     router.push("/");
   };
-
 
   const register = async (userData) => {
     dispatch({ type: 'AUTH_START' });
@@ -103,9 +125,12 @@ export function AuthProvider({ children }) {
     }
   };
 
-
   const setUser = (userData) => {
     dispatch({ type: 'AUTH_SUCCESS', payload: userData });
+  };
+
+  const clearError = () => {
+    dispatch({ type: 'CLEAR_ERROR' });
   };
 
   const value = {
@@ -116,6 +141,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     register,
+    clearError,
     isAuthenticated: !!user,
     authChecked,
   };

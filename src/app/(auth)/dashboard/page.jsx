@@ -4,17 +4,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ProfileForm from "@/components/form/ProfileForm";
-import Image from "next/image";
 
 export default function Dashboard() {
-    const { user, isAuthenticated } = useAuth(); 
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            router.push('/login');
-        }
-    }, [isAuthenticated, router]);
+    const { user } = useAuth(); 
 
     if (!user) {
         return (
