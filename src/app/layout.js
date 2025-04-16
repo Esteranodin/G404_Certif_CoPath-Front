@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Provider } from "@/context/Provider";
+import { Toaster } from "sonner";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        <Toaster position="top-center" richColors duration={6000}/>
         </Provider>
       </body>
     </html >

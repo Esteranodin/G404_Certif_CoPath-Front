@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function AuthLayout({ children }) {
   const { isAuthenticated, authChecked, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Rediriger seulement quand authChecked est true et qu'on sait que l'utilisateur n'est pas authentifié
     if (authChecked && !loading && !isAuthenticated) {
+      // Sauvegarde chemin actuel avant la redirection
+      if (pathname !== "/login" && pathname !== "/register") {
+        localStorage.setItem("lastVisitedPath", pathname);
+      }
       router.replace("/login");
     }
-  }, [authChecked, loading, isAuthenticated, router]);
+  }, [authChecked, loading, isAuthenticated, router, pathname]);
 
   // Afficher un état de chargement pendant la vérification
   if (loading || !authChecked) {

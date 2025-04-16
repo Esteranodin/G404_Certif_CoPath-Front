@@ -9,10 +9,11 @@ export default function LoginPage() {
   const { isAuthenticated, loading, authChecked } = useAuth();
   const router = useRouter();
 
-  // Si l'utilisateur est déjà connecté, rediriger vers le dashboard
   useEffect(() => {
     if (authChecked && isAuthenticated && !loading) {
-      router.replace("/dashboard");
+      const lastPath = localStorage.getItem("lastVisitedPath") || "/login";
+      localStorage.removeItem("lastVisitedPath");
+      router.replace(lastPath);
     }
   }, [authChecked, isAuthenticated, loading, router]);
 

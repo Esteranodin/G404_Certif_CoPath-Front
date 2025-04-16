@@ -7,8 +7,21 @@ export default function FormField({
   id,
   error,
   type = "text",
+  autoComplete,
   ...props
 }) {
+
+  const getAutoCompleteValue = () => {
+    if (autoComplete) return autoComplete;
+    
+    if (type === "password") {
+      if (id === "confirmPassword" || id === "newPassword") return "new-password";
+      return "current-password";
+    }
+    if (type === "email") return "username";
+    return undefined; 
+  };
+
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium mb-1">
@@ -17,6 +30,7 @@ export default function FormField({
       <input
         id={id}
         type={type}
+        autoComplete={getAutoCompleteValue()}
         className="w-full p-2 border rounded focus-green"
         {...props}
       />
