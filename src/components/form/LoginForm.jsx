@@ -1,18 +1,19 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from "@/hooks/useAuth";
-import { useForms } from "@/hooks/useForms";
-import { showSuccess } from "@/lib/utils/errorHandling";
 import { loginSchema } from "@/lib/utils/validationZod";
+import { useForms } from "@/hooks/useForms";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
+import { useEffect } from "react";
+import { showSuccess } from "@/lib/utils/errorHandling";
 
-export default function LoginForm() {
+export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();
   const { login } = useAuth();
+  const isNewlyRegistered = searchParams.get('registered') === 'true';
   
   const {
     renderField,
@@ -24,7 +25,11 @@ export default function LoginForm() {
       email: "",
       password: ""
     },
-    onSuccessMessage: "Connexion réussie !"
+    onSuccessMessage: "Connexion réussie !",
+    onSuccessCallback: (userData) => {
+      // Appeler le callback fourni par la page parent
+      if (onLoginSuccess) onLoginSuccess(userData);
+    }
   });
 
   // Vérifier si l'utilisateur vient de s'inscrire
@@ -34,6 +39,13 @@ export default function LoginForm() {
       showSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.");
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    // Afficher un message si l'utilisateur vient de s'inscrire
+    if (isNewlyRegistered) {
+      showSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+    }
+  }, [isNewlyRegistered]);
 
   const handleLogin = submitForm(
     async (data) => {
@@ -51,7 +63,14 @@ export default function LoginForm() {
   );
 
   return (
-    <FormContainer title="Connexion" footer={footer}>
+    <FormContainer
+      title="Connexion"
+      description={isNewlyRegistered 
+        ? "Votre compte a été créé ! Connectez-vous maintenant avec vos identifiants."
+        : "Accédez à votre profile."
+      }
+      footer={footer}
+    >
     <Form 
       onSubmit={handleLogin}
       isSubmitting={isSubmitting}

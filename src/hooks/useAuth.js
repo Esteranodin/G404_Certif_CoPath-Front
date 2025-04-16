@@ -1,14 +1,27 @@
-import { useContext } from 'react';
-import { AuthContext } from '@/context/AuthContext';
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
 import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/lib/services/authService';
 
-export function useAuth() {
+/**
+ * @param {Object} options - Options de navigation (optionnelles)
+ * @returns {Object} - État d'authentification et méthodes
+ */
+export function useAuth(options = {}) {
   const context = useContext(AuthContext);
+  
   if (!context) {
-    throw new Error(`useAuth doit être utilisé à l'intérieur d'un AuthProvider`);
+    console.error("useAuth - Contexte d'authentification non disponible");
+    throw new Error("useAuth doit être utilisé à l'intérieur d'un AuthProvider");
   }
-  return context;
+  
+  const isAuthenticated = !!context.user;
+    
+  return {
+    ...context,
+    isAuthenticated,
+    isAuthReady: !context.loading
+  };
 }
 
 export function useLogin() {

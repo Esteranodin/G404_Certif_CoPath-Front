@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '@/lib/utils/tokenStorage';
 
 const createApiClient = () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -18,8 +19,8 @@ const createApiClient = () => {
       // Vérifier qu'on est bien côté client
       if (typeof window === 'undefined') return config;
       
-      // Gestion du token d'authentification
-      const token = localStorage.getItem('token');
+      // Ajouter le token d'authentification
+      const token = getToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -32,14 +33,12 @@ const createApiClient = () => {
   client.interceptors.response.use(
     (response) => response,
     (error) => {
-      // Vérifier qu'on est bien côté client et gérer l'erreur 401
+      // En cas d'erreur 401, rediriger vers la page de connexion
       if (typeof window !== 'undefined' && error.response?.status === 401) {
-        localStorage.removeItem('token');
-        
-        // Éviter les boucles de redirection
+        // Géré par authService.logout() dans la plupart des cas
+        // Mais si l'erreur vient d'ailleurs, on doit aussi gérer la déconnexion
         const currentPath = window.location.pathname;
         if (!currentPath.includes('/login')) {
-          // Redirection programmée vers la page de connexion
           window.location.href = '/login';
         }
       }

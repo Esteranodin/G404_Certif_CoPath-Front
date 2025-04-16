@@ -1,38 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { AuthSkeleton } from "@/components/ui/skeleton";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AuthLayout({ children }) {
-  const { isAuthenticated, authChecked, loading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-
+  
   useEffect(() => {
-    // Rediriger seulement quand authChecked est true et qu'on sait que l'utilisateur n'est pas authentifié
-    if (authChecked && !loading && !isAuthenticated) {
-      // Sauvegarde chemin actuel avant la redirection
-      if (pathname !== "/login" && pathname !== "/register") {
-        localStorage.setItem("lastVisitedPath", pathname);
-      }
+    // Seulement si le chargement est terminé et qu'il n'y a pas d'utilisateur
+    if (!loading && !user) {
       router.replace("/login");
     }
-  }, [authChecked, loading, isAuthenticated, router, pathname]);
+  }, [loading, user, router]);
 
-  // Afficher un état de chargement pendant la vérification
-  if (loading || !authChecked) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p>Chargement...</p>
-      </div>
+      <main className="flex items-center justify-center min-h-[80vh] p-6">
+        <AuthSkeleton />
+      </main>
     );
   }
 
-  // Ne pas rendre les enfants si non authentifié (pendant la redirection)
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  return <>{children}</>;
+  // Si l'utilisateur est authentifié, afficher le contenu
+  return user ? children : null;
 }

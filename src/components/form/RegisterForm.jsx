@@ -11,7 +11,7 @@ import FormContainer from "./FormContainer";
 export default function RegisterForm() {
   const router = useRouter();
   const { register: registerUser } = useAuth();
-  
+
   const {
     renderField,
     submitForm,
@@ -30,8 +30,13 @@ export default function RegisterForm() {
 
   const handleRegister = submitForm(
     async (data) => {
-      const { confirmPassword, ...registrationData } = data;
-      await registerUser(registrationData);
+      try {
+        const { confirmPassword, ...registrationData } = data;
+        if (isSubmitting) return;
+        await registerUser(registrationData);
+      } catch (error) {
+        console.error("Erreur d'inscription:", error);
+      }
     }
   );
 

@@ -1,96 +1,83 @@
-import apiClient from '@/lib/api/client';
-import { API_ENDPOINTS } from '@/lib/api/endpoints';
+import apiClient from "@/lib/api/client";
+import { API_ENDPOINTS } from "@/lib/api/endpoints";
+import { setToken, clearToken, getToken } from "@/lib/utils/tokenStorage";
 
-export const AuthService = {
+class AuthService {
   /**
-   * Inscription d'un nouvel utilisateur
-   * @param {Object} userData - données de l'utilisateur
+   * Connexion utilisateur
+   * @param {string} email - Email de l'utilisateur
+   * @param {string} password - Mot de passe de l'utilisateur
+   * @returns {Promise<Object>} - Données utilisateur
    */
-  register: async (userData) => {
-    try {
-      const response = await apiClient.post(API_ENDPOINTS.AUTH.REGISTER, userData);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || { message: "Erreur d'inscription" };
-    }
-  },
-
-  /**
-   * Connexion d'un utilisateur
-   * @param {string} email - adresse email
-   * @param {string} password - mot de passe
-   */
-  login: async (email, password) => {
-    try {
-      const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, {
-        username: email,
-        password,
-      });
-
-      // Stocke le token JWT dans le localStorage
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || { message: "Erreur de connexion" };
-    }
-  },
-
-  /**
-   * Déconnexion de l'utilisateur
-   */
-  logout: () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-    }
-  },
-
-  /**
-   * Vérifier si l'utilisateur est connecté
-   */
-  isAuthenticated: () => {
-    if (typeof window === 'undefined') {
-      return false;
-    }
-    const token = localStorage.getItem('token');
-
+  async login(email, password) {
+    const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, { username: email, password });
+    const { token } = response.data;
+    
     if (!token) {
-      return false;
+      throw new Error("Token manquant dans la réponse");
     }
-
-    try {
-      return true;
-    } catch (error) {
-      console.error("Erreur de validation du token:", error);
-      localStorage.removeItem('token');
-      return false;
+    
+    setToken(token);
+    const userData = await this.getCurrentUser();
+    
+    if (!userData) {
+      console.error("authService - Données utilisateur manquantes après getCurrentUser");
+      throw new Error("Impossible de récupérer les données utilisateur");
     }
-  },
+    
+    return userData;
+  }
 
   /**
-   * Récupère les informations de l'utilisateur actuel
+   * Inscription utilisateur
+   * @param {Object} userData - Données d'inscription
+   * @returns {Promise<Object>} - Réponse de l'API
    */
-  getCurrentUser: async () => {
+  async register(userData) {
+    const response = await apiClient.post(API_ENDPOINTS.AUTH.REGISTER, userData);
+    return response.data;
+  }
+
+  /**
+   * Déconnexion utilisateur
+   */
+  async logout() {
     try {
-      // Vérifier si le token existe vraiment avant d'envoyer la requête
-      if (typeof window !== 'undefined' && !localStorage.getItem('token')) {
-        throw new Error('Token non trouvé');
-      }
-
-      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME);
-      return response.data;
-
+      // Appel API pour invalider le token côté serveur (si applicable)
+      await apiClient.post('/auth/logout');
     } catch (error) {
-      console.error("Erreur lors de la récupération des données utilisateur:", error);
-      // Si erreur 401, nettoyer le localStorage
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token');
-      }
-      throw error;
+      console.error("Erreur lors de la déconnexion:", error);
+    } finally {
+      // Toujours supprimer le token localement
+      clearToken();
     }
-  },
-};
+  }
 
-export default AuthService;
+  /**
+   * Récupérer l'utilisateur courant
+   * @returns {Promise<Object|null>} - Données utilisateur ou null
+   */
+  async getCurrentUser() {
+    const token = getToken();
+    
+    // Ne pas faire l'appel si pas de token
+    if (!token) return null;
+    
+    try {
+      const response = await apiClient.get(API_ENDPOINTS.AUTH.ME);
+      const userData = response.data.user || response.data;
+      
+      if (!userData) {
+        throw new Error("Format de réponse inattendu dans getCurrentUser");
+      }
+      
+      return userData;
+    } catch (error) {
+      console.error("authService - Erreur récupération user", error);
+      clearToken();
+      return null;
+    }
+  }
+}
+
+export default new AuthService();
