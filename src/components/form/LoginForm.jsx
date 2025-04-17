@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from "react";
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/lib/utils/validationZod";
 import { useForms } from "@/hooks/useForms";
@@ -12,8 +12,11 @@ import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
 
 export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const { login } = useAuth();
   const isNewlyRegistered = searchParams.get('registered') === 'true';
+  const hasShownRegisteredMessage = useRef(false);
 
   const {
     renderField,
@@ -25,7 +28,6 @@ export default function LoginForm({ onLoginSuccess }) {
       email: "",
       password: ""
     },
-    onSuccessMessage: "Connexion réussie !",
     onSuccessCallback: () => {
       // Appeler le callback fourni par la page parent
       if (onLoginSuccess) onLoginSuccess();
@@ -34,9 +36,19 @@ export default function LoginForm({ onLoginSuccess }) {
   });
 
   useEffect(() => {
-    // Afficher un message si l'utilisateur vient de s'inscrire
     if (isNewlyRegistered) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete('registered');
+      // Nouvelle URL et rediriger vers celle-ci
+      const newUrl = pathname + (newSearchParams.toString() ? `?${newSearchParams.toString()}` : '');
+      router.replace(newUrl);
+    }
+  }, []); // Dépendances vides = s'exécuter uniquement au montage
+
+  useEffect(() => {
+    if (isNewlyRegistered && !hasShownRegisteredMessage.current) {
       showSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+      hasShownRegisteredMessage.current = true;
     }
   }, [isNewlyRegistered]);
 

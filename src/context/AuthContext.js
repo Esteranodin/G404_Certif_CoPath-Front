@@ -2,6 +2,7 @@
 
 import { createContext, useState, useEffect } from "react";
 import authService from "@/lib/services/authService";
+import { ERROR_MESSAGES, LOG_MESSAGES } from '@/lib/config/messages';
 
 export const AuthContext = createContext(null);
 
@@ -17,16 +18,15 @@ export function AuthProvider({ children }) {
         setUser(currentUser);
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
-          console.error("Erreur d'initialisation de l'auth:", error);
+          console.error(LOG_MESSAGES.AUTH.INIT_ERROR, error);
         }
       } finally {
         setLoading(false);
       }
     };
-
     initAuth();
   }, []);
-  
+
   const isAuthReady = !loading;
 
   const login = async (email, password) => {
@@ -36,9 +36,9 @@ export function AuthProvider({ children }) {
 
       if (!userData) {
         if (process.env.NODE_ENV === 'development') {
-          console.error("AuthContext - Données utilisateur manquantes après login");
+          console.error(LOG_MESSAGES.AUTH.MISSING_USER);
         }
-        throw new Error("Données utilisateur manquantes");
+        throw new Error(ERROR_MESSAGES.AUTH.MISSING_USER_DATA);
       }
       setUser(userData);
       setLoading(false);
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
       return userData;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error("AuthContext - Erreur login:", error);
+        console.error(LOG_MESSAGES.AUTH.LOGIN_ERROR, error);
       }
       setLoading(false);
       throw error;

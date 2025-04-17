@@ -25,7 +25,6 @@ export default function RegisterForm() {
       password: "",
       confirmPassword: ""
     },
-    onSuccessMessage: "Inscription réussie !",
     onSuccessCallback: () => router.push("/login?registered=true"),
     errorHandler: handleRegisterError
   });

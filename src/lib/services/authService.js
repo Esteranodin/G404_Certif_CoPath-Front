@@ -1,6 +1,7 @@
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { setToken, clearToken, getToken } from "@/lib/utils/tokenStorage";
+import { LOG_MESSAGES } from '@/lib/config/messages';
 
 class AuthService {
   /**
@@ -14,15 +15,17 @@ class AuthService {
     const { token } = response.data;
     
     if (!token) {
-      throw new Error("Token manquant dans la réponse");
+      throw new Error(ERROR_MESSAGES.AUTH.MISSING_TOKEN);
     }
     
     setToken(token);
     const userData = await this.getCurrentUser();
     
     if (!userData) {
-      console.error("authService - Données utilisateur manquantes après getCurrentUser");
-      throw new Error("Impossible de récupérer les données utilisateur");
+      if (process.env.NODE_ENV === 'development') {
+        console.error(LOG_MESSAGES.AUTH.MISSING_USER_AFTER_LOGIN);
+      }
+      throw new Error(ERROR_MESSAGES.AUTH.MISSING_USER_DATA);
     }
     
     return userData;
@@ -52,7 +55,6 @@ class AuthService {
    */
   async getCurrentUser() {
     const token = getToken();
-    
     // Ne pas faire l'appel si pas de token
     if (!token) return null;
     
@@ -61,13 +63,13 @@ class AuthService {
       const userData = response.data.user || response.data;
       
       if (!userData) {
-        throw new Error("Format de réponse inattendu dans getCurrentUser");
+        throw new Error(ERROR_MESSAGES.AUTH.INVALID_USER_DATA_FORMAT);
       }
       
       return userData;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error("authService - Erreur récupération user", error);
+        console.error(LOG_MESSAGES.AUTH.GET_USER_ERROR, error);
       }
       clearToken();
       return null;

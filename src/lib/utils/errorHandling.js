@@ -1,4 +1,5 @@
 import { toast } from 'sonner';
+import { ERROR_MESSAGES, LOG_MESSAGES } from '@/lib/config/messages';
 
 /**
  * Message de succès
@@ -14,7 +15,7 @@ export const showSuccess = (message) => {
  * @param {string} fallbackMessage - Message par défaut si l'erreur n'a pas de message
  * @returns {string} Le message d'erreur
  */
-export const handleApiError = (error, fallbackMessage = "Une erreur est survenue") => {
+export const handleApiError = (error, fallbackMessage = ERROR_MESSAGES.API.DEFAULT_ERROR) => {
   if (process.env.NODE_ENV === 'development') {
     console.error(error);
   }
@@ -35,29 +36,28 @@ export const handleApiError = (error, fallbackMessage = "Une erreur est survenue
 };
 
 /**
- * Gestion erreurs Auth
- * @param {Error} error 
- * @returns {string} 
+ * Gestion spécifique des erreurs d'authentification
+ * @param {Error} error - L'erreur à gérer
+ * @returns {string} Le message d'erreur adapté
  */
 export const handleAuthError = (error) => {
   if (process.env.NODE_ENV === 'development') {
-  console.error("Erreur d'authentification", error);
+    console.error(LOG_MESSAGES.AUTH.LOGIN_ERROR, error);
   }
 
-  let message = "Problème d'authentification. Veuillez réessayer.";
+  let message = ERROR_MESSAGES.AUTH.LOGIN_FAILED;
 
-  // Extraction du message d'erreur selon la structure
   const statusCode = error?.response?.status;
   const errorMsg = error?.response?.data?.message || error?.message || "";
 
   if (statusCode === 401 || errorMsg.includes('credentials') || errorMsg.includes('password')) {
-    message = "Identifiants incorrects. Vérifiez votre email et votre mot de passe.";
+    message = ERROR_MESSAGES.AUTH.UNAUTHORIZED;
   } else if (statusCode === 404 || errorMsg.includes('not found')) {
-    message = "Aucun compte associé à cet email.";
+    message = ERROR_MESSAGES.AUTH.USER_NOT_FOUND;
   } else if (statusCode === 429) {
-    message = "Trop de tentatives de connexion. Veuillez réessayer plus tard.";
+    message = ERROR_MESSAGES.AUTH.TOO_MANY_ATTEMPTS;
   } else if (errorMsg.includes('network') || errorMsg.includes('connexion')) {
-    message = "Problème de connexion au serveur. Vérifiez votre connexion internet.";
+    message = ERROR_MESSAGES.AUTH.NETWORK_ERROR;
   }
 
   // Afficher dans un toast
@@ -69,26 +69,41 @@ export const handleAuthError = (error) => {
   return message;
 };
 
-
 /**
  * Gestion erreurs d'inscription
  */
 export const handleRegisterError = (error) => {
   if (process.env.NODE_ENV === 'development') {
-  console.error("Erreur d'inscription", error);
+    console.error("Erreur d'inscription", error);
   }
 
-  let message = "Problème lors de l'inscription. Veuillez réessayer.";
+  let message = ERROR_MESSAGES.AUTH.REGISTER_FAILED;
 
   const statusCode = error?.response?.status;
   const errorMsg = error?.response?.data?.message || error?.message || "";
+  const errorDetail = error?.response?.data?.detail || "";
 
-  if (statusCode === 409 || errorMsg.includes('exists') || errorMsg.includes('déjà utilisé')) {
-    message = "Cet email est déjà utilisé. Veuillez vous connecter ou utiliser un autre email.";
+  if (statusCode === 500 && (
+    errorDetail.includes('UNIQ_8D93D64986CC499D') ||
+    errorDetail.includes('pseudo') && errorDetail.includes('unique')
+  )) {
+    message = ERROR_MESSAGES.AUTH.REGISTER_PSEUDO_EXISTS;
+  }
+
+  else if (statusCode === 409 ||
+    errorMsg.includes('exists') ||
+    errorMsg.includes('déjà utilisé') ||
+    (statusCode === 500 && (
+      errorDetail.includes('UNIQ_IDENTIFIER_EMAIL') ||
+      errorDetail.includes('unique constraint') ||
+      errorMsg.includes('unique constraint')
+    ))
+  ) {
+    message = ERROR_MESSAGES.AUTH.REGISTER_EMAIL_EXISTS;
   } else if (errorMsg.includes('password') && errorMsg.includes('weak')) {
-    message = "Le mot de passe n'est pas assez sécurisé. Utilisez au moins 8 caractères avec lettres et chiffres.";
+    message = ERROR_MESSAGES.AUTH.REGISTER_WEAK_PASSWORD;
   } else if (errorMsg.includes('network') || errorMsg.includes('connexion')) {
-    message = "Problème de connexion au serveur. Vérifiez votre connexion internet.";
+    message = ERROR_MESSAGES.AUTH.NETWORK_ERROR;
   }
 
   toast.error(message, {
@@ -103,19 +118,21 @@ export const handleRegisterError = (error) => {
  * Gestion erreurs MAJ profil
  */
 export const handleProfileError = (error) => {
-  console.error("Erreur de mise à jour du profil", error);
+  if (process.env.NODE_ENV === 'development') {
+    console.error("Erreur de mise à jour du profil", error);
+  }
 
-  let message = "Problème lors de la mise à jour du profil. Veuillez réessayer.";
+  let message = ERROR_MESSAGES.PROFILE.UPDATE_FAILED;
 
   const statusCode = error?.response?.status;
   const errorMsg = error?.response?.data?.message || error?.message || "";
 
   if (statusCode === 409 || errorMsg.includes('exists') || errorMsg.includes('déjà utilisé')) {
-    message = "Cet email est déjà utilisé par un autre compte.";
+    message = ERROR_MESSAGES.PROFILE.EMAIL_EXISTS;
   } else if (statusCode === 403) {
-    message = "Vous n'avez pas les droits pour modifier ce profil.";
+    message = ERROR_MESSAGES.PROFILE.FORBIDDEN;
   } else if (errorMsg.includes('network') || errorMsg.includes('connexion')) {
-    message = "Problème de connexion au serveur. Vérifiez votre connexion internet.";
+    message = ERROR_MESSAGES.API.NETWORK_ERROR;
   }
 
   toast.error(message, {
@@ -130,19 +147,21 @@ export const handleProfileError = (error) => {
  * Gestion erreurs MAJ mdp
  */
 export const handlePasswordError = (error) => {
-  console.error("Erreur de mot de passe", error);
+  if (process.env.NODE_ENV === 'development') {
+    console.error("Erreur de mot de passe", error);
+  }
 
-  let message = "Problème lors du changement de mot de passe. Veuillez réessayer.";
+  let message = ERROR_MESSAGES.PASSWORD.CHANGE_FAILED;
 
   const statusCode = error?.response?.status;
   const errorMsg = error?.response?.data?.message || error?.message || "";
 
   if (statusCode === 401 || errorMsg.includes('incorrect') || errorMsg.includes('invalid')) {
-    message = "Le mot de passe actuel est incorrect.";
+    message = ERROR_MESSAGES.PASSWORD.CURRENT_INCORRECT;
   } else if (errorMsg.includes('weak')) {
-    message = "Le nouveau mot de passe n'est pas assez sécurisé. Utilisez au moins 8 caractères avec lettres et chiffres.";
+    message = ERROR_MESSAGES.PASSWORD.WEAK_PASSWORD;
   } else if (errorMsg.includes('network') || errorMsg.includes('connexion')) {
-    message = "Problème de connexion au serveur. Vérifiez votre connexion internet.";
+    message = ERROR_MESSAGES.API.NETWORK_ERROR;
   }
 
   toast.error(message, {
