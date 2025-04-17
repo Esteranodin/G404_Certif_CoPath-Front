@@ -20,7 +20,6 @@ export function useAuth(options = {}) {
   return {
     ...context,
     isAuthenticated,
-    isAuthReady: !context.loading
   };
 }
 
@@ -43,7 +42,8 @@ export function useRegister() {
 export function useLogout() {
   return useMutation({
     mutationFn: () => {
-      return AuthService.logout();
+    context.logout();
+    return true;
     }
   });
 }

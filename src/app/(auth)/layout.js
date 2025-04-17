@@ -6,18 +6,18 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 export default function AuthLayout({ children }) {
-  const { user, loading } = useAuth();
+  const { user, isAuthReady } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   
   useEffect(() => {
     // Seulement si le chargement est terminé et qu'il n'y a pas d'utilisateur
-    if (!loading && !user) {
+    if (isAuthReady && !user) {
       router.replace("/login");
     }
-  }, [loading, user, router]);
+  }, [isAuthReady, user, router]);
 
-  if (loading) {
+  if (!isAuthReady) {
     return (
       <main className="flex items-center justify-center min-h-[80vh] p-6">
         <AuthSkeleton />

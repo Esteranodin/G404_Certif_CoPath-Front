@@ -15,7 +15,9 @@ export const showSuccess = (message) => {
  * @returns {string} Le message d'erreur
  */
 export const handleApiError = (error, fallbackMessage = "Une erreur est survenue") => {
-  console.error(error);
+  if (process.env.NODE_ENV === 'development') {
+    console.error(error);
+  }
 
   // Extraction du message d'erreur selon la structure
   const errorMessage =
@@ -38,7 +40,9 @@ export const handleApiError = (error, fallbackMessage = "Une erreur est survenue
  * @returns {string} 
  */
 export const handleAuthError = (error) => {
+  if (process.env.NODE_ENV === 'development') {
   console.error("Erreur d'authentification", error);
+  }
 
   let message = "Problème d'authentification. Veuillez réessayer.";
 
@@ -70,7 +74,9 @@ export const handleAuthError = (error) => {
  * Gestion erreurs d'inscription
  */
 export const handleRegisterError = (error) => {
+  if (process.env.NODE_ENV === 'development') {
   console.error("Erreur d'inscription", error);
+  }
 
   let message = "Problème lors de l'inscription. Veuillez réessayer.";
 

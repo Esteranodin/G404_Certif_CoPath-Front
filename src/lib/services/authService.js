@@ -39,11 +39,12 @@ class AuthService {
   }
 
   /**
-   * Déconnexion utilisateur
+   * Déconnexion utilisateur 
    */
-  async logout() {
-      clearToken();
-    }
+  logout() {
+    clearToken();
+    return true;
+  }
 
   /**
    * Récupérer l'utilisateur courant
@@ -65,7 +66,9 @@ class AuthService {
       
       return userData;
     } catch (error) {
-      console.error("authService - Erreur récupération user", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("authService - Erreur récupération user", error);
+      }
       clearToken();
       return null;
     }

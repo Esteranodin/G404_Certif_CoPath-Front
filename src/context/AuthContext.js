@@ -16,7 +16,9 @@ export function AuthProvider({ children }) {
         const currentUser = await authService.getCurrentUser();
         setUser(currentUser);
       } catch (error) {
-        console.error("Erreur d'initialisation de l'auth:", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Erreur d'initialisation de l'auth:", error);
+        }
       } finally {
         setLoading(false);
       }
@@ -24,12 +26,14 @@ export function AuthProvider({ children }) {
 
     initAuth();
   }, []);
+  
+  const isAuthReady = !loading;
 
   const login = async (email, password) => {
     try {
       setLoading(true);
       const userData = await authService.login(email, password);
-      
+
       if (!userData) {
         if (process.env.NODE_ENV === 'development') {
           console.error("AuthContext - Données utilisateur manquantes après login");
@@ -38,7 +42,7 @@ export function AuthProvider({ children }) {
       }
       setUser(userData);
       setLoading(false);
-      
+
       return userData;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
@@ -61,8 +65,8 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = async () => {
-    await authService.logout();
+  const logout = () => {
+    authService.logout();
     setUser(null);
   };
 
@@ -70,11 +74,13 @@ export function AuthProvider({ children }) {
     setUser(prev => prev ? { ...prev, ...userData } : null);
   };
 
+
   // Valeur exposée par le contexte
   const value = {
     user,
     isAuthenticated: !!user,
     loading,
+    isAuthReady,
     login,
     logout,
     register,
