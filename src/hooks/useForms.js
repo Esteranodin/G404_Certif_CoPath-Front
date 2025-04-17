@@ -8,8 +8,9 @@ import { handleApiError, showSuccess } from "@/lib/utils/errorHandling";
 export function useForms({
   schema,
   defaultValues,
-  onSuccessMessage = "Opération réussie !",
-  onSuccessCallback = () => {},
+  onSuccessMessage,
+  errorHandler,
+  onSuccessCallback = () => { },
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,8 +24,8 @@ export function useForms({
 
   // Fonction pour créer des champs de formulaire standard
   const renderField = (
-    id, 
-    label, 
+    id,
+    label,
     type = "text",
     disabled = false
   ) => (
@@ -40,10 +41,10 @@ export function useForms({
 
   // Fonction pour créer des champs avec icône
   const renderIconField = (
-    name, 
-    label, 
+    name,
+    label,
     icon,
-    type = "text", 
+    type = "text",
     placeholder = "",
     disabled = false
   ) => (
@@ -70,21 +71,25 @@ export function useForms({
           if (customSuccessMessage || onSuccessMessage) {
             showSuccess(customSuccessMessage || onSuccessMessage);
           }
-          
+
           if (customCallback) {
             customCallback(result);
           } else if (onSuccessCallback) {
             onSuccessCallback(result);
           }
-          
+
           return result;
         } catch (err) {
-          handleApiError(err, "Une erreur s'est produite");
+          if (errorHandler) {
+            errorHandler(err);
+          } else {
+            handleApiError(err, "Une erreur s'est produite");
+          }
           throw err;
         } finally {
           setIsSubmitting(false);
         }
-      })(e); 
+      })(e);
     };
   };
 

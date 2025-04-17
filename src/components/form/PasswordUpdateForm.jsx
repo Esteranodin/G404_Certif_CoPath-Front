@@ -4,6 +4,7 @@ import UserService from "@/lib/services/userService";
 import { useForms } from "@/hooks/useForms";
 import { passwordSchema } from "@/lib/utils/validationZod";
 import Form from "./Form";
+import { handlePasswordError } from "@/lib/utils/errorHandling";
 
 export default function PasswordUpdateForm({ onCancel }) {
   const {
@@ -22,7 +23,8 @@ export default function PasswordUpdateForm({ onCancel }) {
     onSuccessCallback: () => {
       reset();
       if (onCancel) onCancel();
-    }
+    },
+    errorHandler: handlePasswordError
   });
 
   const handleUpdatePassword = submitForm(

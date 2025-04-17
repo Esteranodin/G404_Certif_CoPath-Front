@@ -5,6 +5,7 @@ import { useForms } from "@/hooks/useForms";
 import { profileSchema } from "@/lib/utils/validationZod";
 import UserService from "@/lib/services/userService";
 import Form from "./Form";
+import { handleProfileError } from "@/lib/utils/errorHandling";
 
 export default function ProfileUpdateForm({ user }) {
   const { updateUser } = useAuth();
@@ -19,7 +20,8 @@ export default function ProfileUpdateForm({ user }) {
       pseudo: user?.pseudo || "",
       email: user?.email || "",
     },
-    onSuccessMessage: "Profil mis à jour avec succès !"
+    onSuccessMessage: "Profil mis à jour avec succès !", 
+    errorHandler: handleProfileError
   });
 
   const handleUpdateProfile = submitForm(

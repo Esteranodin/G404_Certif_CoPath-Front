@@ -1,10 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useForms } from "@/hooks/useForms";
 import { registerSchema } from "@/lib/utils/validationZod";
+import { handleRegisterError } from "@/lib/utils/errorHandling";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
 
@@ -25,18 +26,14 @@ export default function RegisterForm() {
       confirmPassword: ""
     },
     onSuccessMessage: "Inscription réussie !",
-    onSuccessCallback: () => router.push("/login?registered=true")
+    onSuccessCallback: () => router.push("/login?registered=true"),
+    errorHandler: handleRegisterError
   });
 
   const handleRegister = submitForm(
     async (data) => {
-      try {
         const { confirmPassword, ...registrationData } = data;
-        if (isSubmitting) return;
         await registerUser(registrationData);
-      } catch (error) {
-        console.error("Erreur d'inscription:", error);
-      }
     }
   );
 

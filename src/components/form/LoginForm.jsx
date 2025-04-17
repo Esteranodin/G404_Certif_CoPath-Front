@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/lib/utils/validationZod";
 import { useForms } from "@/hooks/useForms";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
-import { useEffect } from "react";
-import { showSuccess } from "@/lib/utils/errorHandling";
+import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
 
 export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();
   const { login } = useAuth();
   const isNewlyRegistered = searchParams.get('registered') === 'true';
-  
+
   const {
     renderField,
     submitForm,
@@ -26,19 +26,12 @@ export default function LoginForm({ onLoginSuccess }) {
       password: ""
     },
     onSuccessMessage: "Connexion réussie !",
-    onSuccessCallback: (userData) => {
+    onSuccessCallback: () => {
       // Appeler le callback fourni par la page parent
-      if (onLoginSuccess) onLoginSuccess(userData);
-    }
+      if (onLoginSuccess) onLoginSuccess();
+    },
+    errorHandler: handleAuthError
   });
-
-  // Vérifier si l'utilisateur vient de s'inscrire
-  useEffect(() => {
-    const registered = searchParams.get("registered");
-    if (registered === "true") {
-      showSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-    }
-  }, [searchParams]);
 
   useEffect(() => {
     // Afficher un message si l'utilisateur vient de s'inscrire
@@ -50,8 +43,7 @@ export default function LoginForm({ onLoginSuccess }) {
   const handleLogin = submitForm(
     async (data) => {
       await login(data.email, data.password);
-    }
-  );
+    });
 
   const footer = (
     <p className="text-sm">
@@ -65,21 +57,21 @@ export default function LoginForm({ onLoginSuccess }) {
   return (
     <FormContainer
       title="Connexion"
-      description={isNewlyRegistered 
+      description={isNewlyRegistered
         ? "Votre compte a été créé ! Connectez-vous maintenant avec vos identifiants."
-        : "Accédez à votre profile."
+        : "Accédez à votre profil."
       }
       footer={footer}
     >
-    <Form 
-      onSubmit={handleLogin}
-      isSubmitting={isSubmitting}
-      submitLabel="Se connecter"
-      loadingLabel="Connexion en cours..."
-    >
-      {renderField("email", "Email", "email")}
-      {renderField("password", "Mot de passe", "password")}
-    </Form>
+      <Form
+        onSubmit={handleLogin}
+        isSubmitting={isSubmitting}
+        submitLabel="Se connecter"
+        loadingLabel="Connexion en cours..."
+      >
+        {renderField("email", "Email", "email")}
+        {renderField("password", "Mot de passe", "password")}
+      </Form>
     </FormContainer>
   );
 }
