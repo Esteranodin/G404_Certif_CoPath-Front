@@ -1,3 +1,11 @@
+/**
+ * Client API Axios configuré
+ * @module apiClient
+ * @description Configuration du client HTTP avec intercepteurs pour l'authentification
+ * @requires axios
+ * @requires tokenStorage
+ */
+
 import axios from 'axios';
 import { getToken } from '@/lib/utils/tokenStorage';
 

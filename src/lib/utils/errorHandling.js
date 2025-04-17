@@ -1,3 +1,10 @@
+/**
+ * Gestionnaire d'erreurs centralisé
+ * @module errorHandling
+ * @description Fonctions pour gérer et afficher les erreurs de l'application
+ * @requires ERROR_MESSAGES
+ */
+
 import { toast } from 'sonner';
 import { ERROR_MESSAGES, LOG_MESSAGES } from '@/lib/config/messages';
 

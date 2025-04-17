@@ -1,4 +1,11 @@
 "use client";
+/**
+ * Contexte d'authentification
+ * @module AuthContext
+ * @description Fournit l'état d'authentification à toute l'application
+ * @requires React
+ * @requires authService
+ */
 
 import { createContext, useState, useEffect } from "react";
 import authService from "@/lib/services/authService";

@@ -1,3 +1,10 @@
+/**
+ * Service de gestion des utilisateurs
+ * @module userService
+ * @description Fournit les méthodes pour gérer le profil et les mots de passe utilisateur
+ * @requires apiClient
+ */
+
 import apiClient from '@/lib/api/client';
 
 export const UserService = {

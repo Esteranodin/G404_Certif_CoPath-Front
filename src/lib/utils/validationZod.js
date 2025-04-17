@@ -1,10 +1,17 @@
+/**
+ * Schémas de validation Zod
+ * @module validationZod
+ * @description Définit les schémas de validation pour les formulaires
+ * @requires zod
+ */
+
 import * as z from "zod";
 
 // Validations communes
-export const emailValidation = 
+export const emailValidation =
   z.string().email("Format d'email invalide");
 
-export const passwordValidation = (fieldName = "password") => 
+export const passwordValidation = (fieldName = "password") =>
   z.string().min(8, `Le ${fieldName === "password" ? "mot de passe" : "nouveau mot de passe"} doit contenir au moins 8 caractères`);
 
 export const requiredField = (fieldName) =>

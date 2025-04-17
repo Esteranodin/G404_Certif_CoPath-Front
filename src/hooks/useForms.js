@@ -1,3 +1,11 @@
+/**
+ * Hook de gestion des formulaires
+ * @module useForms
+ * @description Centralise la logique de gestion des formulaires avec validation Zod
+ * @requires react-hook-form
+ * @requires zod
+ */
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
