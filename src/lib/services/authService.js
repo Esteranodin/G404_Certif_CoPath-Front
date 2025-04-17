@@ -42,16 +42,8 @@ class AuthService {
    * Déconnexion utilisateur
    */
   async logout() {
-    try {
-      // Appel API pour invalider le token côté serveur (si applicable)
-      await apiClient.post('/auth/logout');
-    } catch (error) {
-      console.error("Erreur lors de la déconnexion:", error);
-    } finally {
-      // Toujours supprimer le token localement
       clearToken();
     }
-  }
 
   /**
    * Récupérer l'utilisateur courant

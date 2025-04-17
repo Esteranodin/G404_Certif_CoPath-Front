@@ -47,7 +47,7 @@ export const handleAuthError = (error) => {
   const errorMsg = error?.response?.data?.message || error?.message || "";
 
   if (statusCode === 401 || errorMsg.includes('credentials') || errorMsg.includes('password')) {
-    message = "Identifiants incorrects. Vérifiez votre email et mot de passe.";
+    message = "Identifiants incorrects. Vérifiez votre email et votre mot de passe.";
   } else if (statusCode === 404 || errorMsg.includes('not found')) {
     message = "Aucun compte associé à cet email.";
   } else if (statusCode === 429) {

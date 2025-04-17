@@ -59,7 +59,6 @@ export function useForms({
     />
   );
 
-  // Fonction pour soumettre le formulaire
   const submitForm = (apiCall, customSuccessMessage, customCallback) => {
     // Attention on retourne bien une fonction et non l'objet résultant de handleSubmit
     return (e) => {
@@ -85,7 +84,6 @@ export function useForms({
           } else {
             handleApiError(err, "Une erreur s'est produite");
           }
-          throw err;
         } finally {
           setIsSubmitting(false);
         }

@@ -31,7 +31,9 @@ export function AuthProvider({ children }) {
       const userData = await authService.login(email, password);
       
       if (!userData) {
-        console.error("AuthContext - Données utilisateur manquantes après login");
+        if (process.env.NODE_ENV === 'development') {
+          console.error("AuthContext - Données utilisateur manquantes après login");
+        }
         throw new Error("Données utilisateur manquantes");
       }
       setUser(userData);
@@ -39,7 +41,9 @@ export function AuthProvider({ children }) {
       
       return userData;
     } catch (error) {
-      console.error("AuthContext - Erreur login:", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("AuthContext - Erreur login:", error);
+      }
       setLoading(false);
       throw error;
     }
