@@ -46,7 +46,7 @@ export default function RegisterForm() {
   );
 
   return (
-    <FormContainer title="Créer un compte" description="Rejoignez-nous !" footer={footer}>
+    <FormContainer title="Créer un compte" subtitle="Rejoignez-nous !" footer={footer}>
       <Form
         onSubmit={handleRegister}
         isSubmitting={isSubmitting}

@@ -8,9 +8,9 @@ import Form from "./Form";
 import { handleProfileError } from "@/lib/utils/errorHandling";
 import FormContainer from "./FormContainer";
 
-export default function ProfileUpdateForm({ user }) {
+export default function ProfileUpdateForm({ user, onCancel }) {
   const { updateUser } = useAuth();
-  
+
   const {
     renderField,
     submitForm,
@@ -21,7 +21,11 @@ export default function ProfileUpdateForm({ user }) {
       pseudo: user?.pseudo || "",
       email: user?.email || "",
     },
-    onSuccessMessage: "Profil mis à jour avec succès !", 
+    onSuccessMessage: "Profil mis à jour avec succès !",
+    onSuccessCallback: () => {
+      reset();
+      if (onCancel) onCancel();
+    },
     errorHandler: handleProfileError
   });
 
@@ -34,17 +38,20 @@ export default function ProfileUpdateForm({ user }) {
   );
 
   return (
-    <FormContainer title ="Mettre à jour mon profil" description="Modifiez vos informations personnelles." className="mb-8">
-    <Form
-
-      onSubmit={handleUpdateProfile}
-      isSubmitting={isSubmitting}
-      submitLabel="Mettre à jour mon profil"
-      loadingLabel="Mise à jour..."
-    >
-      {renderField("pseudo", "Pseudo")}
-      {renderField("email", "Email", "email")}
-    </Form>
+    <FormContainer title="Mettre à jour mon profil" subtitle="Modifiez vos informations personnelles." className="mb-8">
+      <Form
+        onSubmit={handleUpdateProfile}
+        isSubmitting={isSubmitting}
+        submitLabel="Confimer les modifications"
+        loadingLabel="Mise à jour..."
+        cancelAction={{
+          onClick: onCancel,
+          label: "Annuler"
+        }}
+      >
+        {renderField("pseudo", "Pseudo")}
+        {renderField("email", "Email", "email")}
+      </Form>
     </FormContainer>
   );
 }

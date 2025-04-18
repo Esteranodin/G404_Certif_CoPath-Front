@@ -1,19 +1,16 @@
 import { Button } from "@/components/ui/button";
 
 export default function Form({
-
   onSubmit,
   isSubmitting = false,
-  submitLabel = "Soumettre",
+  submitLabel,
   loadingLabel = "Traitement en cours...",
   children,
-  footer,
   cancelAction,
-  className = "",
   buttonFullWidth = true
+  // className = "",
 }) {
   return (
-    <>
       <form onSubmit={onSubmit} className="space-y-4">
         {children}
 
@@ -38,8 +35,5 @@ export default function Form({
           </Button>
         </div>
       </form>
-
-      {footer && <div className="mt-4">{footer}</div>}
-    </>
   );
 }

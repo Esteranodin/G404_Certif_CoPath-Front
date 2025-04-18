@@ -69,7 +69,7 @@ export default function LoginForm({ onLoginSuccess }) {
   return (
     <FormContainer
       title="Connexion"
-      description={isNewlyRegistered
+      subtitle={isNewlyRegistered
         ? "Votre compte a été créé ! Connectez-vous maintenant avec vos identifiants."
         : "Accédez à votre profil."
       }
