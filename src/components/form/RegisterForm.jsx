@@ -57,12 +57,12 @@ export default function RegisterForm() {
     >
 
       <FormField
-        label="Nom complet"
-        id="name"
-        placeholder="Votre nom et prénom"
+        label="Pseudo"
+        id="pseudo"
+        placeholder="Choissisez un pseudo"
         disabled={isSubmitting}
-        {...register("name")}
-        error={errors.name?.message}
+        {...register("pseudo")}
+        error={errors.pseudo?.message}
       />
 
       <FormField

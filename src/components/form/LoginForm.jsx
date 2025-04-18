@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/lib/validation/validationZod";
 import { useForms } from "@/hooks/useForms";
 import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
+import { FiEdit2, FiSave, FiMapPin, FiUser, FiMail } from "react-icons/fi";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
 import FormField from "../ui/form/formField";
@@ -87,7 +88,7 @@ export default function LoginForm({ onLoginSuccess }) {
           label="Email"
           id="email"
           type="email"
-          // icon={EnvelopeIcon}
+          icon={FiMail}
           placeholder="votre@email.com"
           disabled={isSubmitting}
           {...register("email")}
@@ -98,7 +99,7 @@ export default function LoginForm({ onLoginSuccess }) {
           label="Mot de passe"
           id="password"
           type="password"
-          // icon={LockClosedIcon}
+          icon={FiSave}
           placeholder="Votre mot de passe"
           disabled={isSubmitting}
           {...register("password")}
