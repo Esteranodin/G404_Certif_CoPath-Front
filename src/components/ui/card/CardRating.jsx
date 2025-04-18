@@ -1,5 +1,5 @@
-import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
-import { cardRatingVariants } from "@/lib/utils/layoutVariants";
+import { combineLayoutStyles } from "@/lib/layouts/layoutUtils";
+import { cardRatingVariants } from "@/lib/layouts/layoutVariants";
 import Image from "next/image";
 
 export function CardRating({

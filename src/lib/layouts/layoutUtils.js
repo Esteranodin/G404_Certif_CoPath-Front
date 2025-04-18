@@ -1,4 +1,4 @@
-import { cn } from "./utils";
+import { cn } from "../utils/utils";
 
 export function combineLayoutStyles(variants, props) {
   const { base, layouts = {}, ...otherVariants } = variants;

@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { user, isAuthReady } = useAuth();
+  const { isAuthReady } = useAuth();
 
   const handleLoginSuccess = () => {
     router.push("/dashboard");

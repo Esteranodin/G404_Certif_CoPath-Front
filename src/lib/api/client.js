@@ -7,7 +7,7 @@
  */
 
 import axios from 'axios';
-import { getToken } from '@/lib/utils/tokenStorage';
+import { getToken } from '@/lib/storage/tokenStorage';
 
 const createApiClient = () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
-import { cardImageVariants } from "@/lib/utils/layoutVariants";
+import { combineLayoutStyles } from "@/lib/layouts/layoutUtils";
+import { cardImageVariants } from "@/lib/layouts/layoutVariants";
 
 
 export function CardImage({

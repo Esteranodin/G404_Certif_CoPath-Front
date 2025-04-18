@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { CardsSkeleton } from "@/components/ui/skeleton";
 import ScenarioCard from "./ScenarioCard";
 
-export default function ScenarioList({ categoryId, initialScenarios = null }) {
-  const [scenarios, setScenarios] = useState(initialScenarios);
-  const [isLoading, setIsLoading] = useState(!initialScenarios);
+export default function ScenarioList({ scenarios }) {
+  // const [scenarios, setScenarios] = useState(initialScenarios);
+  const [isLoading, setIsLoading] = useState(!scenarios);
 
   // useEffect(() => {
   //   // Si nous avons déjà les scénarios, ne pas charger

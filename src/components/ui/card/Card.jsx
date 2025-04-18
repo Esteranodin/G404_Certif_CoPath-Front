@@ -1,5 +1,5 @@
-import { combineLayoutStyles } from "@/lib/utils/layoutUtils";
-import { cardVariants, cardTitleVariants, cardDescriptionVariants } from "@/lib/utils/layoutVariants";
+import { combineLayoutStyles } from "@/lib/layouts/layoutUtils";
+import { cardVariants, cardTitleVariants, cardDescriptionVariants } from "@/lib/layouts/layoutVariants";
 
 export function Card({
   className,

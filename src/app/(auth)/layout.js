@@ -2,13 +2,12 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { AuthSkeleton } from "@/components/ui/skeleton";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function AuthLayout({ children }) {
   const { user, isAuthReady } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
   
   useEffect(() => {
     // Seulement si le chargement est terminé et qu'il n'y a pas d'utilisateur

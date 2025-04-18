@@ -2,10 +2,11 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { useForms } from "@/hooks/useForms";
-import { profileSchema } from "@/lib/utils/validationZod";
+import { profileSchema } from "@/lib/validation/validationZod";
 import UserService from "@/lib/services/userService";
 import Form from "./Form";
 import { handleProfileError } from "@/lib/utils/errorHandling";
+import FormContainer from "./FormContainer";
 
 export default function ProfileUpdateForm({ user }) {
   const { updateUser } = useAuth();
@@ -33,8 +34,9 @@ export default function ProfileUpdateForm({ user }) {
   );
 
   return (
+    <FormContainer title ="Mettre à jour mon profil" description="Modifiez vos informations personnelles." className="mb-8">
     <Form
-      title="Informations du profil" 
+
       onSubmit={handleUpdateProfile}
       isSubmitting={isSubmitting}
       submitLabel="Mettre à jour mon profil"
@@ -43,5 +45,6 @@ export default function ProfileUpdateForm({ user }) {
       {renderField("pseudo", "Pseudo")}
       {renderField("email", "Email", "email")}
     </Form>
+    </FormContainer>
   );
 }

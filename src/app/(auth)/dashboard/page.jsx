@@ -9,17 +9,15 @@ export default function ProfilePage() {
 
   if (!isAuthReady) {
     return (
-      <div className="container py-8 max-w-md mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Mon profil</h1>
+      <section className="container py-8 max-w-md mx-auto">
         <ProfileSkeleton />
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="container py-8 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Mon profil</h1>
+    <section className="container py-8 max-w-md mx-auto">
       <ProfileForm user={user} />
-    </div>
+    </section>
   );
 }

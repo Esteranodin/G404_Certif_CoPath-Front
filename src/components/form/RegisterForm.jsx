@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useForms } from "@/hooks/useForms";
-import { registerSchema } from "@/lib/utils/validationZod";
+import { registerSchema } from "@/lib/validation/validationZod";
 import { handleRegisterError } from "@/lib/utils/errorHandling";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
@@ -46,7 +46,7 @@ export default function RegisterForm() {
   );
 
   return (
-    <FormContainer title="Créer un compte" footer={footer}>
+    <FormContainer title="Créer un compte" description="Rejoignez-nous !" footer={footer}>
       <Form
         onSubmit={handleRegister}
         isSubmitting={isSubmitting}

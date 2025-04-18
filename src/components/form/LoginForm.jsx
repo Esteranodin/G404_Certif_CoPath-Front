@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { loginSchema } from "@/lib/utils/validationZod";
+import { loginSchema } from "@/lib/validation/validationZod";
 import { useForms } from "@/hooks/useForms";
 import Form from "./Form";
 import FormContainer from "./FormContainer";

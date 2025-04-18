@@ -2,9 +2,10 @@
 
 import UserService from "@/lib/services/userService";
 import { useForms } from "@/hooks/useForms";
-import { passwordSchema } from "@/lib/utils/validationZod";
+import { passwordSchema } from "@/lib/validation/validationZod";
 import Form from "./Form";
 import { handlePasswordError } from "@/lib/utils/errorHandling";
+import FormContainer from "./FormContainer";
 
 export default function PasswordUpdateForm({ onCancel }) {
   const {
@@ -37,8 +38,8 @@ export default function PasswordUpdateForm({ onCancel }) {
   );
 
   return (
+    <FormContainer title="Changer mon mot de passe">
     <Form
-      title="Changer mon mot de passe"
       onSubmit={handleUpdatePassword}
       isSubmitting={isSubmitting}
       submitLabel="Modifier le mot de passe"
@@ -52,5 +53,6 @@ export default function PasswordUpdateForm({ onCancel }) {
       {renderField("newPassword", "Nouveau mot de passe", "password")}
       {renderField("confirmPassword", "Confirmer le nouveau mot de passe", "password")}
     </Form>
+    </FormContainer>
   );
 }
