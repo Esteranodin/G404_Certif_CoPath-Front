@@ -6,9 +6,10 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { loginSchema } from "@/lib/validation/validationZod";
 import { useForms } from "@/hooks/useForms";
+import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
-import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
+import FormField from "../ui/form/formField";
 
 export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();
@@ -19,7 +20,8 @@ export default function LoginForm({ onLoginSuccess }) {
   const hasShownRegisteredMessage = useRef(false);
 
   const {
-    renderField,
+    register,
+    formState: { errors },
     submitForm,
     isSubmitting
   } = useForms({
@@ -81,8 +83,27 @@ export default function LoginForm({ onLoginSuccess }) {
         submitLabel="Se connecter"
         loadingLabel="Connexion en cours..."
       >
-        {renderField("email", "Email", "email")}
-        {renderField("password", "Mot de passe", "password")}
+        <FormField
+          label="Email"
+          id="email"
+          type="email"
+          // icon={EnvelopeIcon}
+          placeholder="votre@email.com"
+          disabled={isSubmitting}
+          {...register("email")}
+          error={errors.email?.message}
+        />
+
+        <FormField
+          label="Mot de passe"
+          id="password"
+          type="password"
+          // icon={LockClosedIcon}
+          placeholder="Votre mot de passe"
+          disabled={isSubmitting}
+          {...register("password")}
+          error={errors.password?.message}
+        />
       </Form>
     </FormContainer>
   );

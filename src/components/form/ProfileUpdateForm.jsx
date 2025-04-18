@@ -1,20 +1,22 @@
 "use client";
 
+import UserService from "@/lib/services/userService";
 import { useAuth } from "@/hooks/useAuth";
 import { useForms } from "@/hooks/useForms";
 import { profileSchema } from "@/lib/validation/validationZod";
-import UserService from "@/lib/services/userService";
-import Form from "./Form";
 import { handleProfileError } from "@/lib/utils/errorHandling";
+import Form from "./Form";
 import FormContainer from "./FormContainer";
+import FormField from "../ui/form/formField";
 
 export default function ProfileUpdateForm({ user, onCancel }) {
   const { updateUser } = useAuth();
 
   const {
-    renderField,
+    register,
+    formState: { errors },
     submitForm,
-    isSubmitting
+    isSubmitting,
   } = useForms({
     schema: profileSchema,
     defaultValues: {
@@ -49,8 +51,31 @@ export default function ProfileUpdateForm({ user, onCancel }) {
           label: "Annuler"
         }}
       >
-        {renderField("pseudo", "Pseudo")}
-        {renderField("email", "Email", "email")}
+        <FormField
+          label="Email"
+          id="email"
+          type="email"
+          disabled={true} // Email non modifiable
+          defaultValues={user?.email}
+        />
+
+        <FormField
+          label="Pseudo"
+          id="pseudo"
+          disabled={isSubmitting}
+          {...register("pseudo")}
+          error={errors.pseudo?.message}
+        />
+
+        <FormField
+          label="Bio"
+          id="bio"
+          type="textarea"
+          placeholder="Parlez-nous de vous..."
+          disabled={isSubmitting}
+          {...register("bio")}
+          error={errors.bio?.message}
+        />
       </Form>
     </FormContainer>
   );

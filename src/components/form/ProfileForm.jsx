@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import ProfileUpdateForm from "./ProfileUpdateForm";
 import PasswordUpdateForm from "./PasswordUpdateForm";
 import FormContainer from "./FormContainer";
+import FormField from "../ui/form/formField";
 
 export default function ProfileForm({ user }) {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -14,12 +15,14 @@ export default function ProfileForm({ user }) {
     <>
       <FormContainer title="Mon profil" subtitle="Vos informations personnelles.">
         <div className="flex flex-col gap-5 mb-4 text-sm font-semibold">
-          <p>Pseudo</p>
-          <span>{user?.pseudo}</span>
-          <p>Email</p>
-          <span>{user?.email}</span>
-          <p>Mettre ici les infos profils</p>
-          <span>{user?.email}</span>
+          <p>mettre ici toutes les infos recup en data base</p>
+        <FormField
+          label="Bio"
+          id="bio"
+          type="textarea"
+          disabled={true}
+          defaultValue={user.bio}
+        />
         </div>
       </FormContainer>
 

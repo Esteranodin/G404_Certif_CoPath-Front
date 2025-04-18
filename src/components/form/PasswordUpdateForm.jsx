@@ -6,13 +6,14 @@ import { passwordSchema } from "@/lib/validation/validationZod";
 import Form from "./Form";
 import { handlePasswordError } from "@/lib/utils/errorHandling";
 import FormContainer from "./FormContainer";
+import FormField from "../ui/form/formField";
 
 export default function PasswordUpdateForm({ onCancel }) {
   const {
-    renderField,
+    register,
+    formState: { errors },
     submitForm,
     isSubmitting,
-    reset
   } = useForms({
     schema: passwordSchema,
     defaultValues: {
@@ -39,20 +40,34 @@ export default function PasswordUpdateForm({ onCancel }) {
 
   return (
     <FormContainer title="Changer mon mot de passe">
-    <Form
-      onSubmit={handleUpdatePassword}
-      isSubmitting={isSubmitting}
-      submitLabel="Modifier le mot de passe"
-      loadingLabel="Modification..."
-      cancelAction={{
-        onClick: onCancel,
-        label: "Annuler"
-      }}
-    >
-      {renderField("currentPassword", "Mot de passe actuel", "password")}
-      {renderField("newPassword", "Nouveau mot de passe", "password")}
-      {renderField("confirmPassword", "Confirmer le nouveau mot de passe", "password")}
-    </Form>
+      <Form
+        onSubmit={handleUpdatePassword}
+        isSubmitting={isSubmitting}
+        submitLabel="Modifier le mot de passe"
+        loadingLabel="Modification..."
+        cancelAction={{
+          onClick: onCancel,
+          label: "Annuler"
+        }}
+      >
+        <FormField
+          label="Nouveau mot de passe"
+          id="newPassword"
+          type="password"
+          disabled={isSubmitting}
+          {...register("newPassword")}
+          error={errors.newPassword?.message}
+        />
+
+        <FormField
+          label="Confirmer le nouveau mot de passe"
+          id="confirmPassword"
+          type="password"
+          disabled={isSubmitting}
+          {...register("confirmPassword")}
+          error={errors.confirmPassword?.message}
+        />
+      </Form>
     </FormContainer>
   );
 }
