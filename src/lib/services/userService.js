@@ -6,58 +6,58 @@
  */
 
 import apiClient from '@/lib/api/client';
+import { handleApiError, handleAuthError, handleProfileError, handlePasswordError } from '@/lib/utils/errorHandling';
 
 export const UserService = {
   /**
-   * Récupérer tous les utilisateurs // tests de co API
-   * @returns {Promise} Liste des utilisateurs
+   * Récupérer tous les utilisateurs
    */
   getAll: async () => {
     try {
       const response = await apiClient.get('/users');
-      return response.data['hydra:member'] || response.data;
+      return response.data.member || response.data['hydra:member'] || response.data;
     } catch (error) {
-      throw error.response?.data || { message: "Erreur lors de la récupération des utilisateurs" };
+      handleApiError(error, 'Erreur lors de la récupération des utilisateurs');
+      throw error;
     }
   },
 
   /**
    * Récupérer un utilisateur par ID
-   * @param {number} id - ID de l'utilisateur
-   * @returns {Promise} Données de l'utilisateur
    */
   getById: async (id) => {
     try {
       const response = await apiClient.get(`/users/${id}`);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: `Erreur lors de la récupération de l'utilisateur ${id}` };
+      handleApiError(error, `Erreur lors de la récupération de l'utilisateur ${id}`);
+      throw error;
     }
   },
 
   /**
-   * Mettre à jour le profil de l'utilisateur
-   * @param {Object} userData - Données à mettre à jour
+   * Mettre à jour le profil utilisateur
    */
   updateProfile: async (userData) => {
     try {
       const response = await apiClient.put('/users/profile', userData);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: "Erreur de mise à jour du profil" };
+      handleProfileError(error);
+      throw error;
     }
   },
 
   /**
-   * Changer le mot de passe de l'utilisateur
-   * @param {Object} passwordData - Ancien et nouveau mot de passe
+   * Changer le mot de passe
    */
   changePassword: async (passwordData) => {
     try {
       const response = await apiClient.put('/users/password', passwordData);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: "Erreur de changement de mot de passe" };
+      handlePasswordError(error);
+      throw error;
     }
   }
 };
