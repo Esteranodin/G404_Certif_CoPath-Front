@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/lib/services/authService';
 
 /**
- * @param {Object} options - Options de navigation (optionnelles)
+ * @param {Object} options - Options de navigation
  * @returns {Object} - État d'authentification et méthodes
  */
 export function useAuth(options = {}) {
@@ -32,34 +32,53 @@ export function useAuth(options = {}) {
 }
 
 export function useLogin() {
+  const { login } = useAuth(); 
+  
   return useMutation({
     mutationFn: async ({ email, password }) => {
-      return await AuthService.login(email, password);
+      const result = await AuthService.login(email, password);
+      login(result); 
+      return result;
     }
   });
 }
 
 export function useRegister() {
+  const { login } = useAuth(); 
+  
   return useMutation({
     mutationFn: async (userData) => {
-      return await AuthService.register(userData);
+      const result = await AuthService.register(userData);
+      login(result); 
+      return result;
     }
   });
 }
 
 export function useLogout() {
+  const { logout } = useAuth(); 
+  
   return useMutation({
     mutationFn: () => {
-      context.logout();
+      logout(); 
       return true;
     }
   });
 }
 
 export function useCurrentUser() {
+  const { user } = useAuth(); 
+  return user;
+}
+
+export function useRefreshUser() {
+  const { setUser } = useAuth();
+  
   return useMutation({
     mutationFn: async () => {
-      return await AuthService.getCurrentUser();
+      const user = await AuthService.getCurrentUser();
+      setUser(user); 
+      return user;
     }
   });
 }

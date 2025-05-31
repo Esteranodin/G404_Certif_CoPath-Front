@@ -9,6 +9,33 @@ import apiClient from '@/lib/api/client';
 
 export const UserService = {
   /**
+   * Récupérer tous les utilisateurs // tests de co API
+   * @returns {Promise} Liste des utilisateurs
+   */
+  getAll: async () => {
+    try {
+      const response = await apiClient.get('/users');
+      return response.data['hydra:member'] || response.data;
+    } catch (error) {
+      throw error.response?.data || { message: "Erreur lors de la récupération des utilisateurs" };
+    }
+  },
+
+  /**
+   * Récupérer un utilisateur par ID
+   * @param {number} id - ID de l'utilisateur
+   * @returns {Promise} Données de l'utilisateur
+   */
+  getById: async (id) => {
+    try {
+      const response = await apiClient.get(`/users/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: `Erreur lors de la récupération de l'utilisateur ${id}` };
+    }
+  },
+
+  /**
    * Mettre à jour le profil de l'utilisateur
    * @param {Object} userData - Données à mettre à jour
    */
