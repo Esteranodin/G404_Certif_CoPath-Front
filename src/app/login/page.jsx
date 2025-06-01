@@ -1,16 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoginForm from "@/components/form/LoginForm";
 import { FormSkeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isAuthReady } = useAuth();
 
   const handleLoginSuccess = () => {
-    router.push("/dashboard");
+    const returnUrl = searchParams.get('returnUrl');
+    
+   if (returnUrl && returnUrl !== '/login') {
+      router.push(returnUrl);
+    } else {
+      router.push("/");
+    }
   };
 
   if (!isAuthReady) {

@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   SCENARIOS: '/scenarios', 
   MUSIC: '/music',
   IMG_SCENARIOS: '/img_scenarios',
+  FAVORITES: '/favorites',
 
   // Endpoints composés 
   CAMPAIGN_SCENARIOS: (campaignId) => `/campaigns/${campaignId}/scenarios`,

@@ -2,14 +2,37 @@
 import "@/styles/card.css";
 import { Card, CardImage, CardHeader, CardTitle, CardDescription, CardTags, CardRating, CardFooter, CardTabletContent } from "@/components/ui/card";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useFavorites } from "@/hooks/useFavorites";
+import { handleApiError } from "@/lib/utils/errorHandling";
 
 export default function ScenarioCard({ scenario, layout = "default" }) {
-  const [isFavorite, setIsFavorite] = useState(scenario.isFavorite || false);
+  const { user } = useAuth();
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    // appeler API ici pour mettre à jour le statut favoris
-  }
+  const scenarioIsFavorite = isFavorite(scenario.id);
+
+  const handleToggleFavorite = async () => {
+    if (!user) {
+      return alert("Veuillez vous connecter pour ajouter aux favoris.");
+    }
+
+    setIsLoading(true);
+ 
+    try {
+      if (scenarioIsFavorite) {
+        await removeFavorite(scenario.id); 
+      } else {
+        await addFavorite(scenario.id);
+      }
+    } catch (error) {
+      console.error('Erreur favoris:', error);
+      handleApiError(error, 'Erreur lors de la mise à jour des favoris');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (layout === "tablet") {
     return (
@@ -23,12 +46,14 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
           <CardTabletContent>
             <CardHeader
               layout="tablet"
-              isFavorite={isFavorite}
-              onToggleFavorite={handleToggleFavorite}>
+              isFavorite={scenarioIsFavorite}
+              onToggleFavorite={handleToggleFavorite}
+              showFavorite={!!user}
+            >
               <CardTitle layout="tablet">{scenario.title}</CardTitle>
             </CardHeader>
             <CardTags
-              tags={scenario.tags}
+              tags={scenario.tags || []}
               layout="tablet"
             />
             <CardRating
@@ -52,12 +77,14 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
         alt={`Couverture du scénario ${scenario.title}`}
       />
       <CardHeader
-        isFavorite={isFavorite}
-        onToggleFavorite={handleToggleFavorite}>
+        isFavorite={scenarioIsFavorite}
+        onToggleFavorite={handleToggleFavorite}
+        showFavorite={!!user}
+      >
         <CardTitle>{scenario.title}</CardTitle>
       </CardHeader>
       <CardTags
-        tags={scenario.tags}
+        tags={scenario.tags || []}
         className="px-6 my-2"
       />
       <CardDescription className="px-6 py-2">

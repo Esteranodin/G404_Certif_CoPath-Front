@@ -13,8 +13,6 @@ export const useApiData = (apiCall, dependencies = []) => {
       const result = await apiCall();
       setData(result);
       
-      console.log('✅ Données chargées:', result);
-      
     } catch (err) {
       setError('Impossible de charger les données');
       console.error('❌ Erreur chargement:', err);

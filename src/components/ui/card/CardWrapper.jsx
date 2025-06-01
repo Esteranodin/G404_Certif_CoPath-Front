@@ -3,9 +3,10 @@ import Image from "next/image";
 
 export function CardHeader({
     className,
+    layout = "default",
     isFavorite = false,
     onToggleFavorite = () => { },
-    layout = "default",
+    showFavorite = true,
     ...props
 }) {
     return (
@@ -20,6 +21,7 @@ export function CardHeader({
             )}
             {...props}>
             {props.children}
+            {showFavorite && (
             <div
                 className={cn(
                     "flex-shrink-0",
@@ -40,6 +42,7 @@ export function CardHeader({
                     )}
                 />
             </div>
+            )}
         </div>
     );
 }

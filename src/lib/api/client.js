@@ -22,11 +22,14 @@ const createApiClient = () => {
     timeout: 10000,
   });
 
+  const DEBUG_API = process.env.NODE_ENV === 'development' && false; // Mettre true pour activer
+
   // Intercepteur pour les requêtes
   client.interceptors.request.use(
     (config) => {
-      // Log pour debug (à enlever en production)
-      console.log(`🔄 ${config.method?.toUpperCase()} ${config.url}`);
+      if (DEBUG_API) {
+        console.log(`🔄 ${config.method?.toUpperCase()} ${config.url}`);
+      }
 
       // Vérifier qu'on est bien côté client
       if (typeof window === 'undefined') return config;
@@ -47,8 +50,9 @@ const createApiClient = () => {
   // Intercepteur pour les réponses
   client.interceptors.response.use(
     (response) => {
-      // Log pour debug (à enlever en production)
-      console.log(`✅ ${response.status} ${response.config.url}`);
+      if (DEBUG_API) {
+        console.log(`✅ ${response.status} ${response.config.url}`);
+      }
       return response;
     },
     (error) => {

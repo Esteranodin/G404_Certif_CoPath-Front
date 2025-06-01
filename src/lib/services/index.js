@@ -3,10 +3,20 @@
  * @module services
  */
 
-export { default as campaignService } from './campaignService';
-export { default as scenarioService } from './scenarioService';
-export { default as imgScenarioService } from './imgScenarioService';
-export { default as UserService } from './userService';
+import campaignService from './campaignService';
+import scenarioService from './scenarioService';
+import imgScenarioService from './imgScenarioService';
+import UserService from './userService';
+import favoriteService from './favoriteService';
+
+// Exports individuels
+export { 
+  campaignService, 
+  scenarioService, 
+  imgScenarioService, 
+  UserService, 
+  favoriteService 
+};
 
 // Export groupé pour faciliter l'importation
 export const apiServices = {
@@ -14,12 +24,5 @@ export const apiServices = {
   scenarios: scenarioService,
   imgScenarios: imgScenarioService,
   users: UserService,
-};
-
-// Export individuel
-export {
-  campaignService,
-  scenarioService, 
-  imgScenarioService,
-  UserService
+  favorites: favoriteService,
 };
