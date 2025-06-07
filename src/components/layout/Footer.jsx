@@ -1,9 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/../public/logo/copath.png";
-
+import { useIsClient } from "@/hooks/useIsClient";
 
 export default function Footer() {
+  const isClient = useIsClient();
+
+  // ✅ Utilisez une date fixe côté serveur, dynamique côté client
+  const currentYear = isClient ? new Date().getFullYear() : 2024;
+
   return (
     <footer className="border-t bg-logo">
       <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">

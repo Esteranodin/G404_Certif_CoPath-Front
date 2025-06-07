@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isAuthReady } = useAuth();
+  const { isAuthReady, isClient } = useAuth();
 
   const handleLoginSuccess = () => {
     const returnUrl = searchParams.get('returnUrl');
@@ -20,7 +20,7 @@ export default function LoginPage() {
     }
   };
 
-  if (!isAuthReady) {
+  if (!isClient || !isAuthReady) {
     return (
       <div className="container py-8 max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-6">Connexion</h1>

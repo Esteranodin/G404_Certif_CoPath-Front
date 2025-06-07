@@ -7,6 +7,7 @@ export function CardHeader({
     isFavorite = false,
     onToggleFavorite = () => { },
     showFavorite = true,
+    isLoading = false,
     ...props
 }) {
     return (
@@ -22,26 +23,35 @@ export function CardHeader({
             {...props}>
             {props.children}
             {showFavorite && (
-            <div
-                className={cn(
-                    "flex-shrink-0",
-                    layout === "tablet" && "md:absolute md:right-4 md:top-1/2"
-                )}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onToggleFavorite();
-                }}
-            >
-                <Image
-                    src={isFavorite ? "/icons/heart.svg" : "/icons/circle-heart.svg"}
-                    alt={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                    width={24}
-                    height={24}
+                <div
                     className={cn(
-                        "cursor-pointer hover:scale-110 transition-transform"
+                        "flex-shrink-0",
+                        layout === "tablet" && "md:absolute md:right-4 md:top-1/2",
+                        isLoading && "opacity-50 cursor-not-allowed"
                     )}
-                />
-            </div>
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (!isLoading) {
+                            onToggleFavorite();
+                        }
+                    }}
+                >
+                    {isLoading ? (
+                        // ✅ Spinner de chargement
+                        <div className="w-6 h-6 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                    ) : (
+
+                        <Image
+                            src={isFavorite ? "/icons/heart.svg" : "/icons/circle-heart.svg"}
+                            alt={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                            width={24}
+                            height={24}
+                            className={cn(
+                                "cursor-pointer hover:scale-110 transition-transform"
+                            )}
+                        />
+                    )}
+                </div>
             )}
         </div>
     );

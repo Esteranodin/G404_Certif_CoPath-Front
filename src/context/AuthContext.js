@@ -16,9 +16,16 @@ export const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Initialisation - vérification du token et récupération des données utilisateur
   useEffect(() => {
+    if (!isClient) return;
+
     const initAuth = async () => {
       try {
         const currentUser = await authService.getCurrentUser();
@@ -32,9 +39,9 @@ export function AuthProvider({ children }) {
       }
     };
     initAuth();
-  }, []);
+  }, [isClient]);
 
-  const isAuthReady = !loading;
+  const isAuthReady = isClient && !loading;
 
   const login = async (email, password) => {
     try {
@@ -49,7 +56,6 @@ export function AuthProvider({ children }) {
       }
       setUser(userData);
       setLoading(false);
-
       return userData;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
@@ -82,12 +88,12 @@ export function AuthProvider({ children }) {
   };
 
 
-  // Valeur exposée par le contexte
   const value = {
     user,
     isAuthenticated: !!user,
     loading,
     isAuthReady,
+    isClient,
     login,
     logout,
     register,

@@ -7,25 +7,20 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { handleApiError } from "@/lib/utils/errorHandling";
 
 export default function ScenarioCard({ scenario, layout = "default" }) {
-  const { user } = useAuth();
-  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const { user, isClient } = useAuth();
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [isLoading, setIsLoading] = useState(false);
 
   const scenarioIsFavorite = isFavorite(scenario.id);
 
   const handleToggleFavorite = async () => {
-    if (!user) {
+    if (!isClient || !user) {
       return alert("Veuillez vous connecter pour ajouter aux favoris.");
     }
 
     setIsLoading(true);
- 
     try {
-      if (scenarioIsFavorite) {
-        await removeFavorite(scenario.id); 
-      } else {
-        await addFavorite(scenario.id);
-      }
+      await toggleFavorite(scenario.id);
     } catch (error) {
       console.error('Erreur favoris:', error);
       handleApiError(error, 'Erreur lors de la mise à jour des favoris');
@@ -33,6 +28,9 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
       setIsLoading(false);
     }
   };
+
+  // Condition pour éviter l'hydratation
+  const showFavoriteButton = isClient && !!user;
 
   if (layout === "tablet") {
     return (
@@ -48,7 +46,8 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
               layout="tablet"
               isFavorite={scenarioIsFavorite}
               onToggleFavorite={handleToggleFavorite}
-              showFavorite={!!user}
+              showFavorite={showFavoriteButton}
+              isLoading={isLoading}
             >
               <CardTitle layout="tablet">{scenario.title}</CardTitle>
             </CardHeader>
@@ -79,7 +78,8 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
       <CardHeader
         isFavorite={scenarioIsFavorite}
         onToggleFavorite={handleToggleFavorite}
-        showFavorite={!!user}
+        showFavorite={showFavoriteButton}
+        isLoading={isLoading}
       >
         <CardTitle>{scenario.title}</CardTitle>
       </CardHeader>

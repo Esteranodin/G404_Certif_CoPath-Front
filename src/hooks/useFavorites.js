@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from './useAuth';
+import { useIsClient } from './useIsClient'; // ✅ Ajoutez ceci
 import { favoriteService } from '@/lib/services/favoriteService';
 
 export function useFavorites() {
   const { user } = useAuth();
+  const isClient = useIsClient(); // ✅ Ajoutez ceci
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      if (!user) {
+      // ✅ Attendez que le client soit monté
+      if (!isClient || !user) {
         setFavorites([]);
         return;
       }
 
-      // console.log('🔄 Chargement des favoris pour:', user.pseudo);
       setLoading(true);
       try {
         const userFavorites = await favoriteService.getAll();
-        
         setFavorites(userFavorites);
-        
       } catch (error) {
         console.error('❌ Erreur lors du chargement des favoris:', error);
         setFavorites([]);
@@ -30,9 +30,11 @@ export function useFavorites() {
     };
 
     fetchFavorites();
-  }, [user]);
+  }, [user, isClient]); // ✅ Ajoutez isClient dans les dépendances
 
-  const addFavorite = async (scenarioId) => {
+  const toggleFavorite = async (scenarioId) => {
+    if (!isClient || !user) return; // ✅ Vérifiez isClient
+
     try {
       const alreadyFavorite = favorites.some(fav => 
         fav.scenario?.id === scenarioId || 
@@ -40,28 +42,19 @@ export function useFavorites() {
       );
       
       if (alreadyFavorite) {
-        return;
+        await favoriteService.removeFavoriteByScenario(scenarioId);
+        setFavorites(prev => prev.filter(
+          fav => fav.scenario?.id !== scenarioId &&
+                 fav.scenario !== `/api/scenarios/${scenarioId}`
+        ));
+        return false;
+      } else {
+        const newFavorite = await favoriteService.addFavorite(scenarioId);
+        setFavorites(prev => [...prev, newFavorite]);
+        return true;
       }
-      
-      const newFavorite = await favoriteService.addFavorite(scenarioId);
-      setFavorites(prev => [...prev, newFavorite]);
-      return newFavorite;
     } catch (error) {
-      console.error('Erreur ajout favori:', error);
-      throw error;
-    }
-  };
-
-  const removeFavorite = async (scenarioId) => {
-    try {
-      await favoriteService.removeFavoriteByScenario(scenarioId);
-      setFavorites(prev => prev.filter(
-        fav => fav.scenario?.id !== scenarioId &&
-               fav.scenario !== `/api/scenarios/${scenarioId}`
-      ));
-      return true;
-    } catch (error) {
-      console.error('Erreur suppression favori:', error);
+      console.error('Erreur lors de la modification du favori:', error);
       throw error;
     }
   };
@@ -76,8 +69,8 @@ export function useFavorites() {
   return {
     favorites,
     loading,
-    addFavorite,
-    removeFavorite,
-    isFavorite
+    toggleFavorite,
+    isFavorite,
+    isClient, // ✅ Exposez cette info
   };
 }
