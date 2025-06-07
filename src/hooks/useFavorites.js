@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
-import { useIsClient } from './useIsClient'; // ✅ Ajoutez ceci
+import { useIsClient } from './useIsClient'; 
 import { favoriteService } from '@/lib/services/favoriteService';
 
 export function useFavorites() {
   const { user } = useAuth();
-  const isClient = useIsClient(); // ✅ Ajoutez ceci
+  const isClient = useIsClient(); 
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      // ✅ Attendez que le client soit monté
       if (!isClient || !user) {
         setFavorites([]);
         return;
@@ -30,11 +29,9 @@ export function useFavorites() {
     };
 
     fetchFavorites();
-  }, [user, isClient]); // ✅ Ajoutez isClient dans les dépendances
-
+  }, [user, isClient]); 
   const toggleFavorite = async (scenarioId) => {
-    if (!isClient || !user) return; // ✅ Vérifiez isClient
-
+    if (!isClient || !user) return;
     try {
       const alreadyFavorite = favorites.some(fav => 
         fav.scenario?.id === scenarioId || 
@@ -71,6 +68,6 @@ export function useFavorites() {
     loading,
     toggleFavorite,
     isFavorite,
-    isClient, // ✅ Exposez cette info
+    isClient,
   };
 }

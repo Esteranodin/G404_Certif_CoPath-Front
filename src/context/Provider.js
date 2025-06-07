@@ -4,6 +4,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { AuthProvider } from "./AuthContext";
+import { FavoritesProvider } from "./FavoritesContext";
 
 export function Provider({ children }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -17,11 +18,13 @@ export function Provider({ children }) {
 
   return (
     // <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <FavoritesProvider>
           {children}
-        </AuthProvider>
-      </QueryClientProvider>
+        </FavoritesProvider>
+      </AuthProvider>
+    </QueryClientProvider>
     // </ThemeProvider>
   );
 }

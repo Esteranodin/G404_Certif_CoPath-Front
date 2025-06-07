@@ -10,7 +10,7 @@ import { scenarioService } from "@/lib/services/scenarioService";
 import { adaptScenarioForDisplay } from "@/lib/adapters/scenarioAdapter";
 
 export default function PublicHome() {
-  const { favorites } = useFavorites();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   
   const { data: rawScenarios, loading, error, refetch } = useApiData(
     () => scenarioService.getAll()
@@ -34,11 +34,19 @@ export default function PublicHome() {
       emptyMessage="Aucun scénario disponible pour le moment."
     >
       <section className="md:hidden">
-        <ScenarioList scenarios={scenarios} />
+        <ScenarioList 
+          scenarios={scenarios} 
+          isFavorite={isFavorite} 
+          onToggleFavorite={toggleFavorite} 
+        />
       </section>
 
       <section className="hidden md:block">
-        <ScenarioCarousel scenarios={scenarios} />
+        <ScenarioCarousel 
+          scenarios={scenarios} 
+          isFavorite={isFavorite} 
+          onToggleFavorite={toggleFavorite} 
+        />
       </section>
     </DataStateHandler>
   );

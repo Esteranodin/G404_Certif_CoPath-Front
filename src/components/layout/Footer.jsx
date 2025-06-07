@@ -8,7 +8,6 @@ import { useIsClient } from "@/hooks/useIsClient";
 export default function Footer() {
   const isClient = useIsClient();
 
-  // ✅ Utilisez une date fixe côté serveur, dynamique côté client
   const currentYear = isClient ? new Date().getFullYear() : 2024;
 
   return (

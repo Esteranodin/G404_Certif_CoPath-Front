@@ -17,8 +17,8 @@ export function NavBar() {
     return (
         <nav className='bg-logo flex justify-between p-4 items-start'>
             <Link href="/" className='self-center'>
-                <Image src={logo} alt="Logo de Copath" width={150} className='md:hidden' />
-                <Image src={logoFull} alt="Logo de Copath" width={180} className='hidden md:block' />
+                <Image src={logo} alt="Logo de Copath" width={150} className='md:hidden' priority />
+                <Image src={logoFull} alt="Logo de Copath" width={180} className='hidden md:block' priority />
             </Link>
             <div className='flex gap-4 items-center self-center md:gap-6 md:mr-6'>
                 {isAuthenticated ? (

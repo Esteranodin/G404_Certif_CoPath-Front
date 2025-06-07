@@ -49,8 +49,8 @@ export default function PasswordUpdateForm({ onCancel }) {
         label: "Annuler"
       }}
     >
-      {renderField("currentPassword", "Mot de passe actuel", "password")}
-      {renderField("newPassword", "Nouveau mot de passe", "password")}
+      {renderField("currentPassword", "Votre mot de passe actuel", "password")}
+      {renderField("newPassword", "Votre nouveau mot de passe", "password")}
       {renderField("confirmPassword", "Confirmer le nouveau mot de passe", "password")}
     </Form>
     </FormContainer>

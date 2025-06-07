@@ -1,34 +1,39 @@
 "use client";
+
 import "@/styles/card.css";
+import { memo, useState, useCallback } from "react";
 import { Card, CardImage, CardHeader, CardTitle, CardDescription, CardTags, CardRating, CardFooter, CardTabletContent } from "@/components/ui/card";
-import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useFavorites } from "@/hooks/useFavorites";
 import { handleApiError } from "@/lib/utils/errorHandling";
 
-export default function ScenarioCard({ scenario, layout = "default" }) {
+const ScenarioCard = memo(function ScenarioCard({ 
+  scenario, 
+  layout = "default", 
+  isFavorite = false, 
+  onToggleFavorite, 
+  priority = false 
+}) {
   const { user, isClient } = useAuth();
-  const { isFavorite, toggleFavorite } = useFavorites();
   const [isLoading, setIsLoading] = useState(false);
 
-  const scenarioIsFavorite = isFavorite(scenario.id);
-
-  const handleToggleFavorite = async () => {
+  // Mémorisez la fonction avec useCallback
+  const handleToggleFavorite = useCallback(async () => {
     if (!isClient || !user) {
       return alert("Veuillez vous connecter pour ajouter aux favoris.");
     }
 
+    if (!onToggleFavorite) return;
+
     setIsLoading(true);
     try {
-      await toggleFavorite(scenario.id);
+      await onToggleFavorite(scenario.id);
     } catch (error) {
       console.error('Erreur favoris:', error);
       handleApiError(error, 'Erreur lors de la mise à jour des favoris');
     } finally {
       setIsLoading(false);
     }
-  };
-
+  }, [isClient, user, onToggleFavorite, scenario.id]); 
   // Condition pour éviter l'hydratation
   const showFavoriteButton = isClient && !!user;
 
@@ -40,11 +45,12 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
             src={scenario.image}
             alt={`Couverture du scénario ${scenario.title}`}
             layout="tablet"
+            priority={priority}
           />
           <CardTabletContent>
             <CardHeader
               layout="tablet"
-              isFavorite={scenarioIsFavorite}
+              isFavorite={isFavorite}
               onToggleFavorite={handleToggleFavorite}
               showFavorite={showFavoriteButton}
               isLoading={isLoading}
@@ -74,9 +80,10 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
       <CardImage
         src={scenario.image}
         alt={`Couverture du scénario ${scenario.title}`}
+        priority={priority}
       />
       <CardHeader
-        isFavorite={scenarioIsFavorite}
+        isFavorite={isFavorite}
         onToggleFavorite={handleToggleFavorite}
         showFavorite={showFavoriteButton}
         isLoading={isLoading}
@@ -95,4 +102,6 @@ export default function ScenarioCard({ scenario, layout = "default" }) {
       </CardFooter>
     </Card>
   );
-}
+});
+
+export default ScenarioCard;

@@ -21,7 +21,7 @@ export function CardImage({
         src={src}
         alt={alt}
         fill
-        priority={priority}
+        priority={priority} 
         sizes="(max-width: 768px) 100vw, (min-width: 769px) 50vw"
         className="object-cover"
       />
