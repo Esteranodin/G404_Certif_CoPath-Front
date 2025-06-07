@@ -11,10 +11,15 @@ const ScenarioCard = memo(function ScenarioCard({
   layout = "default", 
   isFavorite = false, 
   onToggleFavorite, 
-  priority = false 
+  priority = false,
+  getUserRating,
+  onRatingChange 
 }) {
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
+  const userRating = (isClient && user && getUserRating) ? getUserRating(scenario.id) : null;
+  const showUserRating = isClient && user && userRating !== null;
 
   // Mémorisez la fonction avec useCallback
   const handleToggleFavorite = useCallback(async () => {
@@ -34,6 +39,7 @@ const ScenarioCard = memo(function ScenarioCard({
       setIsLoading(false);
     }
   }, [isClient, user, onToggleFavorite, scenario.id]); 
+
   // Condition pour éviter l'hydratation
   const showFavoriteButton = isClient && !!user;
 
@@ -65,6 +71,12 @@ const ScenarioCard = memo(function ScenarioCard({
               rating={scenario.rating}
               layout="tablet"
             />
+            {/* ✅ Note personnelle pour layout tablet */}
+            {showUserRating && (
+              <div className="text-sm text-blue-600 mt-2">
+                Ma note: {userRating}/5 ⭐
+              </div>
+            )}
           </CardTabletContent>
         </div>
         <CardDescription layout="tablet">
@@ -74,7 +86,6 @@ const ScenarioCard = memo(function ScenarioCard({
     );
   }
 
-  // Version mobile par défaut
   return (
     <Card className="mb-8">
       <CardImage
@@ -97,9 +108,21 @@ const ScenarioCard = memo(function ScenarioCard({
       <CardDescription className="px-6 py-2">
         <p>{scenario.content}</p>
       </CardDescription>
-      <CardFooter className="justify-end">
+      
+      {/* ✅ Zone des notes - layout default */}
+      <div className="px-6 pb-4 flex justify-between items-center">
         <CardRating className="my-4" rating={scenario.rating} />
-      </CardFooter>
+        
+        {/* ✅ Note personnelle pour layout default */}
+        {showUserRating && (
+          <div className="text-sm">
+            <span className="text-gray-600">Ma note: </span>
+            <span className="font-bold text-blue-600">
+              {userRating}/5 ⭐
+            </span>
+          </div>
+        )}
+      </div>
     </Card>
   );
 });

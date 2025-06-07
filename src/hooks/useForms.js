@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormField from "@/components/ui/form/formField";
 import { InputWithIcon } from "@/components/ui/form/inputIcon";
+import PasswordInput from "@/components/ui/PasswordInput"; 
 import { handleApiError, showSuccess } from "@/lib/utils/errorHandling";
 
 export function useForms({
@@ -30,22 +31,36 @@ export function useForms({
 
   const { register, handleSubmit, formState: { errors }, reset, control } = formMethods;
 
-  // Fonction pour créer des champs de formulaire standard
+  // Fonction pour créer champs formulaire 
   const renderField = (
     id,
     label,
     type = "text",
     disabled = false
-  ) => (
-    <FormField
-      label={label}
-      id={id}
-      type={type}
-      disabled={disabled || isSubmitting}
-      {...register(id)}
-      error={errors[id]?.message}
-    />
-  );
+  ) => {
+    if (type === "password") {
+      return (
+        <PasswordInput
+          label={label}
+          id={id}
+          disabled={disabled || isSubmitting}
+          {...register(id)}
+          error={errors[id]?.message}
+        />
+      );
+    }
+
+    return (
+      <FormField
+        label={label}
+        id={id}
+        type={type}
+        disabled={disabled || isSubmitting}
+        {...register(id)}
+        error={errors[id]?.message}
+      />
+    );
+  };
 
   // Fonction pour créer des champs avec icône
   const renderIconField = (

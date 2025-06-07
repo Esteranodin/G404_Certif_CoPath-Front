@@ -6,7 +6,7 @@
  */
 
 import apiClient from '@/lib/api/client';
-import { handleApiError, handleAuthError, handleProfileError, handlePasswordError } from '@/lib/utils/errorHandling';
+import { handleApiError, handleProfileError, handlePasswordError } from '@/lib/utils/errorHandling';
 
 export const UserService = {
   /**

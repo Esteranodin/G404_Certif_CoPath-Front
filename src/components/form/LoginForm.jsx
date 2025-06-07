@@ -9,6 +9,7 @@ import { useForms } from "@/hooks/useForms";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
 import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();

@@ -2,7 +2,13 @@ import "@/styles/carousel.css";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import ScenarioCard from "./ScenarioCard";
 
-export default function ScenarioCarousel({ scenarios, isFavorite, onToggleFavorite }) {
+export default function ScenarioCarousel({ 
+  scenarios, 
+  isFavorite, 
+  onToggleFavorite,
+  getUserRating, 
+  onRatingChange
+}) {
   return (
     <Carousel 
       opts={{ 
@@ -21,6 +27,8 @@ export default function ScenarioCarousel({ scenarios, isFavorite, onToggleFavori
               layout="tablet"
               isFavorite={isFavorite(scenario.id)}
               onToggleFavorite={onToggleFavorite}
+              getUserRating={getUserRating}
+              onRatingChange={onRatingChange} 
               priority={index === 0}
             />
           </CarouselItem>
