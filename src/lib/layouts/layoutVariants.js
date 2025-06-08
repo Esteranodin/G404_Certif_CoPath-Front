@@ -2,9 +2,11 @@ export const cardVariants = {
   base: "card",
   layouts: {
     default: "",
-    tablet: "md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col md:h-[80vh] md:max-h-[80vh]",
+    tablet: `md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col 
+             md:h-[80vh] md:max-h-[80vh]`, 
     horizontal: "lg:flex lg:flex-row lg:h-64",
-    desktop: "xl:w-[95%] xl:h-auto xl:max-h-[500px] xl:mx-auto xl:flex xl:flex-col"
+    desktop: `xl:w-[90%] xl:h-auto xl:min-h-[400px] xl:max-h-[80vh] 
+              xl:mx-auto xl:flex xl:flex-col`, 
   },
   hover: {
     true: "hover:shadow-lg transition-shadow duration-300",
@@ -32,19 +34,40 @@ export const cardTitleVariants = {
 };
 
 export const cardDescriptionVariants = {
-  base: "px-6",
+  base: "px-6 overflow-y-auto",
   layouts: {
-    default: "py-2",
-    tablet: "clear-both mt-4 pt-2 border-t border-gray-200 md:max-h-[calc(75vh-350px)] md:overflow-y-auto",
-    desktop: "px-4 py-1 text-sm xl:max-h-[calc(60vh-350px)] xl:overflow-y-auto"
+    default: "py-2 max-h-[120px] overflow-y-auto", 
+    tablet: `clear-both mt-4 pt-2 border-t border-gray-200 
+             md:max-h-[calc(75vh-350px)] md:overflow-y-auto`, 
+    desktop: `px-4 py-1 text-sm 
+              xl:overflow-visible xl:max-h-none
+              xl:[&:has(p[length>300])]:overflow-y-auto 
+              xl:[&:has(p[length>300])]:max-h-[calc(60vh-350px)]` 
+  }
+};
+
+export const cardTabletContentVariants = {
+  base: "md:w-[55%] md:flex md:flex-col md:justify-between",
+  layouts: {
+    default: "",
+    tablet: "md:h-[300px]",
+    desktop: "xl:h-auto xl:min-h-[280px]" 
   }
 };
 
 export const cardRatingVariants = {
   base: "flex items-center space-x-1",
   layouts: {
+    default: "justify-between",
+    tablet: "md:justify-start md:gap-4"
+  }
+};
+
+export const ratingAreaVariants = {
+  base: "px-6 pb-4",
+  layouts: {
     default: "",
-    tablet: "md:mt-2"
+    tablet: "md:px-2"
   }
 };
 

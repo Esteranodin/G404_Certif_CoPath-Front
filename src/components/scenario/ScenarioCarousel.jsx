@@ -21,7 +21,7 @@ export default function ScenarioCarousel({
     >
       <CarouselContent className="h-full py-8">
         {scenarios.map((scenario, index) => (
-          <CarouselItem key={scenario.id} className="flex items-center justify-center h-full">
+          <CarouselItem key={scenario.id} className="carousel-item-desktop">
             <ScenarioCard 
               scenario={scenario} 
               layout="tablet"
@@ -34,8 +34,8 @@ export default function ScenarioCarousel({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="carousel-arrow" />
+      <CarouselNext className="carousel-arrow" />
     </Carousel>
   );
 }

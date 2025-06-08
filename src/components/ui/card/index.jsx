@@ -7,10 +7,9 @@ export {
 
 export {
   CardHeader,
-  CardFooter,
   CardTabletContent,
 } from "./CardWrapper";
 
 export { CardImage } from "./CardImage";
-export { CardRating } from "./CardRating";
 export { CardTags } from "./CardTags";
+export { CardRating } from "./CardRating"; 

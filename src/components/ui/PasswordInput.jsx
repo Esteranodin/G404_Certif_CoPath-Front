@@ -40,7 +40,7 @@ const PasswordInput = forwardRef(({
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-dark hover:text-gray-600 transition-colors"
           aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
         >
           {showPassword ? (
@@ -58,6 +58,6 @@ const PasswordInput = forwardRef(({
   );
 });
 
-PasswordInput.displayName = "PasswordInput"; // ✅ Cohérent avec le nom du fichier
+PasswordInput.displayName = "PasswordInput"; 
 
 export default PasswordInput;

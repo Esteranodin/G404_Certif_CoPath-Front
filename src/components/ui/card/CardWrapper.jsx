@@ -10,13 +10,18 @@ export function CardHeader({
     isLoading = false,
     ...props
 }) {
+    const getFavoriteTooltip = () => {
+        if (isLoading) return "Chargement...";
+        return isFavorite
+            ? "Retirer de mes favoris"
+            : "Ajouter à mes favoris";
+    };
+
     return (
         <div
             data-slot="card-header"
             className={cn(
-                // Format commun
                 "flex justify-between items-start gap-4 px-6",
-                // Format tablette
                 layout === "tablet" && "md:px-2 md:pt-2",
                 className
             )}
@@ -35,15 +40,17 @@ export function CardHeader({
                             onToggleFavorite();
                         }
                     }}
+                    title={getFavoriteTooltip()}
                 >
                     {isLoading ? (
-                        // ✅ Spinner de chargement
-                        <div className="w-6 h-6 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"></div>
+                        <div
+                            className="w-6 h-6 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin"
+                            title="Mise à jour des favoris..."
+                        ></div>
                     ) : (
-
                         <Image
                             src={isFavorite ? "/icons/heart.svg" : "/icons/circle-heart.svg"}
-                            alt={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                            alt={isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}
                             width={24}
                             height={24}
                             className={cn(
@@ -73,18 +80,5 @@ export function CardTabletContent({
         >
             {children}
         </div>
-    );
-}
-
-export function CardFooter({
-    className,
-    ...props
-}) {
-    return (
-        <div
-            data-slot="card-footer"
-            className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
-            {...props}
-        />
     );
 }
