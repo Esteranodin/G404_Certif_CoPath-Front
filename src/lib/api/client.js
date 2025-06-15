@@ -1,5 +1,5 @@
 /**
- * Client API Axios configuré
+ * Client API Axios 
  * @module apiClient
  * @description Configuration du client HTTP avec intercepteurs pour l'authentification
  * @requires axios
@@ -60,7 +60,7 @@ const createApiClient = () => {
 
       if (typeof window !== 'undefined' && error.response?.status === 401) {
         clearToken();
-        // Géré par authService.logout() dans la plupart des cas, mais si l'erreur vient d'ailleurs, on doit aussi gérer la déconnexion
+        // Géré par authService.logout() dans la plupart des cas, mais si l'erreur vient d'ailleurs, il faut gérer la déconnexion
         const currentPath = window.location.pathname;
         if (!currentPath.includes('/login')) {
           console.log('🔄 Redirection vers /login');

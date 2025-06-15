@@ -13,7 +13,7 @@ export const scenarioService = {
    */
   getAll: async () => {
     try {
-      const response = await apiClient.get(API_ENDPOINTS.SCENARIOS);
+      const response = await apiClient.get(API_ENDPOINTS.SCENARIOS.SEARCH);
       return response.data.member || response.data;
     } catch (error) {
       handleApiError(error, 'Erreur lors du chargement des scénarios');
@@ -26,7 +26,7 @@ export const scenarioService = {
    */
   getById: async (id) => {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.SCENARIOS}/${id}`);
+      const response = await apiClient.get(API_ENDPOINTS.SCENARIOS.DETAIL(id));
       return response.data;
     } catch (error) {
       handleApiError(error, `Erreur lors du chargement du scénario ${id}`);
@@ -39,7 +39,7 @@ export const scenarioService = {
    */
   getByCampaign: async (campaignId) => {
     try {
-      const response = await apiClient.get(`${API_ENDPOINTS.SCENARIOS}?campaign=${campaignId}`);
+      const response = await apiClient.get(`${API_ENDPOINTS.SCENARIOS.LIST}?campaign=${campaignId}`);
       return response.data.member || response.data;
     } catch (error) {
       handleApiError(error, `Erreur lors du chargement des scénarios de la campagne ${campaignId}`);
@@ -52,7 +52,7 @@ export const scenarioService = {
    */
   create: async (data) => {
     try {
-      const response = await apiClient.post(API_ENDPOINTS.SCENARIOS, data);
+      const response = await apiClient.post(API_ENDPOINTS.SCENARIOS.CREATE, data);
       return response.data;
     } catch (error) {
       handleApiError(error, 'Erreur lors de la création du scénario');
@@ -65,7 +65,7 @@ export const scenarioService = {
    */
   update: async (id, data) => {
     try {
-      const response = await apiClient.put(`${API_ENDPOINTS.SCENARIOS}/${id}`, data);
+      const response = await apiClient.put(API_ENDPOINTS.SCENARIOS.UPDATE(id), data);
       return response.data;
     } catch (error) {
       handleApiError(error, `Erreur lors de la mise à jour du scénario ${id}`);
@@ -78,7 +78,7 @@ export const scenarioService = {
    */
   delete: async (id) => {
     try {
-      await apiClient.delete(`${API_ENDPOINTS.SCENARIOS}/${id}`);
+      await apiClient.delete(API_ENDPOINTS.SCENARIOS.DELETE(id));
       return true;
     } catch (error) {
       handleApiError(error, `Erreur lors de la suppression du scénario ${id}`);

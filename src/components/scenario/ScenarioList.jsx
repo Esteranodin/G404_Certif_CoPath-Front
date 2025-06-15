@@ -4,12 +4,12 @@ import { useState } from "react";
 import { CardsSkeleton } from "@/components/ui/skeleton";
 import ScenarioCard from "./ScenarioCard";
 
-export default function ScenarioList({ 
-  scenarios, 
-  isFavorite, 
+export default function ScenarioList({
+  scenarios,
+  isFavorite,
   onToggleFavorite,
-  getUserRating, 
-  onRatingChange 
+  getUserRating,
+  onRatingChange
 }) {
   const [isLoading, setIsLoading] = useState(!scenarios);
 
@@ -25,8 +25,8 @@ export default function ScenarioList({
           scenario={scenario}
           isFavorite={isFavorite(scenario.id)}
           onToggleFavorite={onToggleFavorite}
-          getUserRating={getUserRating} 
-          onRatingChange={onRatingChange} 
+          getUserRating={getUserRating}
+          onRatingChange={onRatingChange}
           priority={index === 0}
         />
       ))}

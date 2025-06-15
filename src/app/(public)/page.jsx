@@ -4,24 +4,26 @@ import { useMemo } from "react";
 import ScenarioList from "@/components/scenario/ScenarioList";
 import ScenarioCarousel from "@/components/scenario/ScenarioCarousel";
 import DataStateHandler from "@/components/ui/DataStateHandler";
-import { useApiData } from "@/hooks/useApiData";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useUserRatings } from "@/hooks/useUserRatings";
-import { scenarioService } from "@/lib/services/scenarioService";
+import { useScenarioSearch } from "@/hooks/useScenarioSearch"; 
 import { adaptScenarioForDisplay } from "@/lib/adapters/scenarioAdapter";
 
 export default function PublicHome() {
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { getUserRating, setUserRating } = useUserRatings();
 
-  const { data: rawScenarios, loading, error, refetch } = useApiData(
-    () => scenarioService.getAll()
-  );
+  const {
+    scenarios: rawScenarios,
+    isLoading: loading,
+    error,
+    handleSearch,
+  } = useScenarioSearch();
 
   const scenarios = useMemo(() => {
     if (!rawScenarios?.length) return [];
 
-    return rawScenarios.map(scenario =>
+    return rawScenarios.map((scenario) =>
       adaptScenarioForDisplay(scenario, favorites)
     );
   }, [rawScenarios, favorites]);
@@ -31,7 +33,6 @@ export default function PublicHome() {
       loading={loading}
       error={error}
       data={scenarios}
-      onRetry={refetch}
       loadingMessage="Chargement des scénarios..."
       emptyMessage="Aucun scénario disponible pour le moment."
     >

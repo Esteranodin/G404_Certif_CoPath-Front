@@ -24,7 +24,7 @@ export function NavBar() {
           <Button
             variant="navbar"
             onClick={logout}
-            className="text-xs px-1 py-1 md:text-sm md:px-4 md:py-2" // ✅ Padding ultra réduit mobile
+            className="text-xs px-1 py-1 md:text-sm md:px-4 md:py-2" 
           >
             Déconnexion
           </Button>
@@ -32,7 +32,7 @@ export function NavBar() {
           <Button 
             variant="navbar" 
             size="default"
-            className="text-xs px-1 py-1 md:text-sm md:px-4 md:py-2" // ✅ Padding ultra réduit mobile
+            className="text-xs px-1 py-1 md:text-sm md:px-4 md:py-2" 
           >
             <Link href="/register">
               S'inscrire
@@ -45,7 +45,7 @@ export function NavBar() {
             <Image 
               src={userCo} 
               alt="icone utilisateur" 
-              width={20} // ✅ Plus petit sur mobile
+              width={20} 
               height={20}
               className="md:w-[30px] md:h-[30px]"
             />
@@ -55,7 +55,7 @@ export function NavBar() {
             <Image 
               src={user} 
               alt="icone utilisateur" 
-              width={20} // ✅ Plus petit sur mobile
+              width={20} 
               height={20}
               className="md:w-[30px] md:h-[30px]"
             />
