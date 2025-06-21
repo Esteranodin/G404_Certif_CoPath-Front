@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import apiClient from '@/lib/api/client';
 import { API_ENDPOINTS } from '@/lib/api/endpoints';
+import { adaptScenarioForDisplay } from '@/lib/adapters/scenarioAdapter';
 
 export function useScenarioSearch() {
   const [searchParams, setSearchParams] = useState({
@@ -26,15 +27,7 @@ export function useScenarioSearch() {
 
       return {
         ...data,
-        scenarios: scenarios.map((scenario) => ({
-          ...scenario,
-          image: scenario.images?.[0]?.path || '/images/default-scenario.jpg',
-          rating: scenario.averageRating || 0,
-          ratingsCount: scenario.ratingsCount || 0,
-          tags: scenario.campaigns?.map(campaign => campaign.name) || [],
-          isFavorite: scenario.isFavorite || false,
-          authorName: scenario.author?.name || 'Auteur inconnu'
-        }))
+        scenarios: scenarios.map((scenario) =>adaptScenarioForDisplay(scenario, []))
       };
     }
   });

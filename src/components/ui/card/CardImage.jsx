@@ -5,7 +5,7 @@ import { cardImageVariants } from "@/lib/layouts/layoutVariants";
 
 export function CardImage({
   src,
-  alt = "Card image",
+  alt = "Couverture du scénario",
   className,
   layout = "default",
   priority = false,

@@ -2,20 +2,24 @@
  * Adapter pour transformer les données API en format attendu par front
  */
 export const adaptScenarioForDisplay = (scenario, userFavorites = []) => {
-  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_URL || 'http://localhost:8000';
+ 
+  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_URL;
 
   const isFavorite = userFavorites.some(fav => 
     fav.scenario?.id === scenario.id || 
     fav.scenario === `/api/scenarios/${scenario.id}`
   );
 
-  return {
+  const firstImage = scenario.images && scenario.images.length > 0 ? scenario.images[0] : null;
+
+  const adaptedScenario = {
     id: scenario.id,
     title: scenario.title,
     content: scenario.content,
-    image: scenario.img && scenario.img.length > 0
-      ? `${baseUrl}${scenario.img[0].imgPath}`
-      : '/images/default-scenario.jpg',
+    image: firstImage
+      ? `${baseUrl}${firstImage.path}`
+      : '/img/default-scenario.png',
+    imageAlt: firstImage?.alt || scenario.title || 'Image du scénario',
     rating: Math.round(scenario.averageRating || 0),
     tags: scenario.tags || [],
     ratingsCount: scenario.ratingsCount || 0,
@@ -23,6 +27,8 @@ export const adaptScenarioForDisplay = (scenario, userFavorites = []) => {
     isFavorite: isFavorite,
     createdAt: scenario.createdAt,
     updatedAt: scenario.updatedAt,
-    campaigns: scenario.campaign || []
+    campaigns: scenario.campaigns || []
   };
+
+  return adaptedScenario;
 };

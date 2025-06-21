@@ -7,27 +7,19 @@ import DataStateHandler from "@/components/ui/DataStateHandler";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useUserRatings } from "@/hooks/useUserRatings";
 import { useScenarioSearch } from "@/hooks/useScenarioSearch"; 
-import { adaptScenarioForDisplay } from "@/lib/adapters/scenarioAdapter";
 
 export default function PublicHome() {
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { getUserRating, setUserRating } = useUserRatings();
 
   const {
-    scenarios: rawScenarios,
+    scenarios,
     isLoading: loading,
     error,
     handleSearch,
   } = useScenarioSearch();
 
-  const scenarios = useMemo(() => {
-    if (!rawScenarios?.length) return [];
-
-    return rawScenarios.map((scenario) =>
-      adaptScenarioForDisplay(scenario, favorites)
-    );
-  }, [rawScenarios, favorites]);
-
+ 
   return (
     <DataStateHandler
       loading={loading}
