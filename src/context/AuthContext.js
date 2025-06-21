@@ -22,7 +22,6 @@ export function AuthProvider({ children }) {
     setIsClient(true);
   }, []);
 
-  // Initialisation - vérification du token et récupération des données utilisateur
   useEffect(() => {
     if (!isClient) return;
 
@@ -47,34 +46,26 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true);
       const userData = await authService.login(email, password);
-
-      if (!userData) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(LOG_MESSAGES.AUTH.MISSING_USER);
-        }
-        throw new Error(ERROR_MESSAGES.AUTH.MISSING_USER_DATA);
-      }
       setUser(userData);
-      setLoading(false);
-      return userData;
+      return userData; 
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
         console.error(LOG_MESSAGES.AUTH.LOGIN_ERROR, error);
       }
-      setLoading(false);
-      throw error;
+      throw error; 
+    } finally {
+      setLoading(false); 
     }
   };
 
   const register = async (userData) => {
     try {
       setLoading(true);
-      const result = await authService.register(userData);
-      setLoading(false);
-      return result;
+      return await authService.register(userData);
     } catch (error) {
-      setLoading(false);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
