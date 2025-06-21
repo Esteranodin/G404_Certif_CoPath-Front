@@ -5,6 +5,7 @@
 
 import apiClient from '@/lib/api/client';
 import { handleApiError } from '@/lib/utils/errorHandling';
+import { apiTransforms } from '@/lib/utils/apiTransforms';
 
 export const favoriteService = {
   /**
@@ -13,7 +14,10 @@ export const favoriteService = {
   getAll: async () => {
     try {
       const response = await apiClient.get('/favorites');
-      return response.data['hydra:member'] || response.data.member || response.data;
+      const data = response.data['hydra:member'] || response.data.member || response.data;
+      
+      // ✅ Utilise la fonction centralisée
+      return data.map(apiTransforms.normalizeFavorite);
     } catch (error) {
       handleApiError(error, 'Erreur lors du chargement des favoris');
       throw error;
@@ -26,7 +30,8 @@ export const favoriteService = {
   getById: async (id) => {
     try {
       const response = await apiClient.get(`/favorites/${id}`);
-      return response.data;
+      // ✅ Normaliser la donnée unique
+      return apiTransforms.normalizeFavorite(response.data);
     } catch (error) {
       handleApiError(error, `Erreur lors du chargement du favori ${id}`);
       throw error;
@@ -38,16 +43,24 @@ export const favoriteService = {
    */
   addFavorite: async (scenarioId) => {
     try {
+      console.log('🔄 Envoi favori pour scenario:', scenarioId);
+      console.log('🔄 IRI généré:', apiTransforms.toIRI('scenarios', scenarioId));
+      
       const response = await apiClient.post('/favorites', {
-        scenario: `/api/scenarios/${scenarioId}`
+        scenario: apiTransforms.toIRI('scenarios', scenarioId)
       });
-      return response.data;
+      
+      return apiTransforms.normalizeFavorite(response.data);
     } catch (error) {
+      // ✅ AJOUT : Log détaillé de l'erreur
+      console.error('❌ Erreur complète:', error.response?.data);
+      console.error('❌ Status:', error.response?.status);
+      console.error('❌ Headers response:', error.response?.headers);
+      
       handleApiError(error, 'Erreur lors de l\'ajout aux favoris');
       throw error;
     }
   },
-
 
   /**
    * Supprimer un favori basé sur le scénario ID
@@ -56,10 +69,8 @@ export const favoriteService = {
     try {
       const favorites = await favoriteService.getAll();
 
-      const userFavorite = favorites.find(
-        fav => fav.scenario?.id === scenarioId || 
-               fav.scenario === `/api/scenarios/${scenarioId}`
-      );
+      // ✅ Utiliser le DTO - plus besoin de parsing manuel !
+      const userFavorite = favorites.find(fav => fav.scenarioId === String(scenarioId));
 
       if (!userFavorite) {
         throw new Error('Favori non trouvé');
@@ -74,6 +85,20 @@ export const favoriteService = {
     }
   },
 
+  // ✅ AJOUT : Méthodes utilitaires avec DTO
+  /**
+   * Vérifier si un scénario est en favori
+   */
+  isFavoriteByScenarioId: (favorites, scenarioId) => {
+    return favorites.some(fav => fav.scenarioId === String(scenarioId));
+  },
+
+  /**
+   * Trouver un favori par ID de scénario
+   */
+  findByScenarioId: (favorites, scenarioId) => {
+    return favorites.find(fav => fav.scenarioId === String(scenarioId));
+  },
 };
 
 export default favoriteService;

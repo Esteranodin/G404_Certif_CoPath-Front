@@ -1,16 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
 import ScenarioList from "@/components/scenario/ScenarioList";
 import ScenarioCarousel from "@/components/scenario/ScenarioCarousel";
 import DataStateHandler from "@/components/ui/DataStateHandler";
-import { useFavorites } from "@/hooks/useFavorites";
-import { useUserRatings } from "@/hooks/useUserRatings";
-import { useScenarioSearch } from "@/hooks/useScenarioSearch"; 
+import { useFavorites } from "@/context/FavoritesContext";
+import { useUserRatings } from "@/context/UserRatingsContext"; 
+import { useScenarioSearch } from "@/hooks/useScenarioSearch";
+import { adaptScenariosForDisplay } from "@/lib/adapters/scenarioAdapter"; 
 
 export default function PublicHome() {
-  const { favorites, toggleFavorite, isFavorite } = useFavorites();
-  const { getUserRating, setUserRating } = useUserRatings();
+  const { favorites, toggleFavorite } = useFavorites(); 
+  const { userRatings, setUserRating } = useUserRatings(); 
 
   const {
     scenarios,
@@ -19,7 +19,8 @@ export default function PublicHome() {
     handleSearch,
   } = useScenarioSearch();
 
- 
+  const adaptedScenarios = adaptScenariosForDisplay(scenarios, favorites, userRatings);
+
   return (
     <DataStateHandler
       loading={loading}
@@ -30,20 +31,16 @@ export default function PublicHome() {
     >
       <section className="md:hidden">
         <ScenarioList
-          scenarios={scenarios}
-          isFavorite={isFavorite}
+          scenarios={adaptedScenarios} 
           onToggleFavorite={toggleFavorite}
-          getUserRating={getUserRating}
           onRatingChange={setUserRating}
         />
       </section>
 
       <section className="hidden md:block">
         <ScenarioCarousel
-          scenarios={scenarios}
-          isFavorite={isFavorite}
+          scenarios={adaptedScenarios} 
           onToggleFavorite={toggleFavorite}
-          getUserRating={getUserRating}
           onRatingChange={setUserRating}
         />
       </section>

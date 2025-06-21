@@ -14,10 +14,9 @@ import { LOG_MESSAGES } from '@/lib/config/messages';
 
 class AuthService {
   /**
-   * Connexion utilisateur
-   * @param {string} email - Email de l'utilisateur
-   * @param {string} password - Mot de passe de l'utilisateur
-   * @returns {Promise<Object>} - Données utilisateur
+   * @param {string} email 
+   * @param {string} password
+   * @returns {Promise<Object>} 
    */
   async login(email, password) {
     const response = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, { username: email, password });
@@ -42,8 +41,8 @@ class AuthService {
 
   /**
    * Inscription utilisateur
-   * @param {Object} userData - Données d'inscription
-   * @returns {Promise<Object>} - Réponse de l'API
+   * @param {Object} userData 
+   * @returns {Promise<Object>} - Réponse API
    */
   async register(userData) {
     const response = await apiClient.post(API_ENDPOINTS.AUTH.REGISTER, userData);
@@ -60,11 +59,10 @@ class AuthService {
 
   /**
    * Récupérer l'utilisateur courant
-   * @returns {Promise<Object|null>} - Données utilisateur ou null
+   * @returns {Promise<Object|null>}
    */
   async getCurrentUser() {
     const token = getToken();
-    // Ne pas faire l'appel si pas de token
     if (!token) return null;
 
     try {

@@ -17,17 +17,15 @@ import { handleApiError } from "@/lib/utils/errorHandling";
 
 const ScenarioCard = memo(function ScenarioCard({
   scenario,
-  layout = "default",
-  isFavorite = false,
-  onToggleFavorite,
-  priority = false,
-  getUserRating,
-  onRatingChange
+  onToggleFavorite, 
+  onRatingChange,
+  layout = "default", 
+  priority = false   
 }) {
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const userRating = (isClient && user && getUserRating) ? getUserRating(scenario.id) : null;
+  const { isFavorite, userRating, image, imageAlt, rating } = scenario;
   const showUserRating = isClient && user;
 
   const handleRatingChange = async (newRating) => {
@@ -35,7 +33,6 @@ const ScenarioCard = memo(function ScenarioCard({
     await onRatingChange(scenario.id, newRating);
   };
 
-  // Mémorisez la fonction avec useCallback
   const handleToggleFavorite = useCallback(async () => {
     if (!isClient || !user) {
       return alert("Veuillez vous connecter pour ajouter aux favoris.");
@@ -54,7 +51,6 @@ const ScenarioCard = memo(function ScenarioCard({
     }
   }, [isClient, user, onToggleFavorite, scenario.id]);
 
-  // Condition pour éviter l'hydratation
   const showFavoriteButton = isClient && !!user;
 
   if (layout === "tablet") {

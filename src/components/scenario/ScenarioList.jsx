@@ -6,9 +6,7 @@ import ScenarioCard from "./ScenarioCard";
 
 export default function ScenarioList({
   scenarios,
-  isFavorite,
   onToggleFavorite,
-  getUserRating,
   onRatingChange
 }) {
   const [isLoading, setIsLoading] = useState(!scenarios);
@@ -23,10 +21,9 @@ export default function ScenarioList({
         <ScenarioCard
           key={scenario.id}
           scenario={scenario}
-          isFavorite={isFavorite(scenario.id)}
           onToggleFavorite={onToggleFavorite}
-          getUserRating={getUserRating}
           onRatingChange={onRatingChange}
+          layout="default" // ✅ AJOUT : prop layout explicite
           priority={index === 0}
         />
       ))}

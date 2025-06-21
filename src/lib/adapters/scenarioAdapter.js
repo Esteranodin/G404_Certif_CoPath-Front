@@ -1,34 +1,42 @@
+import { favoriteService } from '@/lib/services/favoriteService';
+import { userRatingService } from '@/lib/services/userRatingService';
+
 /**
- * Adapter pour transformer les données API en format attendu par front
+ * Adapte UNIQUEMENT pour l'affichage/GET => données déjà normalisées par services
  */
-export const adaptScenarioForDisplay = (scenario, userFavorites = []) => {
- 
+export const adaptScenarioForDisplay = (scenario, userFavorites = [], userRatings = []) => {
   const baseUrl = process.env.NEXT_PUBLIC_ASSETS_URL;
 
-  const isFavorite = userFavorites.some(fav => 
-    fav.scenario?.id === scenario.id || 
-    fav.scenario === `/api/scenarios/${scenario.id}`
-  );
+  const isFavorite = favoriteService.isFavoriteByScenarioId(userFavorites, scenario.id);
+  const userRating = userRatingService.findByScenarioId(userRatings, scenario.id);
 
-  const firstImage = scenario.images && scenario.images.length > 0 ? scenario.images[0] : null;
+  const firstImage = scenario.images?.[0];
 
-  const adaptedScenario = {
-    id: scenario.id,
-    title: scenario.title,
-    content: scenario.content,
-    image: firstImage
+  return {
+    ...scenario,
+    
+    image: firstImage 
       ? `${baseUrl}${firstImage.path}`
       : '/img/default-scenario.png',
-    imageAlt: firstImage?.alt || scenario.title || 'Image du scénario',
+    imageAlt: firstImage?.alt || scenario.title || 'Image de couverture du scénario',
+    
     rating: Math.round(scenario.averageRating || 0),
+    userRating: userRating?.score || null,
+    
+    isFavorite,
+    
     tags: scenario.tags || [],
+    campaigns: scenario.campaigns || [],
     ratingsCount: scenario.ratingsCount || 0,
-    favoritesCount: scenario.favoritesCount || 0,
-    isFavorite: isFavorite,
-    createdAt: scenario.createdAt,
-    updatedAt: scenario.updatedAt,
-    campaigns: scenario.campaigns || []
+    favoritesCount: scenario.favoritesCount || 0
   };
+};
 
-  return adaptedScenario;
+/**
+ * Adapter pour une liste de scénarios
+ */
+export const adaptScenariosForDisplay = (scenarios = [], userFavorites = [], userRatings = []) => {
+  return scenarios.map(scenario => 
+    adaptScenarioForDisplay(scenario, userFavorites, userRatings)
+  );
 };

@@ -47,7 +47,6 @@ const createApiClient = () => {
     }
   );
 
-  // Intercepteur pour les réponses
   client.interceptors.response.use(
     (response) => {
       if (DEBUG_API) {
@@ -63,7 +62,6 @@ const createApiClient = () => {
         // Géré par authService.logout() dans la plupart des cas, mais si l'erreur vient d'ailleurs, il faut gérer la déconnexion
         const currentPath = window.location.pathname;
         if (!currentPath.includes('/login')) {
-          console.log('🔄 Redirection vers /login');
           window.location.href = '/login';
         }
       }

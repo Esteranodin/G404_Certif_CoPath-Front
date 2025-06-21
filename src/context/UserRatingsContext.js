@@ -2,47 +2,99 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsClient } from "@/hooks/useIsClient";
 import { userRatingService } from "@/lib/services/userRatingService";
 
-const UserRatingsContext = createContext({});
+const UserRatingsContext = createContext();
 
 export function UserRatingsProvider({ children }) {
+  const { user } = useAuth();
+  const isClient = useIsClient();
   const [userRatings, setUserRatings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user, isClient, loading: authLoading } = useAuth();
 
+  // ✅ AJOUT : Fetch des ratings
   useEffect(() => {
-    if (!isClient || authLoading) {
-      return;
-    }
+    const fetchUserRatings = async () => {
+      if (!isClient || !user) {
+        setUserRatings([]);
+        return;
+      }
 
-    if (user) {
-      loadUserRatings();
-    } else {
-      setUserRatings([]);
-    }
-  }, [user?.['@id'], isClient, authLoading]);
+      setLoading(true);
+      try {
+        const ratings = await userRatingService.getAll();
+        setUserRatings(ratings);
+      } catch (error) {
+        console.error('❌ Erreur lors du chargement des notes:', error);
+        setUserRatings([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const loadUserRatings = async () => {
-    if (!user) return;
+    fetchUserRatings();
+  }, [user, isClient]); 
+
+  // ✅ AJOUT : Donner/Modifier une note
+  const setUserRating = async (scenarioId, score) => {
+    if (!isClient || !user) return;
     
-    setLoading(true);
     try {
-      const ratings = await userRatingService.getAll();
+      const updatedRating = await userRatingService.setRating(scenarioId, score);
       
-      setUserRatings(ratings || []);
+      setUserRatings(prev => {
+        const existingIndex = prev.findIndex(r => r.scenarioId === String(scenarioId));
+        
+        if (existingIndex !== -1) {
+          // Modifier existant
+          const updated = [...prev];
+          updated[existingIndex] = { ...updated[existingIndex], score };
+          return updated;
+        } else {
+          // Ajouter nouveau
+          return [...prev, updatedRating];
+        }
+      });
+
+      return updatedRating;
     } catch (error) {
-      console.error('❌ Erreur chargement notes:', error);
-      setUserRatings([]);
-    } finally {
-      setLoading(false);
+      console.error('Erreur lors de la notation:', error);
+      throw error;
     }
+  };
+
+  // ✅ AJOUT : Supprimer une note
+  const removeUserRating = async (scenarioId) => {
+    if (!isClient || !user) return;
+
+    try {
+      await userRatingService.removeRating(scenarioId);
+      setUserRatings(prev => prev.filter(r => r.scenarioId !== String(scenarioId)));
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la note:', error);
+      throw error;
+    }
+  };
+
+  // ✅ AJOUT : Check si l'utilisateur a noté
+  const getUserRating = (scenarioId) => {
+    const rating = userRatingService.findByScenarioId(userRatings, scenarioId);
+    return rating ? rating.score : null;
   };
 
   const value = {
     userRatings,
     loading,
-    refreshUserRatings: loadUserRatings
+    setUserRating,
+    removeUserRating,
+    getUserRating,
+    refreshUserRatings: () => {
+      // Re-trigger l'effect
+      setUserRatings([]);
+    },
+    isClient
   };
 
   return (
@@ -52,10 +104,11 @@ export function UserRatingsProvider({ children }) {
   );
 }
 
-export const useUserRatingsContext = () => {
+// ✅ Hook simple pour consommer le Context
+export function useUserRatings() {
   const context = useContext(UserRatingsContext);
   if (!context) {
-    throw new Error('useUserRatingsContext must be used within UserRatingsProvider');
+    throw new Error('useUserRatings doit être utilisé dans un UserRatingsProvider');
   }
   return context;
-};
+}

@@ -4,9 +4,7 @@ import ScenarioCard from "./ScenarioCard";
 
 export default function ScenarioCarousel({ 
   scenarios, 
-  isFavorite, 
   onToggleFavorite,
-  getUserRating, 
   onRatingChange
 }) {
   return (
@@ -25,9 +23,7 @@ export default function ScenarioCarousel({
             <ScenarioCard 
               scenario={scenario} 
               layout="tablet"
-              isFavorite={isFavorite(scenario.id)}
               onToggleFavorite={onToggleFavorite}
-              getUserRating={getUserRating}
               onRatingChange={onRatingChange} 
               priority={index === 0}
             />
