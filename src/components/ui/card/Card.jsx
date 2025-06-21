@@ -4,7 +4,7 @@ import { cardVariants, cardTitleVariants, cardDescriptionVariants } from "@/lib/
 export function Card({
   className,
   hover = true,
-  layout = "default", // 'default', 'horizontal', 'tablet'
+  layout = "default", 
   ...props
 }) {
   return (

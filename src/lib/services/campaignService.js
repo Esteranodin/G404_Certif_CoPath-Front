@@ -69,7 +69,7 @@ export const campaignService = {
   addScenario: async (campaignId, scenarioId) => {
     try {
       const response = await apiClient.post(`/campaigns/${campaignId}/scenarios`, {
-        scenario: apiTransforms.toIRI('scenarios', scenarioId) // ✅ Route Entity
+        scenario: apiTransforms.toIRI('scenarios', scenarioId)
       });
       return response.data;
     } catch (error) {

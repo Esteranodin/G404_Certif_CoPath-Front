@@ -23,7 +23,7 @@ export default function ScenarioList({
           scenario={scenario}
           onToggleFavorite={onToggleFavorite}
           onRatingChange={onRatingChange}
-          layout="default" // ✅ AJOUT : prop layout explicite
+          layout="default"
           priority={index === 0}
         />
       ))}

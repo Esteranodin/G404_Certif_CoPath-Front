@@ -10,7 +10,7 @@ import { ERROR_MESSAGES, LOG_MESSAGES } from '@/lib/config/messages';
 
 /**
  * Message de succès
- * @param {string} message - Le message à afficher
+ * @param {string} message 
  */
 export const showSuccess = (message) => {
   toast.success(message);
@@ -27,13 +27,11 @@ export const handleApiError = (error, fallbackMessage = ERROR_MESSAGES.API.DEFAU
     console.error(error);
   }
 
-  // Extraction du message d'erreur selon la structure
   const errorMessage =
     error?.response?.data?.message ||
     error?.message ||
     fallbackMessage;
 
-  // Afficher dans un toast
   toast.error(errorMessage, {
     duration: 8000,
     closeButton: true
@@ -67,7 +65,6 @@ export const handleAuthError = (error) => {
     message = ERROR_MESSAGES.AUTH.NETWORK_ERROR;
   }
 
-  // Afficher dans un toast
   toast.error(message, {
     duration: 8000,
     closeButton: true

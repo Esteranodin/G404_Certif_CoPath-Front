@@ -43,7 +43,6 @@ export function FavoritesProvider({ children }) {
       
       if (alreadyFavorite) {
         await favoriteService.removeFavoriteByScenario(scenarioId);
-        // ✅ Filtrage simplifié avec DTO
         setFavorites(prev => prev.filter(fav => fav.scenarioId !== String(scenarioId)));
         return false;
       } else {
@@ -58,7 +57,6 @@ export function FavoritesProvider({ children }) {
   };
 
   const isFavorite = (scenarioId) => {
-    // ✅ Utiliser la méthode DTO du service
     return favoriteService.isFavoriteByScenarioId(favorites, scenarioId);
   };
 

@@ -72,7 +72,7 @@ function CarouselContent({ className, ...props }) {
     <div
       data-slot="carousel-content"
       className={cn(
-        "carousel-content", // ✅ Utilise le CSS
+        "carousel-content", 
         orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
         className
       )}
@@ -107,11 +107,11 @@ function CarouselPrevious({ className, ...props }) {
     <button
       data-slot="carousel-previous"
       className={cn(
-        "carousel-arrow", // ✅ Base commune
+        "carousel-arrow", 
         orientation === "horizontal" 
-          ? "carousel-arrow-prev"      // ✅ Position horizontale
-          : "carousel-arrow-vertical-prev", // ✅ Position verticale
-        !canScrollPrev && "carousel-arrow-disabled", // ✅ État désactivé
+          ? "carousel-arrow-prev" 
+          : "carousel-arrow-vertical-prev", 
+        !canScrollPrev && "carousel-arrow-disabled", 
         className
       )}
       disabled={!canScrollPrev}
@@ -122,7 +122,7 @@ function CarouselPrevious({ className, ...props }) {
         src={arrow}
         alt="Previous"
         className={cn(
-          "carousel-arrow-icon rotate-90", // ✅ Style commun
+          "carousel-arrow-icon rotate-90",
         )}
       />
       <span className="sr-only">Previous slide</span>
@@ -137,11 +137,11 @@ function CarouselNext({ className, ...props }) {
     <button
       data-slot="carousel-next"
       className={cn(
-        "carousel-arrow", // ✅ Base commune
+        "carousel-arrow",
         orientation === "horizontal" 
-          ? "carousel-arrow-next"      // ✅ Position horizontale
-          : "carousel-arrow-vertical-next", // ✅ Position verticale
-        !canScrollNext && "carousel-arrow-disabled", // ✅ État désactivé
+          ? "carousel-arrow-next" 
+          : "carousel-arrow-vertical-next", 
+        !canScrollNext && "carousel-arrow-disabled",
         className
       )}
       disabled={!canScrollNext}
@@ -151,7 +151,7 @@ function CarouselNext({ className, ...props }) {
       <Image
         src={arrow}
         alt="Next"
-        className="carousel-arrow-icon -rotate-90" // ✅ Style commun
+        className="carousel-arrow-icon -rotate-90"
       />
       <span className="sr-only">Next slide</span>
     </button>

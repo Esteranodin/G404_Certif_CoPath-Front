@@ -50,7 +50,7 @@ function FormSkeleton({
  */
 function CardsSkeleton({ 
   count = 3,
-  layout = "default", // default ou tablet
+  layout = "default", 
   className = ""
 }) {
   return (

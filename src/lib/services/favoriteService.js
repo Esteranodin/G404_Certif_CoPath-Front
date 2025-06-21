@@ -16,7 +16,6 @@ export const favoriteService = {
       const response = await apiClient.get('/favorites');
       const data = response.data['hydra:member'] || response.data.member || response.data;
       
-      // ✅ Utilise la fonction centralisée
       return data.map(apiTransforms.normalizeFavorite);
     } catch (error) {
       handleApiError(error, 'Erreur lors du chargement des favoris');
@@ -30,7 +29,6 @@ export const favoriteService = {
   getById: async (id) => {
     try {
       const response = await apiClient.get(`/favorites/${id}`);
-      // ✅ Normaliser la donnée unique
       return apiTransforms.normalizeFavorite(response.data);
     } catch (error) {
       handleApiError(error, `Erreur lors du chargement du favori ${id}`);
@@ -64,7 +62,6 @@ export const favoriteService = {
     try {
       const favorites = await favoriteService.getAll();
 
-      // ✅ Utiliser le DTO - plus besoin de parsing manuel !
       const userFavorite = favorites.find(fav => fav.scenarioId === String(scenarioId));
 
       if (!userFavorite) {
@@ -80,7 +77,6 @@ export const favoriteService = {
     }
   },
 
-  // ✅ AJOUT : Méthodes utilitaires avec DTO
   /**
    * Vérifier si un scénario est en favori
    */

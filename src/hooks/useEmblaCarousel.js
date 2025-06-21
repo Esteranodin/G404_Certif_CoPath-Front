@@ -42,13 +42,11 @@ export function useEmblaCarousel({
     }
   }, [scrollPrev, scrollNext]);
   
-  // Synchroniser l'API externe
   useEffect(() => {
     if (!emblaApi || !setApi) return;
     setApi(emblaApi);
   }, [emblaApi, setApi]);
   
-  // Configurer les événements
   useEffect(() => {
     if (!emblaApi) return;
     

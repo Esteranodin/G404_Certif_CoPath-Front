@@ -15,7 +15,6 @@ export const apiTransforms = {
     }
     
     if (typeof iriOrObject === 'string') {
-      // ✅ Mise à jour du regex pour supporter /entity
       const match = iriOrObject.match(/\/api\/\w+\/(\d+)(?:\/entity)?$/);
       return match ? match[1] : iriOrObject;
     }

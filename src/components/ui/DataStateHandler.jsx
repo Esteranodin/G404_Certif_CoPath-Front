@@ -40,7 +40,7 @@ export default function DataStateHandler({
     );
   }
 
-  // État vide (optionnel)
+  // État vide 
   if (data.length === 0) {
     return (
       <main className={className}>

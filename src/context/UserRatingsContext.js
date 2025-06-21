@@ -13,7 +13,6 @@ export function UserRatingsProvider({ children }) {
   const [userRatings, setUserRatings] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ AJOUT : Fetch des ratings
   useEffect(() => {
     const fetchUserRatings = async () => {
       if (!isClient || !user) {
@@ -36,7 +35,6 @@ export function UserRatingsProvider({ children }) {
     fetchUserRatings();
   }, [user, isClient]); 
 
-  // ✅ AJOUT : Donner/Modifier une note
   const setUserRating = async (scenarioId, score) => {
     if (!isClient || !user) return;
     
@@ -47,15 +45,17 @@ export function UserRatingsProvider({ children }) {
         const existingIndex = prev.findIndex(r => r.scenarioId === String(scenarioId));
         
         if (existingIndex !== -1) {
-          // Modifier existant
           const updated = [...prev];
           updated[existingIndex] = { ...updated[existingIndex], score };
           return updated;
         } else {
-          // Ajouter nouveau
           return [...prev, updatedRating];
         }
       });
+
+      window.dispatchEvent(new CustomEvent('scenarioRatingUpdated', { 
+        detail: { scenarioId, newScore: score } 
+      }));
 
       return updatedRating;
     } catch (error) {
@@ -64,7 +64,6 @@ export function UserRatingsProvider({ children }) {
     }
   };
 
-  // ✅ AJOUT : Supprimer une note
   const removeUserRating = async (scenarioId) => {
     if (!isClient || !user) return;
 
@@ -78,7 +77,6 @@ export function UserRatingsProvider({ children }) {
     }
   };
 
-  // ✅ AJOUT : Check si l'utilisateur a noté
   const getUserRating = (scenarioId) => {
     const rating = userRatingService.findByScenarioId(userRatings, scenarioId);
     return rating ? rating.score : null;
@@ -91,7 +89,6 @@ export function UserRatingsProvider({ children }) {
     removeUserRating,
     getUserRating,
     refreshUserRatings: () => {
-      // Re-trigger l'effect
       setUserRatings([]);
     },
     isClient
@@ -104,7 +101,6 @@ export function UserRatingsProvider({ children }) {
   );
 }
 
-// ✅ Hook simple pour consommer le Context
 export function useUserRatings() {
   const context = useContext(UserRatingsContext);
   if (!context) {
