@@ -43,20 +43,15 @@ export const favoriteService = {
    */
   addFavorite: async (scenarioId) => {
     try {
-      console.log('🔄 Envoi favori pour scenario:', scenarioId);
-      console.log('🔄 IRI généré:', apiTransforms.toIRI('scenarios', scenarioId));
-      
       const response = await apiClient.post('/favorites', {
-        scenario: apiTransforms.toIRI('scenarios', scenarioId)
+        scenario: apiTransforms.toIRI('scenarios', scenarioId) 
       });
       
       return apiTransforms.normalizeFavorite(response.data);
     } catch (error) {
-      // ✅ AJOUT : Log détaillé de l'erreur
       console.error('❌ Erreur complète:', error.response?.data);
       console.error('❌ Status:', error.response?.status);
       console.error('❌ Headers response:', error.response?.headers);
-      
       handleApiError(error, 'Erreur lors de l\'ajout aux favoris');
       throw error;
     }

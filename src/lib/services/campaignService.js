@@ -61,7 +61,22 @@ export const campaignService = {
   delete: async (id) => {
     await apiClient.delete(`${API_ENDPOINTS.CAMPAIGNS}/${id}`);
     return true;
-  }
+  },
+
+  /**
+   * Ajouter un scénario à une campagne
+   */
+  addScenario: async (campaignId, scenarioId) => {
+    try {
+      const response = await apiClient.post(`/campaigns/${campaignId}/scenarios`, {
+        scenario: apiTransforms.toIRI('scenarios', scenarioId) // ✅ Route Entity
+      });
+      return response.data;
+    } catch (error) {
+      handleApiError(error, 'Erreur lors de l\'ajout du scénario à la campagne');
+      throw error;
+    }
+  },
 };
 
 export default campaignService;

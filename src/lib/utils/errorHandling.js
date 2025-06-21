@@ -154,8 +154,6 @@ export const handleProfileError = (error) => {
  * Gestion erreurs de mot de passe
  */
 export const handlePasswordError = (error) => {
-  // ✅ AJOUT : Debug pour voir les violations
-  console.log('🔍 handlePasswordError appelé avec status:', error?.response?.status);
   
   if (error.response?.status === 422) {
     console.error('❌ Erreur validation 422 (mot de passe):', error.response.data);

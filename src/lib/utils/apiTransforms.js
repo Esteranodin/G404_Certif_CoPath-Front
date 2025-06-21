@@ -1,10 +1,8 @@
-
-
 export const apiTransforms = {
   /**
-   * Convertit un ID en IRI
+   * Convertit un ID en IRI Entity
    */
-  toIRI: (resourceType, id) => `/api/${resourceType}/${id}`,
+  toIRI: (resourceType, id) => `/api/${resourceType}/${id}/entity`,
   
   /**
    * Extrait l'ID depuis un IRI ou objet
@@ -17,7 +15,8 @@ export const apiTransforms = {
     }
     
     if (typeof iriOrObject === 'string') {
-      const match = iriOrObject.match(/\/api\/\w+\/(\d+)$/);
+      // ✅ Mise à jour du regex pour supporter /entity
+      const match = iriOrObject.match(/\/api\/\w+\/(\d+)(?:\/entity)?$/);
       return match ? match[1] : iriOrObject;
     }
     

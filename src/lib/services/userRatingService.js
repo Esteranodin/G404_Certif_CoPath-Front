@@ -25,16 +25,64 @@ export const userRatingService = {
   },
 
   /**
+   * Vérifier si l'utilisateur a déjà noté ce scénario
+   */
+  getUserRating: async (scenarioId) => {
+    try {
+      const response = await apiClient.get(`/ratings`);
+      const ratings = response.data?.member || response.data?.['hydra:member'] || [];
+      
+      // Filtrer côté client pour trouver le bon scénario
+      const targetRating = ratings.find(rating => {
+        const ratingScenarioId = apiTransforms.extractId(rating.scenario);
+        return String(ratingScenarioId) === String(scenarioId);
+      });
+      
+      return targetRating ? apiTransforms.normalizeRating(targetRating) : null;
+    } catch (error) {
+      console.error('❌ Erreur recherche rating:', error.response?.data);
+      return null;
+    }
+  },
+
+  /**
    * Ajouter/Modifier une note
    */
   setRating: async (scenarioId, score) => { 
     try {
-      const response = await apiClient.post('/ratings', {
+      // Vérifier s'il existe déjà un rating
+      const existingRating = await userRatingService.getUserRating(scenarioId);
+      
+      const payload = {
         scenario: apiTransforms.toIRI('scenarios', scenarioId),
         score: score
-      });
+      };
+      
+      let response;
+      
+      if (existingRating && existingRating.id) {
+        response = await apiClient.patch(`/ratings/${existingRating.id}`, payload, {
+          headers: {
+            'Content-Type': 'application/merge-patch+json'
+          }
+        });
+      } else {
+        response = await apiClient.post('/ratings', payload, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      }
+      
       return apiTransforms.normalizeRating(response.data);
+      
     } catch (error) {
+      console.error('❌ Erreur rating:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      });
+      
       handleApiError(error, 'Erreur lors de l\'enregistrement de votre note');
       throw error;
     }
