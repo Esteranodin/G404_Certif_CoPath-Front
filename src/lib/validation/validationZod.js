@@ -27,9 +27,9 @@ export const loginSchema = z.object({
 export const registerSchema = z.object({
   pseudo: requiredField("pseudo"),
   email: emailValidation,
-  password: passwordValidation(),
+  plainPassword: passwordValidation("plainPassword"),
   confirmPassword: requiredField("confirmation du mot de passe")
-}).refine(data => data.password === data.confirmPassword, {
+}).refine(data => data.plainPassword === data.confirmPassword, {
   message: "Les mots de passe ne correspondent pas",
   path: ["confirmPassword"],
 });

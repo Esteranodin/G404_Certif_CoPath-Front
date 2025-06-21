@@ -6,6 +6,7 @@
  */
 
 import apiClient from '@/lib/api/client';
+import { API_ENDPOINTS } from '@/lib/api/endpoints'; 
 import { handleApiError, handleProfileError, handlePasswordError } from '@/lib/utils/errorHandling';
 
 export const UserService = {
@@ -40,7 +41,11 @@ export const UserService = {
    */
   updateProfile: async (userData) => {
     try {
-      const response = await apiClient.put('/users/profile', userData);
+      const response = await apiClient.patch(API_ENDPOINTS.AUTH.ME, userData, {
+        headers: {
+          'Content-Type': 'application/merge-patch+json'
+        }
+      });
       return response.data;
     } catch (error) {
       handleProfileError(error);
@@ -53,7 +58,11 @@ export const UserService = {
    */
   changePassword: async (passwordData) => {
     try {
-      const response = await apiClient.put('/users/password', passwordData);
+      const response = await apiClient.patch(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, passwordData, {
+        headers: {
+          'Content-Type': 'application/merge-patch+json'
+        }
+      });
       return response.data;
     } catch (error) {
       handlePasswordError(error);

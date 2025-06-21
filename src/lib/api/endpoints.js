@@ -1,18 +1,19 @@
 export const API_ENDPOINTS = {
-  // Authentification
+
   AUTH: {
     LOGIN: '/login_check',
-    REGISTER: '/register', 
+    REGISTER: '/register',
     ME: '/me',
+    CHANGE_PASSWORD: '/me/password',
   },
 
   SCENARIOS: {
-    SEARCH: '/scenarios/search',          
-    LIST: '/scenarios',                    
-    DETAIL: (id) => `/scenarios/${id}`,    
-    CREATE: '/scenarios',                  
-    UPDATE: (id) => `/scenarios/${id}`,    
-    DELETE: (id) => `/scenarios/${id}`,    
+    SEARCH: '/scenarios/search',
+    LIST: '/scenarios',
+    DETAIL: (id) => `/scenarios/${id}`,
+    CREATE: '/scenarios',
+    UPDATE: (id) => `/scenarios/${id}`,
+    DELETE: (id) => `/scenarios/${id}`,
   },
 
   CAMPAIGNS: '/campaigns',

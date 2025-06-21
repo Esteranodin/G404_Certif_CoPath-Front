@@ -151,24 +151,41 @@ export const handleProfileError = (error) => {
 };
 
 /**
- * Gestion erreurs MAJ mdp
+ * Gestion erreurs de mot de passe
  */
 export const handlePasswordError = (error) => {
+  // ✅ AJOUT : Debug pour voir les violations
+  console.log('🔍 handlePasswordError appelé avec status:', error?.response?.status);
+  
+  if (error.response?.status === 422) {
+    console.error('❌ Erreur validation 422 (mot de passe):', error.response.data);
+    console.error('❌ Violations:', error.response.data.violations);
+  }
+
   if (process.env.NODE_ENV === 'development') {
     console.error("Erreur de mot de passe", error);
   }
 
-  let message = ERROR_MESSAGES.PASSWORD.CHANGE_FAILED;
+  let message = ERROR_MESSAGES.AUTH.PASSWORD_UPDATE_FAILED;
 
   const statusCode = error?.response?.status;
   const errorMsg = error?.response?.data?.message || error?.message || "";
 
-  if (statusCode === 401 || errorMsg.includes('incorrect') || errorMsg.includes('invalid')) {
-    message = ERROR_MESSAGES.PASSWORD.CURRENT_INCORRECT;
-  } else if (errorMsg.includes('weak')) {
-    message = ERROR_MESSAGES.PASSWORD.WEAK_PASSWORD;
-  } else if (errorMsg.includes('network') || errorMsg.includes('connexion')) {
-    message = ERROR_MESSAGES.API.NETWORK_ERROR;
+  // ✅ AJOUT : Gestion spécifique des violations 422
+  if (statusCode === 422 && error.response?.data?.violations) {
+    const violations = error.response.data.violations;
+    console.log('❌ Violations mot de passe:', violations);
+    
+    if (violations.length > 0) {
+      const firstViolation = violations[0];
+      console.log('❌ Première violation:', firstViolation);
+      // Utiliser le message de la violation directement
+      message = firstViolation.message || ERROR_MESSAGES.AUTH.PASSWORD_UPDATE_FAILED;
+    }
+  }
+  // ...existing conditions...
+  else if (statusCode === 401) {
+    message = ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS;
   }
 
   toast.error(message, {

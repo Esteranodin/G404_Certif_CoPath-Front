@@ -31,8 +31,9 @@ export default function PasswordUpdateForm({ onCancel }) {
   const handleUpdatePassword = submitForm(
     async (data) => {
       return await UserService.changePassword({
-        oldPassword: data.currentPassword,
-        newPassword: data.newPassword
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+        confirmPassword: data.confirmPassword
       });
     }
   );

@@ -3,26 +3,33 @@
  * @module services
  */
 
-import campaignService from './campaignService';
-import scenarioService from './scenarioService';
-import imgScenarioService from './imgScenarioService';
-import UserService from './userService';
-import favoriteService from './favoriteService';
+import authService from './authService';           
+import campaignService from './campaignService';   
+import favoriteService from './favoriteService';   
+import imageService from './imageService';         
+import scenarioService from './scenarioService';  
+import userRatingService from './userRatingService'; 
+import userService from './userService'; 
 
-// Exports individuels
 export { 
-  campaignService, 
-  scenarioService, 
-  imgScenarioService, 
-  UserService, 
-  favoriteService 
+  authService,
+  campaignService,
+  favoriteService,
+  imageService,        
+  scenarioService,
+  userRatingService,   
+  userService          
 };
 
 // Export groupé pour faciliter l'importation
 export const apiServices = {
+  auth: authService,
   campaigns: campaignService,
-  scenarios: scenarioService,
-  imgScenarios: imgScenarioService,
-  users: UserService,
   favorites: favoriteService,
+  images: imageService,     
+  scenarios: scenarioService,
+  userRatings: userRatingService, 
+  users: userService        
 };
+
+export default apiServices;

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useForms } from "@/hooks/useForms";
 import { profileSchema } from "@/lib/validation/validationZod";
-import UserService from "@/lib/services/userService";
+import { userService } from "@/lib/services"; 
 import Form from "./Form";
 import { handleProfileError } from "@/lib/utils/errorHandling";
 import FormContainer from "./FormContainer";
@@ -38,7 +38,7 @@ export default function ProfileUpdateForm({ user }) {
 
   const handleUpdateProfile = submitForm(
     async (data) => {
-      const updatedUser = await UserService.updateProfile(data);
+      const updatedUser = await userService.updateProfile(data); 
       updateUser(updatedUser);
       return updatedUser;
     }

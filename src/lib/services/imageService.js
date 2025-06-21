@@ -1,22 +1,39 @@
 /**
- * Service de gestion des images de scénarios
- * @module imgScenarioService
+ * Service de gestion des images
+ * @module imageService
  */
 
 import apiClient from '@/lib/api/client';
 import { API_ENDPOINTS } from '@/lib/api/endpoints';
 import { handleApiError } from '@/lib/utils/errorHandling';
+import { apiTransforms } from '@/lib/utils/apiTransforms';
 
-export const imgScenarioService = {
+export const imageService = {
   /**
    * Récupérer toutes les images de scénarios
    */
-  getAll: async () => {
+  getAllScenarioImages: async () => { 
     try {
       const response = await apiClient.get(API_ENDPOINTS.IMG_SCENARIOS);
-      return response.data.member || response.data;
+      const data = response.data.member || response.data['hydra:member'] || response.data;
+      
+      return data;
     } catch (error) {
       handleApiError(error, 'Erreur lors du chargement des images de scénarios');
+      throw error;
+    }
+  },
+
+  /**
+   * Récupérer les images d'un scénario spécifique
+   */
+  getByScenario: async (scenarioId) => {
+    try {
+      const response = await apiClient.get(`${API_ENDPOINTS.IMG_SCENARIOS}?scenario=${scenarioId}`);
+      const data = response.data.member || response.data['hydra:member'] || response.data;
+      return data;
+    } catch (error) {
+      handleApiError(error, `Erreur lors du chargement des images du scénario ${scenarioId}`);
       throw error;
     }
   },
@@ -30,19 +47,6 @@ export const imgScenarioService = {
       return response.data;
     } catch (error) {
       handleApiError(error, `Erreur lors du chargement de l'image ${id}`);
-      throw error;
-    }
-  },
-
-  /**
-   * Récupérer les images d'un scénario
-   */
-  getByScenario: async (scenarioId) => {
-    try {
-      const response = await apiClient.get(`${API_ENDPOINTS.IMG_SCENARIOS}?scenario=${scenarioId}`);
-      return response.data.member || response.data;
-    } catch (error) {
-      handleApiError(error, `Erreur lors du chargement des images du scénario ${scenarioId}`);
       throw error;
     }
   },
@@ -87,4 +91,4 @@ export const imgScenarioService = {
   }
 };
 
-export default imgScenarioService;
+export default imageService;

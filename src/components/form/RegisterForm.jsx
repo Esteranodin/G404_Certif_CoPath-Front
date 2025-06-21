@@ -22,7 +22,7 @@ export default function RegisterForm() {
     defaultValues: {
       pseudo: "",
       email: "",
-      password: "",
+      plainPassword: "",   
       confirmPassword: ""
     },
     onSuccessCallback: () => router.push("/login?registered=true"),
@@ -55,7 +55,7 @@ export default function RegisterForm() {
       >
         {renderField("pseudo", "Pseudo")}
         {renderField("email", "Email", "email")}
-        {renderField("password", "Mot de passe", "password")}
+        {renderField("plainPassword", "Mot de passe", "password")}
         {renderField("confirmPassword", "Confirmer le mot de passe", "password")}
       </Form>
     </FormContainer>
