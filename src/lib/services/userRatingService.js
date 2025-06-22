@@ -6,6 +6,7 @@
 import apiClient from '@/lib/api/client';
 import { handleApiError } from '@/lib/utils/errorHandling';
 import { apiTransforms } from '@/lib/utils/apiTransforms';
+import { LOG_MESSAGES } from '@/lib/config/messages';
 
 export const userRatingService = {
   /**
@@ -40,7 +41,7 @@ export const userRatingService = {
       
       return targetRating ? apiTransforms.normalizeRating(targetRating) : null;
     } catch (error) {
-      console.error('❌ Erreur recherche rating:', error.response?.data);
+      console.error(LOG_MESSAGES.DEBUG.RATING_ERROR, error.response?.data);
       return null;
     }
   },
@@ -77,7 +78,7 @@ export const userRatingService = {
       return apiTransforms.normalizeRating(response.data);
       
     } catch (error) {
-      console.error('❌ Erreur rating:', {
+      console.error(LOG_MESSAGES.DEBUG.RATING_ERROR, {
         message: error.message,
         status: error.response?.status,
         data: error.response?.data

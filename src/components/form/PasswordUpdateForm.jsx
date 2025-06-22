@@ -1,6 +1,6 @@
 "use client";
 
-import UserService from "@/lib/services/userService";
+import { userService } from "@/lib/services";
 import { useForms } from "@/hooks/useForms";
 import { passwordSchema } from "@/lib/validation/validationZod";
 import Form from "./Form";
@@ -30,7 +30,7 @@ export default function PasswordUpdateForm({ onCancel }) {
 
   const handleUpdatePassword = submitForm(
     async (data) => {
-      return await UserService.changePassword({
+      return await userService.changePassword({
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
         confirmPassword: data.confirmPassword

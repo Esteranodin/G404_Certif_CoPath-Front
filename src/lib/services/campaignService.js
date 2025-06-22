@@ -6,6 +6,7 @@
 import apiClient from '@/lib/api/client';
 import { API_ENDPOINTS } from '@/lib/api/endpoints';
 import { handleApiError } from '@/lib/utils/errorHandling';
+import { apiTransforms } from '@/lib/utils/apiTransforms';
 
 export const campaignService = {
   /**
@@ -51,16 +52,26 @@ export const campaignService = {
    * Mettre à jour une campagne
    */
   update: async (id, data) => {
-    const response = await apiClient.put(`${API_ENDPOINTS.CAMPAIGNS}/${id}`, data);
-    return response.data;
+    try {
+      const response = await apiClient.put(`${API_ENDPOINTS.CAMPAIGNS}/${id}`, data);
+      return response.data;
+    } catch (error) {
+      handleApiError(error, `Erreur lors de la mise à jour de la campagne ${id}`);
+      throw error;
+    }
   },
 
   /**
    * Supprimer une campagne
    */
   delete: async (id) => {
-    await apiClient.delete(`${API_ENDPOINTS.CAMPAIGNS}/${id}`);
-    return true;
+    try {
+      await apiClient.delete(`${API_ENDPOINTS.CAMPAIGNS}/${id}`);
+      return true;
+    } catch (error) {
+      handleApiError(error, `Erreur lors de la suppression de la campagne ${id}`);
+      throw error;
+    }
   },
 
   /**

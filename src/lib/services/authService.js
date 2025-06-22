@@ -10,7 +10,7 @@
 import apiClient from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { setToken, clearToken, getToken } from "@/lib/storage/tokenStorage";
-import { LOG_MESSAGES } from '@/lib/config/messages';
+import { LOG_MESSAGES, ERROR_MESSAGES } from '@/lib/config/messages';
 
 class AuthService {
   /**

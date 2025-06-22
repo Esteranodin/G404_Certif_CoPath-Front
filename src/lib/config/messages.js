@@ -52,7 +52,7 @@ export const ERROR_MESSAGES = {
     }
   };
   
-  // Messages pour les logs console (développement uniquement)
+  // Messages pour les logs erreur console (développement uniquement)
   export const LOG_MESSAGES = {
     AUTH: {
       INIT_ERROR: "Erreur d'initialisation de l'auth:",
@@ -61,6 +61,16 @@ export const ERROR_MESSAGES = {
       LOGOUT_ERROR: "Erreur lors de la déconnexion:",
       GET_USER_ERROR: "authService - Erreur récupération user",
       MISSING_USER_AFTER_LOGIN: "authService - Données utilisateur manquantes après getCurrentUser"
+    },
+   
+    DEBUG: {
+      FAVORITE_ERROR: "❌ Erreur favoris:",
+      RATING_ERROR: "❌ Erreur notation:",
+      RATING_DELETE_ERROR: "❌ Erreur suppression note:",
+      API_STATUS: "❌ Status:",
+      API_DATA: "❌ Data:",
+      API_HEADERS: "❌ Headers:",
+      API_ERROR: "❌ Erreur dans la requête:",
     }
   };
 

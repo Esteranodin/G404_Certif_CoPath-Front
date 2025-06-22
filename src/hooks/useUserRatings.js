@@ -2,6 +2,7 @@
 
 import { useUserRatingsContext } from "@/context/UserRatingsContext";
 import { userRatingService } from "@/lib/services/userRatingService";
+import { LOG_MESSAGES } from '@/lib/config/messages';
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 
@@ -10,15 +11,12 @@ export function useUserRatings() {
   const { user, isClient } = useAuth();
   const [submitting, setSubmitting] = useState(false);
 
-  /**
-   * ✅ SIMPLIFIÉ : Utilise le DTO du service
-   */
+
   const getUserRating = (scenarioId) => {
     if (!user || !userRatings.length) {
       return null;
     }
     
-    // ✅ Utilise la méthode du service (DRY !)
     const rating = userRatingService.findByScenarioId(userRatings, scenarioId);
     return rating ? rating.score : null;
   };
@@ -34,13 +32,12 @@ export function useUserRatings() {
     setSubmitting(true);
     try {
       const updatedRating = await userRatingService.setRating(scenarioId, score);
-      
-      // Recharger toutes les notes pour être sûr
+
       await refreshUserRatings();
 
       return updatedRating;
     } catch (error) {
-      console.error('Erreur lors de la notation:', error);
+      console.error(LOG_MESSAGES.DEBUG.RATING_ERROR, error);
       throw error;
     } finally {
       setSubmitting(false);
@@ -61,7 +58,7 @@ export function useUserRatings() {
       await refreshUserRatings();
       return true;
     } catch (error) {
-      console.error('Erreur lors de la suppression de la note:', error);
+      console.error(LOG_MESSAGES.DEBUG.RATING_DELETE_ERROR, error);
       throw error;
     } finally {
       setSubmitting(false);

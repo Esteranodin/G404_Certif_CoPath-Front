@@ -8,6 +8,7 @@
 
 import axios from 'axios';
 import { getToken, clearToken } from '@/lib/storage/tokenStorage';
+import { LOG_MESSAGES } from '@/lib/config/messages';
 
 const createApiClient = () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -65,6 +66,7 @@ const createApiClient = () => {
           window.location.href = '/login';
         }
       }
+      console.error(LOG_MESSAGES.DEBUG.API_ERROR, error);
       return Promise.reject(error);
     }
   );

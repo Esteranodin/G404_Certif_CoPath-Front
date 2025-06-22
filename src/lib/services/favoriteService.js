@@ -6,6 +6,7 @@
 import apiClient from '@/lib/api/client';
 import { handleApiError } from '@/lib/utils/errorHandling';
 import { apiTransforms } from '@/lib/utils/apiTransforms';
+import { LOG_MESSAGES } from '@/lib/config/messages'; 
 
 export const favoriteService = {
   /**
@@ -47,9 +48,9 @@ export const favoriteService = {
       
       return apiTransforms.normalizeFavorite(response.data);
     } catch (error) {
-      console.error('❌ Erreur complète:', error.response?.data);
-      console.error('❌ Status:', error.response?.status);
-      console.error('❌ Headers response:', error.response?.headers);
+      console.error(LOG_MESSAGES.DEBUG.FAVORITE_ERROR, error.response?.data);
+      console.error(LOG_MESSAGES.DEBUG.API_STATUS, error.response?.status);
+      console.error(LOG_MESSAGES.DEBUG.API_HEADERS, error.response?.headers);
       handleApiError(error, 'Erreur lors de l\'ajout aux favoris');
       throw error;
     }

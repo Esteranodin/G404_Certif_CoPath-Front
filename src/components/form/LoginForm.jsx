@@ -9,6 +9,7 @@ import { useForms } from "@/hooks/useForms";
 import Form from "./Form";
 import FormContainer from "./FormContainer";
 import { showSuccess, handleAuthError } from "@/lib/utils/errorHandling";
+import { SUCCESS_MESSAGES } from "@/lib/config/messages";
 
 export default function LoginForm({ onLoginSuccess }) {
   const searchParams = useSearchParams();
@@ -47,7 +48,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
   useEffect(() => {
     if (isNewlyRegistered && !hasShownRegisteredMessage.current) {
-      showSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+      showSuccess(SUCCESS_MESSAGES.AUTH.REGISTER_COMPLETE);
       hasShownRegisteredMessage.current = true;
     }
   }, [isNewlyRegistered]);

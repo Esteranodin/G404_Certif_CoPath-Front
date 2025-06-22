@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { handleApiError } from "@/lib/utils/errorHandling";
+import { LOG_MESSAGES } from '@/lib/config/messages';
 
 const ScenarioCard = memo(function ScenarioCard({
   scenario,
@@ -44,7 +45,7 @@ const ScenarioCard = memo(function ScenarioCard({
     try {
       await onToggleFavorite(scenario.id);
     } catch (error) {
-      console.error('Erreur favoris:', error);
+      console.error(LOG_MESSAGES.DEBUG.FAVORITE_ERROR, error);
       handleApiError(error, 'Erreur lors de la mise à jour des favoris');
     } finally {
       setIsLoading(false);
