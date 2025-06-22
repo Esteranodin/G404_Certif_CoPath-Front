@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsClient } from '@/hooks/useIsClient';
 import { favoriteService } from '@/lib/services/favoriteService';
+import { LOG_MESSAGES } from '@/lib/config/messages';
 
 const FavoritesContext = createContext();
 
@@ -25,7 +26,7 @@ export function FavoritesProvider({ children }) {
         const userFavorites = await favoriteService.getAll();
         setFavorites(userFavorites);
       } catch (error) {
-        console.error('❌ Erreur lors du chargement des favoris:', error);
+        console.error(LOG_MESSAGES.DEBUG.FAVORITE_ERROR, error);
         setFavorites([]);
       } finally {
         setLoading(false);
@@ -35,7 +36,7 @@ export function FavoritesProvider({ children }) {
     fetchFavorites();
   }, [user, isClient]); 
 
-  const toggleFavorite = async (scenarioId) => {
+  const toggleFavorite = useCallback(async (scenarioId) => {
     if (!isClient || !user) return;
     
     try {
@@ -51,14 +52,14 @@ export function FavoritesProvider({ children }) {
         return true;
       }
     } catch (error) {
-      console.error('Erreur lors de la modification du favori:', error);
+      console.error(LOG_MESSAGES.DEBUG.FAVORITE_ERROR, error);
       throw error;
     }
-  };
+  }, [isClient, user, favorites]);
 
-  const isFavorite = (scenarioId) => {
+  const isFavorite = useCallback((scenarioId) => {
     return favoriteService.isFavoriteByScenarioId(favorites, scenarioId);
-  };
+  }, [favorites]);
 
   const value = {
     favorites,

@@ -54,6 +54,15 @@ export function CardRating({
     return "/icons/sparkles-black.svg";
   };
 
+  const STAR_SIZES = {
+    "tablet": 32,
+    "carousel-tablet": 20, 
+    "carousel-desktop": 24,
+    "default": 28,
+    "carousel-mobile": 28
+  };
+
+  const starSize = STAR_SIZES[layout] || 28;
   return (
     <div className={`${className}`} {...props}>
      
@@ -82,8 +91,8 @@ export function CardRating({
               ${layout === "default" || layout === "carousel-mobile" 
                 ? "text-xs" 
                 : layout === "carousel-desktop"
-                ? "text-xs"            
-                : "text-sm"
+                ? "text-sm"            
+                : "text-xs"
               }
             `}>
               Ma note :
@@ -112,8 +121,8 @@ export function CardRating({
                   <Image
                     src={getStarSrc(i)}
                     alt={`étoile ${i + 1}`}
-                    width={layout === "tablet" ? 32 : layout === "carousel-desktop" ? 24 : 28} 
-                    height={layout === "tablet" ? 32 : layout === "carousel-desktop" ? 24 : 28}
+                    width={starSize}
+                    height={starSize}
                     className="transition-all duration-200"
                   />
                 </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useIsClient } from "@/hooks/useIsClient";
 import { userRatingService } from "@/lib/services/userRatingService";
@@ -35,7 +35,7 @@ export function UserRatingsProvider({ children }) {
     fetchUserRatings();
   }, [user, isClient]); 
 
-  const setUserRating = async (scenarioId, score) => {
+  const setUserRating = useCallback(async (scenarioId, score) => {
     if (!isClient || !user) return;
     
     try {
@@ -53,16 +53,12 @@ export function UserRatingsProvider({ children }) {
         }
       });
 
-      window.dispatchEvent(new CustomEvent('scenarioRatingUpdated', { 
-        detail: { scenarioId, newScore: score } 
-      }));
-
       return updatedRating;
     } catch (error) {
       console.error('Erreur lors de la notation:', error);
       throw error;
     }
-  };
+  }, [isClient, user]);
 
   const removeUserRating = async (scenarioId) => {
     if (!isClient || !user) return;

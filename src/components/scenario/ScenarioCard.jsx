@@ -26,13 +26,15 @@ const ScenarioCard = memo(function ScenarioCard({
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { isFavorite, userRating } = scenario;
+  const isFavorite = scenario.isFavorite;
+  const userRating = scenario.userRating;
   const showUserRating = isClient && user;
+  const showFavoriteButton = isClient && !!user;
 
-  const handleRatingChange = async (newRating) => {
+  const handleRatingChange = useCallback(async (newRating) => {
     if (!onRatingChange) return;
     await onRatingChange(scenario.id, newRating);
-  };
+  }, [onRatingChange, scenario.id]);
 
   const handleToggleFavorite = useCallback(async () => {
     if (!isClient || !user) {
@@ -51,8 +53,6 @@ const ScenarioCard = memo(function ScenarioCard({
       setIsLoading(false);
     }
   }, [isClient, user, onToggleFavorite, scenario.id]);
-
-  const showFavoriteButton = isClient && !!user;
 
   if (layout === "tablet" || layout === "carousel-tablet") {
     return (
@@ -170,4 +170,12 @@ const ScenarioCard = memo(function ScenarioCard({
   );
 });
 
-export default ScenarioCard;
+export default memo(ScenarioCard, (prevProps, nextProps) => {
+  return (
+    prevProps.scenario.id === nextProps.scenario.id &&
+    prevProps.scenario.isFavorite === nextProps.scenario.isFavorite &&
+    prevProps.scenario.userRating === nextProps.scenario.userRating &&
+    prevProps.layout === nextProps.layout &&
+    prevProps.priority === nextProps.priority
+  );
+});
