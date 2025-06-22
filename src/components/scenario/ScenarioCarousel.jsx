@@ -40,7 +40,7 @@ export function ScenarioTabletCarousel({ scenarios, onToggleFavorite, onRatingCh
   return (
     <div className="overflow-x-auto scrollbar-hide px-6"> 
       <div className="flex gap-6 pb-6"> 
-        {scenarios.map((scenario, index) => (
+        {scenarios.map((scenario) => (
           <ScenarioCard 
             key={scenario.id}
             scenario={scenario} 

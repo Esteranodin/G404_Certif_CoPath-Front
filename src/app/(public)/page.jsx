@@ -39,7 +39,7 @@ export default function PublicHome() {
       </section>
 
       {/* 📱 TABLETTE - 768px à 1279px */}
-      <section className="hidden md:block xl:hidden"> {/* xl:hidden au lieu de lg:hidden */}
+      <section className="hidden md:block xl:hidden">
         <ScenarioTabletCarousel
           scenarios={adaptedScenarios}
           onToggleFavorite={toggleFavorite}
@@ -48,7 +48,7 @@ export default function PublicHome() {
       </section>
 
       {/* 💻 DESKTOP - 1280px+ */}
-      <section className="hidden xl:block"> {/* xl:block au lieu de lg:block */}
+      <section className="hidden xl:block"> 
         <ScenarioCarousel
           scenarios={adaptedScenarios}
           onToggleFavorite={toggleFavorite}

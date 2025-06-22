@@ -5,10 +5,7 @@ export const cardVariants = {
     tablet: `md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col 
              md:h-[80vh] md:max-h-[80vh]`,
     "carousel-tablet": `w-96 h-[500px] flex-shrink-0`,
-    
-    // 🔧 DESKTOP - 1 card visible + 0.5 card 
     "carousel-desktop": `w-[65%] h-[520px] min-h-[480px] max-h-[520px] flex-shrink-0`,
-    
     horizontal: "lg:flex lg:flex-row lg:h-64",
     desktop: `xl:w-[90%] xl:h-auto xl:min-h-[400px] xl:max-h-[80vh] 
               xl:mx-auto xl:flex xl:flex-col`,
@@ -36,10 +33,7 @@ export const cardTitleVariants = {
   layouts: {
     default: "",
     tablet: "md:text-2xl",
-    
-    // 🆕 CAROUSEL DESKTOP - PLUS PETIT
     "carousel-desktop": "text-lg",
-    
     desktop: "xl:text-xl"
   }
 };
@@ -52,11 +46,8 @@ export const cardDescriptionVariants = {
              md:max-h-[calc(75vh-350px)] md:overflow-y-auto`,
     "carousel-tablet": `clear-both mt-4 pt-2 border-t border-gray-200 
                         max-h-[100px] overflow-y-auto`,
-    
-    // 🆕 DESKTOP CAROUSEL - OVERFLOW
     "carousel-desktop": `py-2 mt-2 pt-2 border-t border-gray-200 
                          max-h-[120px] overflow-y-auto`,
-    
     desktop: `px-4 py-1 text-sm 
               xl:overflow-visible xl:max-h-none
               xl:[&:has(p[length>300])]:overflow-y-auto 
@@ -79,9 +70,7 @@ export const cardRatingVariants = {
   layouts: {
     default: "justify-between",
     tablet: "md:justify-start md:gap-4",
-    
-    // 🆕 AJOUTER CAROUSEL DESKTOP
-    "carousel-desktop": "justify-start gap-2", // Plus compact
+    "carousel-desktop": "justify-start gap-2",
   }
 };
 
@@ -90,18 +79,15 @@ export const ratingAreaVariants = {
   layouts: {
     default: "px-6 pb-4",
     tablet: "md:px-2",
-    "carousel-desktop": "px-2 pb-2", // Plus compact
+    "carousel-desktop": "px-2 pb-2",
   }
 };
 
-// 🆕 AJOUTER VARIANT POUR CARDHEADER
 export const cardHeaderVariants = {
   base: "px-6 py-4",
   layouts: {
     default: "",
     tablet: "",
-    
-    // 🆕 CAROUSEL DESKTOP - PLUS COMPACT
     "carousel-desktop": "px-2 py-2",
   }
 };
@@ -111,9 +97,7 @@ export const cardTagsVariants = {
   layouts: {
     default: "px-6 my-2",
     tablet: "md:mt-auto",
-    
-    // 🆕 AJOUTER CAROUSEL DESKTOP
-    "carousel-desktop": "px-2 my-1", // Plus compact
+    "carousel-desktop": "px-2 my-1",
   }
 };
 

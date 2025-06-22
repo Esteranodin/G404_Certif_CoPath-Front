@@ -9,7 +9,7 @@ export default function ScenarioList({
   onToggleFavorite,
   onRatingChange
 }) {
-  const [isLoading, setIsLoading] = useState(!scenarios);
+  const [isLoading] = useState(!scenarios);
 
   if (isLoading) {
     return <CardsSkeleton count={6} layout="default" />;

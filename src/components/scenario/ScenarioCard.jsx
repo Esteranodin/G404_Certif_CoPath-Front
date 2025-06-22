@@ -61,22 +61,22 @@ const ScenarioCard = memo(function ScenarioCard({
           <CardImage
             src={scenario.image}
             alt={`Couverture du scénario ${scenario.title}`}
-            layout="carousel-tablet" // ← FORCER carousel-tablet
+            layout="carousel-tablet" 
             priority={priority}
           />
-          <CardTabletContent layout="carousel-tablet"> {/* ← FORCER */}
+          <CardTabletContent layout="carousel-tablet"> 
             <CardHeader
-              layout="carousel-tablet" // ← FORCER
+              layout="carousel-tablet" 
               isFavorite={isFavorite}
               onToggleFavorite={handleToggleFavorite}
               showFavorite={showFavoriteButton}
               isLoading={isLoading}
             >
-              <CardTitle layout="carousel-tablet">{scenario.title}</CardTitle> {/* ← FORCER */}
+              <CardTitle layout="carousel-tablet">{scenario.title}</CardTitle> 
             </CardHeader>
             <CardTags
               tags={scenario.tags || []}
-              layout="carousel-tablet" // ← FORCER
+              layout="carousel-tablet" 
             />
 
             <CardRating
@@ -84,22 +84,21 @@ const ScenarioCard = memo(function ScenarioCard({
               userRating={userRating}
               onRatingChange={handleRatingChange}
               showUserRating={showUserRating}
-              layout="carousel-tablet" // ← FORCER
+              layout="carousel-tablet" 
               className="mt-2"
             />
           </CardTabletContent>
         </div>
-        <CardDescription layout="carousel-tablet"> {/* ← FORCER */}
+        <CardDescription layout="carousel-tablet">
           <p>{scenario.content}</p>
         </CardDescription>
       </Card>
     );
   }
 
-  // 🆕 AJOUTER LE LAYOUT CAROUSEL-DESKTOP
   if (layout === "carousel-desktop") {
     return (
-      <Card layout={layout} className="p-2"> {/* Plus compact que p-4 */}
+      <Card layout={layout} className="p-2">
         <CardImage
           src={scenario.image}
           alt={`Couverture du scénario ${scenario.title}`}
@@ -107,19 +106,19 @@ const ScenarioCard = memo(function ScenarioCard({
           priority={priority}
         />
         <CardHeader
-          layout="carousel-desktop" // ← Utilise px-2 py-2
+          layout="carousel-desktop" 
           isFavorite={isFavorite}
           onToggleFavorite={handleToggleFavorite}
           showFavorite={showFavoriteButton}
           isLoading={isLoading}
         >
-          <CardTitle layout="carousel-desktop">{scenario.title}</CardTitle> {/* text-lg */}
+          <CardTitle layout="carousel-desktop">{scenario.title}</CardTitle>
         </CardHeader>
         <CardTags
           tags={scenario.tags || []}
-          layout="carousel-desktop" // ← Utilise px-2 my-1
+          layout="carousel-desktop"
         />
-        <CardDescription layout="carousel-desktop"> {/* max-h-[120px] overflow */}
+        <CardDescription layout="carousel-desktop">
           <p>{scenario.content}</p>
         </CardDescription>
 
@@ -128,14 +127,14 @@ const ScenarioCard = memo(function ScenarioCard({
           userRating={userRating}
           onRatingChange={handleRatingChange}
           showUserRating={showUserRating}
-          layout="carousel-desktop" // ← text-lg + étoiles 24px
-          className="mt-2" // ← SANS px-6 pb-4 ! Utilise ratingAreaVariants
+          layout="carousel-desktop"
+          className="mt-2" 
         />
       </Card>
     );
   }
 
-  // Layout mobile par défaut
+  // Layout mobile = par défaut
   return (
     <Card className="mb-8">
       <CardImage
