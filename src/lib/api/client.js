@@ -43,8 +43,7 @@ const createApiClient = () => {
       return config;
     },
     (error) => {
-      console.error('❌ Erreur dans la requête:', error);
-      return Promise.reject(error);
+      return Promise.reject(error);  
     }
   );
 
@@ -66,8 +65,10 @@ const createApiClient = () => {
           window.location.href = '/login';
         }
       }
-      console.error(LOG_MESSAGES.DEBUG.API_ERROR, error);
-      return Promise.reject(error);
+      if (DEBUG_API) {  
+        console.error(LOG_MESSAGES.DEBUG.API_ERROR, error);
+      }
+      return Promise.reject(error);  
     }
   );
 

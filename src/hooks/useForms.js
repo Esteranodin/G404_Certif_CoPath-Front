@@ -105,7 +105,7 @@ export function useForms({
           if (errorHandler) {
             errorHandler(err);
           } else {
-            handleApiError(err, "Une erreur s'est produite");
+            handleApiError(err, "Une erreur s'est produite"); 
           }
         } finally {
           setIsSubmitting(false);
