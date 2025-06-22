@@ -1,16 +1,16 @@
 "use client";
 
 import ScenarioList from "@/components/scenario/ScenarioList";
-import ScenarioCarousel from "@/components/scenario/ScenarioCarousel";
+import ScenarioCarousel, { ScenarioTabletCarousel } from "@/components/scenario/ScenarioCarousel";
 import DataStateHandler from "@/components/ui/DataStateHandler";
 import { useFavorites } from "@/context/FavoritesContext";
-import { useUserRatings } from "@/context/UserRatingsContext"; 
+import { useUserRatings } from "@/context/UserRatingsContext";
 import { useScenarioSearch } from "@/hooks/useScenarioSearch";
-import { adaptScenariosForDisplay } from "@/lib/adapters/scenarioAdapter"; 
+import { adaptScenariosForDisplay } from "@/lib/adapters/scenarioAdapter";
 
 export default function PublicHome() {
-  const { favorites, toggleFavorite } = useFavorites(); 
-  const { userRatings, setUserRating } = useUserRatings(); 
+  const { favorites, toggleFavorite } = useFavorites();
+  const { userRatings, setUserRating } = useUserRatings();
 
   const {
     scenarios,
@@ -29,17 +29,28 @@ export default function PublicHome() {
       loadingMessage="Chargement des scénarios..."
       emptyMessage="Aucun scénario disponible pour le moment."
     >
+      {/* 📱 MOBILE - < 768px */}
       <section className="md:hidden">
         <ScenarioList
-          scenarios={adaptedScenarios} 
+          scenarios={adaptedScenarios}
           onToggleFavorite={toggleFavorite}
           onRatingChange={setUserRating}
         />
       </section>
 
-      <section className="hidden md:block">
+      {/* 📱 TABLETTE - 768px à 1279px */}
+      <section className="hidden md:block xl:hidden"> {/* xl:hidden au lieu de lg:hidden */}
+        <ScenarioTabletCarousel
+          scenarios={adaptedScenarios}
+          onToggleFavorite={toggleFavorite}
+          onRatingChange={setUserRating}
+        />
+      </section>
+
+      {/* 💻 DESKTOP - 1280px+ */}
+      <section className="hidden xl:block"> {/* xl:block au lieu de lg:block */}
         <ScenarioCarousel
-          scenarios={adaptedScenarios} 
+          scenarios={adaptedScenarios}
           onToggleFavorite={toggleFavorite}
           onRatingChange={setUserRating}
         />

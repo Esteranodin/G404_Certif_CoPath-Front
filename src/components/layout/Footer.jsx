@@ -12,7 +12,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t bg-logo">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 py-4 md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-evenly space-x-10 md:space-x-4 lg:space-x-8 md:order-2">
           <Link href="/about" className="link-footer">
             À propos

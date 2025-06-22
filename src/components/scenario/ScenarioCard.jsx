@@ -26,7 +26,7 @@ const ScenarioCard = memo(function ScenarioCard({
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { isFavorite, userRating, image, imageAlt, rating } = scenario;
+  const { isFavorite, userRating } = scenario;
   const showUserRating = isClient && user;
 
   const handleRatingChange = async (newRating) => {
@@ -54,29 +54,29 @@ const ScenarioCard = memo(function ScenarioCard({
 
   const showFavoriteButton = isClient && !!user;
 
-  if (layout === "tablet") {
+  if (layout === "tablet" || layout === "carousel-tablet") {
     return (
-      <Card layout="tablet" className="p-4">
+      <Card layout={layout} className="p-4">
         <div className="relative flex">
           <CardImage
             src={scenario.image}
             alt={`Couverture du scénario ${scenario.title}`}
-            layout="tablet"
+            layout="carousel-tablet" // ← FORCER carousel-tablet
             priority={priority}
           />
-          <CardTabletContent>
+          <CardTabletContent layout="carousel-tablet"> {/* ← FORCER */}
             <CardHeader
-              layout="tablet"
+              layout="carousel-tablet" // ← FORCER
               isFavorite={isFavorite}
               onToggleFavorite={handleToggleFavorite}
               showFavorite={showFavoriteButton}
               isLoading={isLoading}
             >
-              <CardTitle layout="tablet">{scenario.title}</CardTitle>
+              <CardTitle layout="carousel-tablet">{scenario.title}</CardTitle> {/* ← FORCER */}
             </CardHeader>
             <CardTags
               tags={scenario.tags || []}
-              layout="tablet"
+              layout="carousel-tablet" // ← FORCER
             />
 
             <CardRating
@@ -84,18 +84,58 @@ const ScenarioCard = memo(function ScenarioCard({
               userRating={userRating}
               onRatingChange={handleRatingChange}
               showUserRating={showUserRating}
-              layout="tablet"
+              layout="carousel-tablet" // ← FORCER
               className="mt-2"
             />
           </CardTabletContent>
         </div>
-        <CardDescription layout="tablet">
+        <CardDescription layout="carousel-tablet"> {/* ← FORCER */}
           <p>{scenario.content}</p>
         </CardDescription>
       </Card>
     );
   }
 
+  // 🆕 AJOUTER LE LAYOUT CAROUSEL-DESKTOP
+  if (layout === "carousel-desktop") {
+    return (
+      <Card layout={layout} className="p-2"> {/* Plus compact que p-4 */}
+        <CardImage
+          src={scenario.image}
+          alt={`Couverture du scénario ${scenario.title}`}
+          layout="carousel-desktop"
+          priority={priority}
+        />
+        <CardHeader
+          layout="carousel-desktop" // ← Utilise px-2 py-2
+          isFavorite={isFavorite}
+          onToggleFavorite={handleToggleFavorite}
+          showFavorite={showFavoriteButton}
+          isLoading={isLoading}
+        >
+          <CardTitle layout="carousel-desktop">{scenario.title}</CardTitle> {/* text-lg */}
+        </CardHeader>
+        <CardTags
+          tags={scenario.tags || []}
+          layout="carousel-desktop" // ← Utilise px-2 my-1
+        />
+        <CardDescription layout="carousel-desktop"> {/* max-h-[120px] overflow */}
+          <p>{scenario.content}</p>
+        </CardDescription>
+
+        <CardRating
+          globalRating={scenario.rating}
+          userRating={userRating}
+          onRatingChange={handleRatingChange}
+          showUserRating={showUserRating}
+          layout="carousel-desktop" // ← text-lg + étoiles 24px
+          className="mt-2" // ← SANS px-6 pb-4 ! Utilise ratingAreaVariants
+        />
+      </Card>
+    );
+  }
+
+  // Layout mobile par défaut
   return (
     <Card className="mb-8">
       <CardImage

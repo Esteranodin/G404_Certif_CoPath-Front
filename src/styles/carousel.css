@@ -2,9 +2,8 @@
 
 @layer components {
     .carousel-container {
-        @apply relative w-full px-12 mx-auto;
-        @apply md:px-14 lg:px-16;
-        @apply xl:px-4;
+        @apply relative w-full mx-auto;
+        @apply px-4 md:px-6 lg:px-8 xl:px-4;
     }
 
     .carousel-animation {
@@ -13,7 +12,6 @@
 
     .carousel-item-desktop {
         @apply flex items-center justify-center w-full h-full;
-        @apply xl:w-[90%] xl:mx-auto;
     }
 
     .carousel-content {
@@ -39,14 +37,6 @@
         @apply right-2 md:right-4 xl:right-2; 
     }
 
-    .carousel-arrow-vertical-prev {
-        @apply -top-12 left-1/2 -translate-x-1/2 rotate-90;
-    }
-
-    .carousel-arrow-vertical-next {
-        @apply -bottom-12 left-1/2 -translate-x-1/2 rotate-90;
-    }
-
     .carousel-arrow-disabled {
         @apply opacity-50 cursor-not-allowed;
     }
@@ -55,5 +45,11 @@
         @apply transition-all duration-200;
         width: 32px;
         height: 32px;
+    }
+
+    @media (max-width: 1279px) {
+      .carousel-arrow {
+        display: none;
+      }
     }
 }

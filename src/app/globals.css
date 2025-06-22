@@ -57,3 +57,12 @@
     hover:text-[color:var(--dark-green)] hover:underline hover:font-[weight:500] hover:transition-all;
     }
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

@@ -23,6 +23,7 @@ export function CardHeader({
             className={cn(
                 "flex justify-between items-start gap-4 px-6",
                 layout === "tablet" && "md:px-2 md:pt-2",
+                layout === "carousel-desktop" && "px-2 py-2",
                 className
             )}
             {...props}>
@@ -66,6 +67,7 @@ export function CardHeader({
 
 export function CardTabletContent({
     className,
+    layout = "default",
     children,
     ...props
 }) {
@@ -74,6 +76,7 @@ export function CardTabletContent({
             data-slot="card-tablet-content"
             className={cn(
                 "md:w-[55%] md:flex md:flex-col md:justify-between md:h-[300px]",
+                layout === "carousel-desktop" && "w-[55%] flex flex-col justify-between h-[280px]",
                 className
             )}
             {...props}

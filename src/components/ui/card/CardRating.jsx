@@ -56,14 +56,16 @@ export function CardRating({
 
   return (
     <div className={`${className}`} {...props}>
+     
       <div className={`
         font-bold mb-2 flex
         ${layout === "tablet" 
           ? "text-2xl justify-start"
-          : "text-2xl justify-end"    
+          : layout === "carousel-desktop"
+          ? "text-lg justify-end"       
+          : "text-2xl justify-end"     
         }
       `}>
-       
         <span className="text-[color:var(--dark-green)]">
           {Math.ceil(globalRating).toString().charAt(0)}&nbsp;
         </span>
@@ -74,13 +76,21 @@ export function CardRating({
       
       {showUserRating && (
         <div className="border-t-2 border-[color:var(--dark-green)] pt-3">
-          <div className="flex items-center justify-between">
-            <span className={` font-bold text-[color:var(--dark)]`}>
+          <div className="flex items-center justify-end gap-2"> 
+            <span className={`
+              font-bold text-[color:var(--dark)] whitespace-nowrap
+              ${layout === "default" || layout === "carousel-mobile" 
+                ? "text-xs" 
+                : layout === "carousel-desktop"
+                ? "text-xs"            
+                : "text-sm"
+              }
+            `}>
               Ma note :
             </span>
             
             <div
-              className="flex items-center gap-1 ml-2"
+              className="flex items-center gap-1" 
               onMouseLeave={handleMouseLeave}
             >
               {Array.from({ length: maxRating }).map((_, i) => (
@@ -102,8 +112,8 @@ export function CardRating({
                   <Image
                     src={getStarSrc(i)}
                     alt={`étoile ${i + 1}`}
-                    width={layout === "tablet" ? 32 : 28} 
-                    height={layout === "tablet" ? 32 : 28}
+                    width={layout === "tablet" ? 32 : layout === "carousel-desktop" ? 24 : 28} 
+                    height={layout === "tablet" ? 32 : layout === "carousel-desktop" ? 24 : 28}
                     className="transition-all duration-200"
                   />
                 </button>

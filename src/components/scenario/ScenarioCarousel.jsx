@@ -22,7 +22,7 @@ export default function ScenarioCarousel({
           <CarouselItem key={scenario.id} className="carousel-item-desktop">
             <ScenarioCard 
               scenario={scenario} 
-              layout="tablet"
+              layout="carousel-desktop" 
               onToggleFavorite={onToggleFavorite}
               onRatingChange={onRatingChange} 
               priority={index === 0}
@@ -33,5 +33,24 @@ export default function ScenarioCarousel({
       <CarouselPrevious className="carousel-arrow" />
       <CarouselNext className="carousel-arrow" />
     </Carousel>
+  );
+}
+
+export function ScenarioTabletCarousel({ scenarios, onToggleFavorite, onRatingChange }) {
+  return (
+    <div className="overflow-x-auto scrollbar-hide px-6"> 
+      <div className="flex gap-6 pb-6"> 
+        {scenarios.map((scenario, index) => (
+          <ScenarioCard 
+            key={scenario.id}
+            scenario={scenario} 
+            layout="carousel-tablet"
+            onToggleFavorite={onToggleFavorite}
+            onRatingChange={onRatingChange}
+            priority={true}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

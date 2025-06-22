@@ -2,7 +2,7 @@
 
 @layer components {
   .card {
-    @apply bg-white border border-[color:var(--grey)] shadow-[var(--card-shadow)] rounded-xl mx-auto w-[80%];
+    @apply bg-white border border-[color:var(--grey)] shadow-[var(--card-shadow)] rounded-xl;
   }
 
   .card-header {
