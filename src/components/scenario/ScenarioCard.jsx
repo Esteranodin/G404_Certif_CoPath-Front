@@ -13,6 +13,7 @@ import {
   CardRating,
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRatings } from "@/hooks/useUserRatings";
 import { handleApiError } from "@/lib/utils/errorHandling";
 import { LOG_MESSAGES } from '@/lib/config/messages';
 
@@ -27,9 +28,9 @@ const ScenarioCard = memo(function ScenarioCard({
   const [isLoading, setIsLoading] = useState(false);
 
   const isFavorite = scenario.isFavorite;
-  const userRating = scenario.userRating;
   const showUserRating = isClient && user;
   const showFavoriteButton = isClient && !!user;
+  const { getUserRating } = useUserRatings();
 
   const handleRatingChange = useCallback(async (newRating) => {
     if (!onRatingChange) return;
@@ -81,7 +82,7 @@ const ScenarioCard = memo(function ScenarioCard({
 
             <CardRating
               globalRating={scenario.rating}
-              userRating={userRating}
+              userRating={getUserRating(scenario.id)}
               onRatingChange={handleRatingChange}
               showUserRating={showUserRating}
               layout="carousel-tablet" 
@@ -124,7 +125,7 @@ const ScenarioCard = memo(function ScenarioCard({
 
         <CardRating
           globalRating={scenario.rating}
-          userRating={userRating}
+          userRating={getUserRating(scenario.id)}
           onRatingChange={handleRatingChange}
           showUserRating={showUserRating}
           layout="carousel-desktop"
@@ -160,7 +161,7 @@ const ScenarioCard = memo(function ScenarioCard({
 
       <CardRating
         globalRating={scenario.rating}
-        userRating={userRating}
+        userRating={getUserRating(scenario.id)}
         onRatingChange={handleRatingChange}
         showUserRating={showUserRating}
         layout={layout}
@@ -170,12 +171,4 @@ const ScenarioCard = memo(function ScenarioCard({
   );
 });
 
-export default memo(ScenarioCard, (prevProps, nextProps) => {
-  return (
-    prevProps.scenario.id === nextProps.scenario.id &&
-    prevProps.scenario.isFavorite === nextProps.scenario.isFavorite &&
-    prevProps.scenario.userRating === nextProps.scenario.userRating &&
-    prevProps.layout === nextProps.layout &&
-    prevProps.priority === nextProps.priority
-  );
-});
+export default memo(ScenarioCard);

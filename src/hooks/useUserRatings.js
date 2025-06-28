@@ -19,7 +19,7 @@ export function useUserRatings() {
     const rating = userRatingService.findByScenarioId(userRatings, scenarioId);
     return rating ? rating.score : null;
   };
-q
+
   /**
    * Donner/Modifier une note
    */
