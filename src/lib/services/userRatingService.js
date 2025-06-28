@@ -54,23 +54,25 @@ export const userRatingService = {
       // Vérifier s'il existe déjà un rating
       const existingRating = await userRatingService.getUserRating(scenarioId);
       
-      const payload = {
-        scenario: apiTransforms.toIRI('scenarios', scenarioId),
-        score: score
-      };
-      
       let response;
       
       if (existingRating && existingRating.id) {
-        response = await apiClient.patch(`/ratings/${existingRating.id}`, payload, {
+        // PATCH : n’envoie QUE le score
+        response = await apiClient.patch(`/ratings/${existingRating.id}`, { score }, {
           headers: {
             'Content-Type': 'application/merge-patch+json'
           }
         });
       } else {
+        const id = typeof scenarioId === "object" ? scenarioId.id : scenarioId;
+        const payload = JSON.parse(JSON.stringify({
+          scenario: `/api/scenarios/${id}/entity`,
+          score
+        }));
+
         response = await apiClient.post('/ratings', payload, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/ld+json'
           }
         });
       }
@@ -89,25 +91,6 @@ export const userRatingService = {
     }
   },
 
-  /**
-   * Récupérer une note par scénario
-   */
-  getByScenario: async (scenarioId) => {
-    try {
-      const response = await apiClient.get(`/ratings?scenario=${scenarioId}`);
-      const data = response.data;
-      const ratings = data.member || data['hydra:member'] || [];
-      
-      if (ratings.length > 0) {
-        return apiTransforms.normalizeRating(ratings[0]);
-      }
-      
-      return null;
-    } catch (error) {
-      handleApiError(error, `Erreur lors du chargement de la note pour le scénario ${scenarioId}`);
-      throw error;
-    }
-  },
 
   /**
    * Supprimer une note

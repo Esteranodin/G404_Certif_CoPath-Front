@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserRatingsContext } from "@/context/UserRatingsContext";
+import { useUserRatings as useUserRatingsContext } from "@/context/UserRatingsContext";
 import { userRatingService } from "@/lib/services/userRatingService";
 import { LOG_MESSAGES } from '@/lib/config/messages';
 import { useAuth } from "@/hooks/useAuth";
@@ -11,7 +11,6 @@ export function useUserRatings() {
   const { user, isClient } = useAuth();
   const [submitting, setSubmitting] = useState(false);
 
-
   const getUserRating = (scenarioId) => {
     if (!user || !userRatings.length) {
       return null;
@@ -20,7 +19,7 @@ export function useUserRatings() {
     const rating = userRatingService.findByScenarioId(userRatings, scenarioId);
     return rating ? rating.score : null;
   };
-
+q
   /**
    * Donner/Modifier une note
    */
@@ -68,6 +67,7 @@ export function useUserRatings() {
   return {
     getUserRating,
     setUserRating,
+    removeUserRating,
     loading,
     submitting,
     isClient

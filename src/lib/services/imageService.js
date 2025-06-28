@@ -24,19 +24,6 @@ export const imageService = {
     }
   },
 
-  /**
-   * Récupérer les images d'un scénario spécifique
-   */
-  getByScenario: async (scenarioId) => {
-    try {
-      const response = await apiClient.get(`${API_ENDPOINTS.IMG_SCENARIOS}?scenario=${scenarioId}`);
-      const data = response.data.member || response.data['hydra:member'] || response.data;
-      return data;
-    } catch (error) {
-      handleApiError(error, `Erreur lors du chargement des images du scénario ${scenarioId}`);
-      throw error;
-    }
-  },
 
   /**
    * Récupérer une image par ID
