@@ -17,7 +17,7 @@ export const userRatingService = {
       const response = await apiClient.get('/ratings');
       const data = response.data;
       const ratings = data.member || data['hydra:member'] || [];
-      
+
       return ratings.map(apiTransforms.normalizeRating);
     } catch (error) {
       handleApiError(error, 'Erreur lors du chargement de vos notes');
@@ -32,13 +32,13 @@ export const userRatingService = {
     try {
       const response = await apiClient.get(`/ratings`);
       const ratings = response.data?.member || response.data?.['hydra:member'] || [];
-      
+
       // Filtrer côté client pour trouver le bon scénario
       const targetRating = ratings.find(rating => {
         const ratingScenarioId = apiTransforms.extractId(rating.scenario);
         return String(ratingScenarioId) === String(scenarioId);
       });
-      
+
       return targetRating ? apiTransforms.normalizeRating(targetRating) : null;
     } catch (error) {
       console.error(LOG_MESSAGES.DEBUG.RATING_ERROR, error.response?.data);
@@ -49,26 +49,26 @@ export const userRatingService = {
   /**
    * Ajouter/Modifier une note
    */
-  setRating: async (scenarioId, score) => { 
+  setRating: async (scenarioId, score) => {
     try {
       // Vérifier s'il existe déjà un rating
       const existingRating = await userRatingService.getUserRating(scenarioId);
-      
+
       let response;
-      
+
       if (existingRating && existingRating.id) {
-        // PATCH : n’envoie QUE le score
+        // PATCH = n’envoie QUE le score
         response = await apiClient.patch(`/ratings/${existingRating.id}`, { score }, {
           headers: {
             'Content-Type': 'application/merge-patch+json'
           }
         });
       } else {
-        const id = typeof scenarioId === "object" ? scenarioId.id : scenarioId;
-        const payload = JSON.parse(JSON.stringify({
-          scenario: `/api/scenarios/${id}/entity`,
+        const id = apiTransforms.extractId(scenarioId);
+        const payload = {
+          scenario: apiTransforms.toIRI('scenarios', id),
           score
-        }));
+        };
 
         response = await apiClient.post('/ratings', payload, {
           headers: {
@@ -76,16 +76,16 @@ export const userRatingService = {
           }
         });
       }
-      
+
       return apiTransforms.normalizeRating(response.data);
-      
+
     } catch (error) {
       console.error(LOG_MESSAGES.DEBUG.RATING_ERROR, {
         message: error.message,
         status: error.response?.status,
         data: error.response?.data
       });
-      
+
       handleApiError(error, 'Erreur lors de l\'enregistrement de votre note');
       throw error;
     }
@@ -99,7 +99,7 @@ export const userRatingService = {
     try {
       const userRatings = await userRatingService.getAll();
       const existingRating = userRatings.find(rating => rating.scenarioId === String(scenarioId));
-      
+
       if (!existingRating) {
         throw new Error('Note non trouvée');
       }
