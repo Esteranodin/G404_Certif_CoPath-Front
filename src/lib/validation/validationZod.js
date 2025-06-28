@@ -49,3 +49,9 @@ export const passwordSchema = z.object({
   message: "Les mots de passe ne correspondent pas",
   path: ["confirmPassword"],
 });
+
+export const scenarioCreateSchema = z.object({
+  title: z.string().min(1, "Le titre est requis"),
+  content: z.string().min(1, "La description est requise"),
+  //RAJOUETR RETSE VALIDATION
+});

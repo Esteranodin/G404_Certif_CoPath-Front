@@ -13,24 +13,27 @@ import {
   CardRating,
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
-import { useUserRatings } from "@/hooks/useUserRatings";
 import { handleApiError } from "@/lib/utils/errorHandling";
 import { LOG_MESSAGES } from '@/lib/config/messages';
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const ScenarioCard = memo(function ScenarioCard({
   scenario,
-  onToggleFavorite, 
+  onToggleFavorite,
   onRatingChange,
-  layout = "default", 
-  priority = false   
+  layout = "default",
+  priority = false
 }) {
+
+  // console.log(scenario);
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const isFavorite = scenario.isFavorite;
+  const userRating = scenario.userRating;
   const showUserRating = isClient && user;
   const showFavoriteButton = isClient && !!user;
-  const { getUserRating } = useUserRatings();
 
   const handleRatingChange = useCallback(async (newRating) => {
     if (!onRatingChange) return;
@@ -62,30 +65,29 @@ const ScenarioCard = memo(function ScenarioCard({
           <CardImage
             src={scenario.image}
             alt={`Couverture du scénario ${scenario.title}`}
-            layout="carousel-tablet" 
+            layout="carousel-tablet"
             priority={priority}
           />
-          <CardTabletContent layout="carousel-tablet"> 
+          <CardTabletContent layout="carousel-tablet">
             <CardHeader
-              layout="carousel-tablet" 
+              layout="carousel-tablet"
               isFavorite={isFavorite}
               onToggleFavorite={handleToggleFavorite}
               showFavorite={showFavoriteButton}
               isLoading={isLoading}
             >
-              <CardTitle layout="carousel-tablet">{scenario.title}</CardTitle> 
+              <CardTitle layout="carousel-tablet">{scenario.title}</CardTitle>
             </CardHeader>
             <CardTags
-              tags={scenario.tags || []}
-              layout="carousel-tablet" 
+              tags={scenario.campaigns ? scenario.campaigns.map(c => c.name) : []}
             />
 
             <CardRating
               globalRating={scenario.rating}
-              userRating={getUserRating(scenario.id)}
+              userRating={userRating}
               onRatingChange={handleRatingChange}
               showUserRating={showUserRating}
-              layout="carousel-tablet" 
+              layout="carousel-tablet"
               className="mt-2"
             />
           </CardTabletContent>
@@ -93,6 +95,11 @@ const ScenarioCard = memo(function ScenarioCard({
         <CardDescription layout="carousel-tablet">
           <p>{scenario.content}</p>
         </CardDescription>
+         <Link href={`/scenario/${scenario.id}`}>
+        <Button variant="secondary" size="sm" className="card-link w-full mt-2">
+          Voir plus
+        </Button>
+      </Link>
       </Card>
     );
   }
@@ -107,7 +114,7 @@ const ScenarioCard = memo(function ScenarioCard({
           priority={priority}
         />
         <CardHeader
-          layout="carousel-desktop" 
+          layout="carousel-desktop"
           isFavorite={isFavorite}
           onToggleFavorite={handleToggleFavorite}
           showFavorite={showFavoriteButton}
@@ -116,20 +123,23 @@ const ScenarioCard = memo(function ScenarioCard({
           <CardTitle layout="carousel-desktop">{scenario.title}</CardTitle>
         </CardHeader>
         <CardTags
-          tags={scenario.tags || []}
-          layout="carousel-desktop"
+          tags={scenario.campaigns ? scenario.campaigns.map(c => c.name) : []}
         />
         <CardDescription layout="carousel-desktop">
           <p>{scenario.content}</p>
         </CardDescription>
-
+         <Link href={`/scenario/${scenario.id}`}>
+        <Button variant="secondary" size="sm" className="card-link w-full mt-2">
+          Voir plus
+        </Button>
+      </Link>
         <CardRating
           globalRating={scenario.rating}
-          userRating={getUserRating(scenario.id)}
+          userRating={userRating}
           onRatingChange={handleRatingChange}
           showUserRating={showUserRating}
           layout="carousel-desktop"
-          className="mt-2" 
+          className="mt-2"
         />
       </Card>
     );
@@ -152,16 +162,25 @@ const ScenarioCard = memo(function ScenarioCard({
         <CardTitle>{scenario.title}</CardTitle>
       </CardHeader>
       <CardTags
-        tags={scenario.tags || []}
-        className="px-6 my-2"
+        tags={scenario.campaigns ? scenario.campaigns.map(c => c.name) : []}
       />
       <CardDescription>
         <p>{scenario.content}</p>
       </CardDescription>
+       <Link href={`/scenario/${scenario.id}`}>
+        <Button variant="secondary" size="sm" className="card-link w-full mt-2">
+          Voir plus
+        </Button>
+      </Link>
+      <Link href={`/scenario/${scenario.id}`}>
+        <Button variant="secondary" size="sm" className="card-link w-full mt-2">
+          Voir plus
+        </Button>
+      </Link>
 
       <CardRating
         globalRating={scenario.rating}
-        userRating={getUserRating(scenario.id)}
+        userRating={userRating}
         onRatingChange={handleRatingChange}
         showUserRating={showUserRating}
         layout={layout}
@@ -171,4 +190,12 @@ const ScenarioCard = memo(function ScenarioCard({
   );
 });
 
-export default memo(ScenarioCard);
+export default memo(ScenarioCard, (prevProps, nextProps) => {
+  return (
+    prevProps.scenario.id === nextProps.scenario.id &&
+    prevProps.scenario.isFavorite === nextProps.scenario.isFavorite &&
+    prevProps.scenario.userRating === nextProps.scenario.userRating &&
+    prevProps.layout === nextProps.layout &&
+    prevProps.priority === nextProps.priority
+  );
+});

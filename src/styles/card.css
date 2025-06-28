@@ -18,6 +18,6 @@
   }
 
   .card-tags {
-    @apply text-sm font-black py-2 px-1 text-[color:var(--dark-green)] md:text-sm md:bg-[var(--lavender)] md:px-2 md:py-1 md:rounded-full md:text-[color:var(--dark)] md:mx-1 md:my-2 lg:px-4 mb-1;
+    @apply text-sm font-black py-2 px-1 text-[color:var(--dark-green)] md:text-sm md:bg-[var(--lavender)] md:px-2 md:py-1 md:rounded-full md:text-[color:var(--dark)] md:m-1 lg:px-4 mb-1;
   }
 }

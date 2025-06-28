@@ -1,3 +1,4 @@
+"use client";
 /**
  * Hook de gestion des formulaires
  * @module useForms

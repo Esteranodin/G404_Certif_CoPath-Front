@@ -29,7 +29,7 @@ export default function PublicHome() {
       loadingMessage="Chargement des scénarios..."
       emptyMessage="Aucun scénario disponible pour le moment."
     >
-      {/* 📱 MOBILE - < 768px */}
+      {/*  MOBILE  < 768px */}
       <section className="md:hidden">
         <ScenarioList
           scenarios={adaptedScenarios}
@@ -38,7 +38,7 @@ export default function PublicHome() {
         />
       </section>
 
-      {/* 📱 TABLETTE - 768px à 1279px */}
+      {/* TABLETTE  768px à 1279px */}
       <section className="hidden md:block xl:hidden">
         <ScenarioTabletCarousel
           scenarios={adaptedScenarios}
@@ -47,7 +47,7 @@ export default function PublicHome() {
         />
       </section>
 
-      {/* 💻 DESKTOP - 1280px+ */}
+      {/* DESKTOP - 1280px+ */}
       <section className="hidden xl:block"> 
         <ScenarioCarousel
           scenarios={adaptedScenarios}

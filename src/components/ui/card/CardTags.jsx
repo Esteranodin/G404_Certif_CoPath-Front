@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { combineLayoutStyles } from "@/lib/layouts/layoutUtils";
 import { cardTagsVariants } from "@/lib/layouts/layoutVariants";
 
@@ -7,6 +8,8 @@ export function CardTags({
   className,
   ...props
 }) {
+  if (!tags.length) return null;
+
   return (
     <div
       data-slot="card-tags"
@@ -14,9 +17,13 @@ export function CardTags({
       {...props}
     >
       {tags.map((tag, index) => (
-        <span key={index} className="card-tag">
+        <Link
+          key={index}
+          href={`/campaign/${encodeURIComponent(tag)}`}
+          className="card-tags"
+        >
           {tag}
-        </span>
+        </Link>
       ))}
     </div>
   );
