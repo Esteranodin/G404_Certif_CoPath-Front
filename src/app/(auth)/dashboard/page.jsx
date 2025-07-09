@@ -9,15 +9,15 @@ export default function ProfilePage() {
 
   if (!isAuthReady) {
     return (
-      <section className="container py-8 max-w-md mx-auto">
+      <main className="container gap-5 py-8 max-w-md mx-auto">
         <ProfileSkeleton />
-      </section>
+      </main>
     );
   }
 
   return (
-    <section className="container py-8 max-w-md mx-auto">
+    <main className="container py-8 max-w-md mx-auto flex flex-col gap-7">
       <ProfileForm user={user} />
-    </section>
+    </main>
   );
 }

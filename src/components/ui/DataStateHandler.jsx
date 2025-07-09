@@ -21,11 +21,16 @@ export default function DataStateHandler({
 
   // État d'erreur
   if (error) {
+    const errorMessage =
+      error?.response?.data?.message ||
+      error?.message ||
+      (typeof error === "string" ? error : "Une erreur est survenue");
+
     return (
       <main className={className}>
         <div className="text-center">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <strong>Erreur :</strong> {error}
+            <strong>Erreur :</strong> {errorMessage}
           </div>
           {onRetry && (
             <button 

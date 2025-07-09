@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 
 export default function Form({
-
   onSubmit,
   isSubmitting = false,
   submitLabel = "Soumettre",
@@ -9,7 +8,6 @@ export default function Form({
   children,
   footer,
   cancelAction,
-  className = "",
   buttonFullWidth = true
 }) {
   return (
