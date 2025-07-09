@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { Provider } from "@/context/Provider";
 import { Toaster } from "sonner";
 import TestCoAPI from "@/components/TestCoAPI";
+import AuthWrapper from "@/components/layout/AuthWrapper";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -34,12 +35,13 @@ export default function RootLayout({ children }) {
       <body className={`${playfair.variable} ${roboto.variable} antialiased`}>
         <Provider>
           <Header />
-          {children}
+          <AuthWrapper>
+            {children}
+            </AuthWrapper>
           <Footer />
-             {/* <TestCoAPI /> */}
           <Toaster position="top-center" richColors duration={6000} />
         </Provider>
       </body>
-    </html >
+    </html>
   );
 }

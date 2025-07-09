@@ -8,31 +8,39 @@ export default function ScenarioCarousel({
   onRatingChange
 }) {
   return (
-    <Carousel 
-      opts={{ 
-        loop: true,
-        align: "center",
-        skipSnaps: false,
-        dragFree: false
-      }} 
-      className="carousel-container carousel-animation"
-    >
-      <CarouselContent className="h-full py-8">
-        {scenarios.map((scenario, index) => (
-          <CarouselItem key={scenario.id} className="carousel-item-desktop">
-            <ScenarioCard 
-              scenario={scenario} 
-              layout="carousel-desktop" 
-              onToggleFavorite={onToggleFavorite}
-              onRatingChange={onRatingChange} 
-              priority={index === 0}
-            />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="carousel-arrow" />
-      <CarouselNext className="carousel-arrow" />
-    </Carousel>
+    <div className="w-full overflow-hidden relative">
+      <Carousel 
+        opts={{ 
+          loop: true,
+          align: "center",
+          slidesToScroll: 1
+        }} 
+        className="carousel-container"
+      >
+        <CarouselContent>
+          {scenarios.map((scenario, index) => (
+            <CarouselItem key={scenario.id} > 
+              {/* <div className="p-2"> Padding pour l'espace entre les cartes */}
+                <ScenarioCard 
+                  scenario={scenario} 
+                  layout="carousel-desktop" 
+                  onToggleFavorite={onToggleFavorite}
+                  onRatingChange={onRatingChange} 
+                  priority={index === 0}
+                />
+              {/* </div> */}
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+          <CarouselPrevious >
+          </CarouselPrevious>
+        
+        {/* <div className="absolute right-2 top-1/2 -translate-y-1/2 z-40 bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md"> */}
+          <CarouselNext>
+          </CarouselNext>
+        {/* </div> */}
+      </Carousel>
+    </div>
   );
 }
 

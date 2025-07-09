@@ -13,7 +13,7 @@ export function NavBar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <nav className='bg-logo flex justify-between p-4 items-start'>
+    <nav className='bg-logo flex justify-between p-4 items-start fixed top-0 left-0 w-full z-50'>
       <Link href="/" className='self-center'>
         <Image src={logo} alt="Logo de Copath" width={150} className='md:hidden' priority />
         <Image src={logoFull} alt="Logo de Copath" width={180} className='hidden md:block' priority />

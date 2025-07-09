@@ -9,7 +9,7 @@
   --lavender: #D8E4FF;
   --gold: #FFD700;
 
-  --card-shadow: rgba(53, 96, 90, 0.55) -4px 5px 5.5px 0px;
+  --card-shadow: rgba(53, 96, 90, 0.39) -4px 5px 5.5px 0px;
 }
 
 @layer base {
@@ -65,4 +65,10 @@
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+footer {
+  position: relative;
+  z-index: 20; /* Plus élevé que la sidebar, moins que la navbar */
+  width: 100%;
 }
