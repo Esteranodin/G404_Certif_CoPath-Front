@@ -8,11 +8,9 @@ export default function ScenarioCarousel({
   onRatingChange
 }) {
   return (
-    <div className="w-full overflow-hidden relative px-2">
       <Carousel 
         opts={{ 
           loop: true,
-          align: "center",
           slidesToScroll: 1
         }} 
         className="carousel-container"
@@ -30,10 +28,9 @@ export default function ScenarioCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-0" />
-        <CarouselNext className="absolute right-0" />
+        <CarouselPrevious/>
+        <CarouselNext/>
       </Carousel>
-    </div>
   );
 }
 

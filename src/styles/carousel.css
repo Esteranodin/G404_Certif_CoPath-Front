@@ -2,8 +2,7 @@
 
 @layer components {
     .carousel-container {
-        @apply relative w-full mx-auto;
-        @apply px-12 md:px-16 lg:px-20 xl:px-16;
+       @apply  w-full relative px-2;
     }
 
     .carousel-animation {
@@ -15,7 +14,6 @@
     }
 
     .carousel-content {
-        @apply h-full py-8;
         @apply flex;
     }
 
@@ -49,9 +47,4 @@
         height: 32px;
     }
 
-    @media (max-width: 1279px) {
-      /* .carousel-arrow {
-        display: none;
-      } */
-    }
 }

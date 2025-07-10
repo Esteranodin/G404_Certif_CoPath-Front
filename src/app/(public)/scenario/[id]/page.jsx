@@ -27,7 +27,6 @@ export default function ScenarioDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // On adapte le scénario pour enrichir avec favoris et note utilisateur
   const [adaptedScenario] = adaptScenariosForDisplay(
     scenario ? [scenario] : [],
     favorites,

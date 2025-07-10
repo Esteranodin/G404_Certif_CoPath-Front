@@ -53,7 +53,6 @@ export function Sidebar() {
         
         {isOpen && (
           <div className="fixed inset-0 bg-[color:var(--dark)] z-30 p-6 pt-16">
-            <h2 className="text-xl font-bold text-white mb-6">Mon espace</h2>
             <ul className="space-y-4">
               {navItems.map((item) => (
                 <li key={item.name}>
@@ -80,10 +79,8 @@ export function Sidebar() {
 
   // Version desktop (sidebar fixe)
   return (
-    <aside className="bg-[color:var(--dark)] text-white w-64 min-h-screen fixed left-0 top-0 pt-24 p-4 hidden md:block z-10">
+    <aside className="bg-[color:var(--dark)] text-white w-64 min-h-screen fixed left-0 top-0 pt-36 p-4 hidden md:block z-10">
       <div className="flex flex-col space-y-6">
-        <h2 className="text-xl font-bold">Mon espace</h2>
-        
         <nav>
           <ul className="space-y-2">
             {navItems.map((item) => (

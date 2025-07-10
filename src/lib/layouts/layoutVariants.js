@@ -5,7 +5,7 @@ export const cardVariants = {
     tablet: `md:w-[70%] lg:w-[60%] md:mx-auto md:flex md:flex-col 
              md:h-[80vh] md:max-h-[80vh]`,
     "carousel-tablet": `w-96 h-[500px] flex-shrink-0`,
-    "carousel-desktop": `w-[65%] h-[520px] min-h-[480px] max-h-[520px] flex-shrink-0`,
+    "carousel-desktop": `w-[65%] flex-shrink-0`,
     horizontal: "lg:flex lg:flex-row lg:h-64",
     desktop: `xl:w-[90%] xl:h-auto xl:min-h-[400px] xl:max-h-[80vh] 
               xl:mx-auto xl:flex xl:flex-col`,
@@ -95,7 +95,7 @@ export const cardHeaderVariants = {
 export const cardTagsVariants = {
   base: "flex flex-wrap gap-2 px-4 mb-1",
   layouts: {
-    default: "px-6 my-2",
+    default: "my-2",
     tablet: "md:mt-auto",
     "carousel-desktop": "px-2 my-1",
   }

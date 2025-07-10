@@ -172,12 +172,7 @@ const ScenarioCard = memo(function ScenarioCard({
           Voir plus
         </Button>
       </Link>
-      <Link href={`/scenario/${scenario.id}`}>
-        <Button variant="secondary" size="sm" className="card-link w-full mt-2">
-          Voir plus
-        </Button>
-      </Link>
-
+  
       <CardRating
         globalRating={scenario.rating}
         userRating={userRating}

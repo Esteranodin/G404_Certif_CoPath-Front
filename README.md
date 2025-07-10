@@ -20,11 +20,16 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Dupliquer le fichier `.env` et le renommer `.env.local`
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Mettre à jour vos informations pour : 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash 
+NEXT_PUBLIC_API_URL=
+```
+```bash
+NEXT_PUBLIC_ASSETS_URL=
+```
 
 ## Learn More
 
