@@ -51,7 +51,7 @@ export default function FavoritesPage() {
       loadingMessage="Chargement de vos favoris..."
       emptyMessage="Vous n'avez pas encore de favoris."
     >
-      <h1 className="text-2xl font-bold mb-6">Mes favoris</h1>
+      <h1>Mes favoris</h1>
       
       {/* MOBILE */}
       <section className="md:hidden">

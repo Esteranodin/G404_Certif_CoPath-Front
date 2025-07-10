@@ -8,7 +8,7 @@ export default function ScenarioCarousel({
   onRatingChange
 }) {
   return (
-    <div className="w-full overflow-hidden relative">
+    <div className="w-full overflow-hidden relative px-2">
       <Carousel 
         opts={{ 
           loop: true,
@@ -17,10 +17,9 @@ export default function ScenarioCarousel({
         }} 
         className="carousel-container"
       >
-        <CarouselContent>
+        <CarouselContent className="py-4">
           {scenarios.map((scenario, index) => (
-            <CarouselItem key={scenario.id} > 
-              {/* <div className="p-2"> Padding pour l'espace entre les cartes */}
+            <CarouselItem key={scenario.id} className="flex justify-center"> 
                 <ScenarioCard 
                   scenario={scenario} 
                   layout="carousel-desktop" 
@@ -28,17 +27,11 @@ export default function ScenarioCarousel({
                   onRatingChange={onRatingChange} 
                   priority={index === 0}
                 />
-              {/* </div> */}
             </CarouselItem>
           ))}
         </CarouselContent>
-          <CarouselPrevious >
-          </CarouselPrevious>
-        
-        {/* <div className="absolute right-2 top-1/2 -translate-y-1/2 z-40 bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md"> */}
-          <CarouselNext>
-          </CarouselNext>
-        {/* </div> */}
+        <CarouselPrevious className="absolute left-0" />
+        <CarouselNext className="absolute right-0" />
       </Carousel>
     </div>
   );

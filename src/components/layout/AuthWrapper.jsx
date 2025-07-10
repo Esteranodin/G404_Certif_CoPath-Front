@@ -10,7 +10,7 @@ export default function AuthWrapper({ children }) {
   return (
     <div className="flex min-h-screen">
       {showSidebar && <Sidebar />}
-      <main className="flex-1 w-full pt-16"> {/* pt-16 pour compenser la navbar fixe */}
+      <main className={`flex-1 w-full pt-16 ${showSidebar ? 'md:ml-68' : ''}`}> 
         {children}
       </main>
     </div>

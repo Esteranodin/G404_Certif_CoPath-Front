@@ -3,7 +3,7 @@
 @layer components {
     .carousel-container {
         @apply relative w-full mx-auto;
-        @apply px-4 md:px-6 lg:px-8 xl:px-4;
+        @apply px-12 md:px-16 lg:px-20 xl:px-16;
     }
 
     .carousel-animation {
@@ -29,12 +29,14 @@
 
     .carousel-arrow-prev {
         @apply top-1/2 -translate-y-1/2;
-        @apply left-2 md:left-4 xl:left-2; 
+        @apply left-2 md:left-4 xl:left-2;
+        @apply z-20;
     }
 
     .carousel-arrow-next {
         @apply top-1/2 -translate-y-1/2;
-        @apply right-2 md:right-4 xl:right-2; 
+        @apply right-2 md:right-4 xl:right-2;
+        @apply z-20;
     }
 
     .carousel-arrow-disabled {
@@ -48,8 +50,8 @@
     }
 
     @media (max-width: 1279px) {
-      .carousel-arrow {
+      /* .carousel-arrow {
         display: none;
-      }
+      } */
     }
 }

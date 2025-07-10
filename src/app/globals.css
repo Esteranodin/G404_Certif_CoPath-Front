@@ -67,8 +67,14 @@
   display: none;
 }
 
+nav {
+  position: relative;
+  z-index: 20; 
+  width: 100%;
+}
+
 footer {
   position: relative;
-  z-index: 20; /* Plus élevé que la sidebar, moins que la navbar */
+  z-index: 20; 
   width: 100%;
 }
