@@ -1,12 +1,17 @@
 "use client";
 
 import { useForms } from "@/hooks/useForms";
-import { scenarioCreateSchema } from "@/lib/validation/validationZod"; // À créer si besoin
+import { scenarioCreateSchema } from "@/lib/validation/validationZod";
 import { scenarioService } from "@/lib/services/scenarioService";
 import FormContainer from "@/components/form/FormContainer";
 import Form from "@/components/form/Form";
+import { useEffect, useState } from "react";
+import { campaignService } from "@/lib/services/campaignService"; // À adapter selon votre service
 
 export default function ScenarioCreateForm({ onSuccess }) {
+  const [campaigns, setCampaigns] = useState([]);
+  const [loadingCampaigns, setLoadingCampaigns] = useState(true);
+
   const {
     renderField,
     submitForm,
@@ -18,7 +23,7 @@ export default function ScenarioCreateForm({ onSuccess }) {
     defaultValues: {
       title: "",
       content: "",
-      // Ajoute d'autres champs ici si besoin (ex: campaign, tags, image)
+      campaign: "",
     },
     onSuccessMessage: "Scénario créé avec succès !",
     onSuccessCallback: () => {
@@ -27,6 +32,25 @@ export default function ScenarioCreateForm({ onSuccess }) {
     }
   });
 
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const campaignsData = await campaignService.getAll();
+        const formattedCampaigns = campaignsData.map(campaign => ({
+          value: campaign.id,
+          label: campaign.name || campaign.title
+        }));
+        setCampaigns(formattedCampaigns);
+      } catch (error) {
+        console.error("Erreur lors du chargement des campagnes:", error);
+      } finally {
+        setLoadingCampaigns(false);
+      }
+    };
+
+    fetchCampaigns();
+  }, []);
+
   const handleCreate = submitForm(
     async (data) => {
       await scenarioService.create(data);
@@ -34,7 +58,7 @@ export default function ScenarioCreateForm({ onSuccess }) {
   );
 
   return (
-    <FormContainer title="Créer un scénario">
+    <FormContainer title="Publier un scénario">
       <Form
         onSubmit={handleCreate}
         isSubmitting={isSubmitting}
@@ -42,8 +66,15 @@ export default function ScenarioCreateForm({ onSuccess }) {
         loadingLabel="Création en cours..."
       >
         {renderField("title", "Titre")}
-        {renderField("content", "Description", "textarea")}
-        {/* Ajoute ici d'autres champs si besoin */}
+        {renderField("content", "Description", "textarea", {
+          rows: 6,
+          placeholder: "Décrivez votre scénario en détail..."
+        })}
+        {renderField("campaign", "Campagne", "choice", {
+          choices: campaigns,
+          placeholder: loadingCampaigns ? "Chargement des campagnes..." : "Sélectionnez une campagne",
+          disabled: loadingCampaigns
+        })}
       </Form>
     </FormContainer>
   );

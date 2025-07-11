@@ -37,8 +37,10 @@ export function useForms({
     id,
     label,
     type = "text",
-    disabled = false
+    options = {}
   ) => {
+    const { disabled = false, ...otherOptions } = options;
+
     if (type === "password") {
       return (
         <PasswordInput
@@ -51,6 +53,35 @@ export function useForms({
       );
     }
 
+    if (type === "textarea") {
+      return (
+        <FormField
+          label={label}
+          id={id}
+          type="textarea"
+          disabled={disabled || isSubmitting}
+          {...register(id)}
+          error={errors[id]?.message}
+          {...otherOptions}
+        />
+      );
+    }
+
+    if (type === "choice") {
+      return (
+        <FormField
+          label={label}
+          id={id}
+          type="select"
+          disabled={disabled || isSubmitting}
+          {...register(id)}
+          error={errors[id]?.message}
+          options={otherOptions.choices || []}
+          placeholder={otherOptions.placeholder}
+        />
+      );
+    }
+
     return (
       <FormField
         label={label}
@@ -59,6 +90,7 @@ export function useForms({
         disabled={disabled || isSubmitting}
         {...register(id)}
         error={errors[id]?.message}
+        {...otherOptions}
       />
     );
   };
