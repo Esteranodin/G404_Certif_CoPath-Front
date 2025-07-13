@@ -26,7 +26,6 @@ const ScenarioCard = memo(function ScenarioCard({
   priority = false
 }) {
 
-  // console.log(scenario);
   const { user, isClient } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
