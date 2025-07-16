@@ -50,9 +50,8 @@ export default function FavoritesPage() {
       data={scenarios}
       loadingMessage="Chargement de vos favoris..."
       emptyMessage="Vous n'avez pas encore de favoris."
-    >
-      <h1>Mes favoris</h1>
-      
+    > 
+       
       {/* MOBILE */}
       <section className="md:hidden">
         <ScenarioList

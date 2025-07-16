@@ -21,22 +21,18 @@ export function Sidebar() {
     {
       name: "Dashboard",
       href: "/dashboard",
-      icon: "/icons/dashboard.svg" 
     },
     {
       name: "Créer un scénario",
       href: "/scenario/create",
-      icon: "/icons/create.svg"
     },
     {
       name: "Mes favoris",
       href: "/favorites",
-      icon: "/icons/heart.svg"
     },
     {
       name: "Campagnes",
       href: "/campaigns",
-      icon: "/icons/campaign.svg" 
     }
   ];
 
@@ -77,7 +73,7 @@ export function Sidebar() {
     );
   }
 
-  // Version desktop (sidebar fixe)
+  // Version desktop (sidebar)
   return (
     <aside className="bg-[color:var(--dark)] text-white w-64 min-h-screen fixed left-0 top-0 pt-36 p-4 hidden md:block z-10">
       <div className="flex flex-col space-y-6">
