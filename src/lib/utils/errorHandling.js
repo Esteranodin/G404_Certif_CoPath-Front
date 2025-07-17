@@ -164,9 +164,7 @@ export const handlePasswordError = (error) => {
   let message = ERROR_MESSAGES.AUTH.PASSWORD_UPDATE_FAILED;
 
   const statusCode = error?.response?.status;
-  const errorMsg = error?.response?.data?.message || error?.message || "";
 
-  // ✅ AJOUT : Gestion spécifique des violations 422
   if (statusCode === 422 && error.response?.data?.violations) {
     const violations = error.response.data.violations;
     console.log('❌ Violations mot de passe:', violations);
@@ -174,11 +172,9 @@ export const handlePasswordError = (error) => {
     if (violations.length > 0) {
       const firstViolation = violations[0];
       console.log('❌ Première violation:', firstViolation);
-      // Utiliser le message de la violation directement
       message = firstViolation.message || ERROR_MESSAGES.AUTH.PASSWORD_UPDATE_FAILED;
     }
   }
-  // ...existing conditions...
   else if (statusCode === 401) {
     message = ERROR_MESSAGES.AUTH.INVALID_CREDENTIALS;
   }

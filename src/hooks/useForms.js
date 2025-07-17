@@ -24,7 +24,7 @@ export function useForms({
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Configuration React Hook Form avec validation Zod
+  // Validation Zod
   const formMethods = useForm({
     resolver: schema ? zodResolver(schema) : undefined,
     defaultValues
@@ -116,7 +116,7 @@ export function useForms({
   );
 
   const submitForm = (apiCall, customSuccessMessage, customCallback) => {
-    // Attention on retourne bien une fonction et non l'objet résultant de handleSubmit
+    // On retourne une fonction et non l'objet résultant de handleSubmit
     return (e) => {
       e?.preventDefault();
       return handleSubmit(async (data) => {

@@ -7,7 +7,7 @@
 
 import * as z from "zod";
 
-// Validations communes
+// schémas communs
 export const emailValidation =
   z.string().email("Format d'email invalide");
 
@@ -17,13 +17,13 @@ export const passwordValidation = (fieldName = "password") =>
 export const requiredField = (fieldName) =>
   z.string().min(1, `Le champ ${fieldName} est requis`);
 
-// Schéma pour la connexion
+// Schéma connexion
 export const loginSchema = z.object({
   email: emailValidation,
   password: requiredField("mot de passe")
 });
 
-// Schéma pour l'inscription
+// Schéma inscription
 export const registerSchema = z.object({
   pseudo: requiredField("pseudo"),
   email: emailValidation,
@@ -34,13 +34,13 @@ export const registerSchema = z.object({
   path: ["confirmPassword"],
 });
 
-// Schéma pour la mise à jour du profil
+// Schéma màj profil
 export const profileSchema = z.object({
   pseudo: requiredField("pseudo"),
   email: emailValidation,
 });
 
-// Schéma pour le changement de mot de passe
+// Schéma màj mot de passe
 export const passwordSchema = z.object({
   currentPassword: requiredField("mot de passe actuel"),
   newPassword: passwordValidation("newPassword"),

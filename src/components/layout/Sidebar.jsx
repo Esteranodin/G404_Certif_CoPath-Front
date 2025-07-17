@@ -36,7 +36,7 @@ export function Sidebar() {
     }
   ];
 
-  // Version mobile (menu hamburger)
+  // Version mobile = menu hamburger
   if (isMobile) {
     return (
       <>
@@ -73,7 +73,7 @@ export function Sidebar() {
     );
   }
 
-  // Version desktop (sidebar)
+  // Version desktop
   return (
     <aside className="bg-[color:var(--dark)] text-white w-64 min-h-screen fixed left-0 top-0 pt-36 p-4 hidden md:block z-10">
       <div className="flex flex-col space-y-6">

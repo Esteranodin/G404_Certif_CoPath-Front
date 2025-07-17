@@ -6,7 +6,7 @@ import { scenarioService } from "@/lib/services/scenarioService";
 import FormContainer from "@/components/form/FormContainer";
 import Form from "@/components/form/Form";
 import { useEffect, useState } from "react";
-import { campaignService } from "@/lib/services/campaignService"; // À adapter selon votre service
+import { campaignService } from "@/lib/services/campaignService"; 
 
 export default function ScenarioCreateForm({ onSuccess }) {
   const [campaigns, setCampaigns] = useState([]);

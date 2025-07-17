@@ -51,7 +51,6 @@ export const userRatingService = {
    */
   setRating: async (scenarioId, score) => {
     try {
-      // Vérifier s'il existe déjà un rating
       const existingRating = await userRatingService.getUserRating(scenarioId);
 
       let response;

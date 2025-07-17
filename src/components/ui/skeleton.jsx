@@ -15,7 +15,7 @@ function Skeleton({
 }
 
 /**
- * Skeleton pour formulaires (login, register, etc.)
+ * Skeleton formulaires
  */
 function FormSkeleton({ 
   fields = 2,
@@ -46,7 +46,7 @@ function FormSkeleton({
 }
 
 /**
- * Skeleton pour cards
+ * Skeleton cards
  */
 function CardsSkeleton({ 
   count = 3,
@@ -92,7 +92,7 @@ function CardsSkeleton({
 }
 
 /**
- * Skeleton pour profil utilisateur
+ * Skeleton profil
  */
 function ProfileSkeleton({ className = "" }) {
   return (
@@ -116,7 +116,7 @@ function ProfileSkeleton({ className = "" }) {
 }
 
 /**
- * Skeleton pour tableau de bord
+ * Skeleton tableau de bord
  */
 function DashboardSkeleton({ className = "" }) {
   return (
@@ -134,7 +134,7 @@ function DashboardSkeleton({ className = "" }) {
 }
 
 /**
- * Skeleton pour listes
+ * Skeleton listes
  */
 function ListSkeleton({ 
   rows = 5, 
@@ -162,7 +162,7 @@ function ListSkeleton({
 }
 
 /**
- * Skeleton pour authentification (login/register)
+ * Skeleton authentification
  */
 function AuthSkeleton({ className = "" }) {
   return (
@@ -173,7 +173,7 @@ function AuthSkeleton({ className = "" }) {
 }
 
 /**
- * Skeleton générique intelligent qui peut prendre différents aspects selon les props
+ * Skeleton générique prend aspect selon les props
  */
 function SmartSkeleton({ 
   variant = "default",
@@ -186,7 +186,6 @@ function SmartSkeleton({
   layout = "default",
   className = ""
 }) {
-  // Choix du composant approprié selon la variante
   switch(variant) {
     case "form":
       return <FormSkeleton fields={fields} hasTitle={hasTitle} hasFooter={hasFooter} className={className} />;
@@ -201,7 +200,6 @@ function SmartSkeleton({
     case "auth":
       return <AuthSkeleton className={className} />;
     default:
-      // Skeleton simple par défaut
       return <Skeleton className={cn("w-full h-10", className)} />;
   }
 }

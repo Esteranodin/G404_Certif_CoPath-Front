@@ -13,7 +13,7 @@ import { LOG_MESSAGES } from '@/lib/config/messages';
 const createApiClient = () => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // Configuration de base pour axios
+  // Config. base axios
   const client = axios.create({
     baseURL: API_URL,
     headers: {
@@ -23,7 +23,7 @@ const createApiClient = () => {
     timeout: 10000,
   });
 
-  const DEBUG_API = process.env.NODE_ENV === 'development' && false; // Mettre true pour activer
+  const DEBUG_API = process.env.NODE_ENV === 'development' && false; // Mettre true pour activer mode debbug
 
   // Intercepteur pour les requêtes
   client.interceptors.request.use(

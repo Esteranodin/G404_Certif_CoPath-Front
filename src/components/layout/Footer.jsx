@@ -8,7 +8,7 @@ import { useIsClient } from "@/hooks/useIsClient";
 export default function Footer() {
   const isClient = useIsClient();
 
-  const currentYear = isClient ? new Date().getFullYear() : 2024;
+  const currentYear = isClient ? new Date().getFullYear() : 2025;
 
   return (
     <footer className="border-t bg-logo">
@@ -29,7 +29,7 @@ export default function Footer() {
             <Image src={logo} alt="Logo de Copath" width={100}/>
           </div>
           <p className="mt-2 text-center text-sm text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} CoPath. Tous droits réservés.
+            &copy; {currentYear} CoPath. Tous droits réservés.
           </p>
         </div>
       </div>

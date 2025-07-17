@@ -64,7 +64,7 @@ export default function DataStateHandler({
     );
   }
 
-  // État normal - affiche le contenu
+  // État normal -> affiche le contenu
   return (
     <main className={className}>
       {children}

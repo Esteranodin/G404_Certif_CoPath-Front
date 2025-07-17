@@ -10,7 +10,7 @@ export default function AuthLayout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Seulement si le client est monté ET que le chargement est terminé
+    // Seulement si le client est monté ET chargement terminé
     if (isClient && isAuthReady && !user) {
       router.replace("/login");
     }
